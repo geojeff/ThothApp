@@ -1,0 +1,106 @@
+/* Row */
+.sc-form-row-view { overflow:visible; } /* for editing shadows */
+
+/* Text Field View */
+.author-view .sc-text-field-view .border {
+	-webkit-appearance: none;
+	border: 0px none;
+}
+
+.author-view .sc-text-field-view input { background:transparent; }
+.author-view .sc-text-field-view textarea { background:transparent; }
+
+.msie .author-view .sc-text-field-view { border: 0px solid transparent; outline: 0px none }
+.msie .author-view .sc-text-field-view.focus { border: 0px solid gray; outline: 0px none; }
+.msie .author-view .sc-text-field-view .padding { border: 1px solid transparent; outline: 0px none; left: 0px; right:0px;}
+.msie .author-view .sc-text-field-view.focus .padding { background-color:white; border: 1px solid gray; outline: 0px none; }
+
+.author-view .sc-text-field-view.focus { border: 0px none; outline: 0px none; z-index:5000;}
+
+.sc-view .sc-text-field-view .border, 
+.msie .author-view .sc-text-field-view .border { border: 1px solid transparent; }
+
+.author-view .sc-view .sc-text-field-view.focus .border,
+.author-view .msie .sc-view .sc-text-field-view.focus .border {
+	outline:0px none; 
+	border: 1px solid #888;
+	-moz-box-shadow: 3px 3px 5px gray; 
+	-webkit-box-shadow: 3px 3px 5px gray;
+	
+	background: white;
+}
+
+.msie .sc-view .sc-text-field-view.focus .border { 
+	border: 0px none;
+	background-color:gray;
+	filter:progid:DXImageTransform.Microsoft.dropShadow(color=gray, offX=1, offY = 1)
+	progid:DXImageTransform.Microsoft.Blur(pixelradius=2);
+	-ms-filter:progid:DXImageTransform.Microsoft.dropShadow(color=gray, offX=1, offY = 1)
+	progid:DXImageTransform.Microsoft.Blur(pixelradius=2);
+}
+
+.safari .author-view .sc-view .sc-text-field-view.focus {outline:0px none;}
+.mozilla .author-view .sc-view .sc-text-field-view.focus {outline:0px none;}
+
+
+/* Set font size */
+.sc-view .sc-text-field-view .padding
+{
+	top:3px;
+	bottom:3px;
+}
+
+.sc-view.name .sc-text-field-view input, .sc-view.name .sc-text-field-view .sc-hint {
+	font-size:30px;
+}
+
+/* Add some spacing between first+last */
+.sc-form-field-view.name { padding-right: 9px; }
+
+/* Try to get labels to line up with their fields */
+.sc-form-field-view.name .sc-label-view {
+	font-size:30px;
+	padding-right: 1px;
+	padding-left:4px;
+	padding-top: 11px; padding-bottom: 4px;
+}
+
+
+.sc-form-field-view .sc-label-view {
+	padding-top:0px;
+	padding-left:4px;
+}
+
+/* Mozilla needs something special for this (1px off vertically) */
+.mozilla .sc-form-field-view.name .sc-label-view {
+	padding-top:12px;
+}
+
+/* And IE something completely different */
+.msie .sc-form-field-view.name .sc-label-view {
+	padding-left:2px;
+	padding-top: 10px;
+}
+
+.msie .sc-form-field-view .sc-text-field-view input
+{
+	line-height:1em;
+}
+
+/* oddly, windows is different */
+.safari.windows .sc-form-field-view.name .sc-label-view {
+	padding-top: 10px;
+}
+
+.mozilla.windows .sc-form-field-view.name .sc-label-view {
+	padding-top: 11px;
+}
+
+
+.form-row-label {
+	color:#777; font-weight:bold !important;
+}
+
+/* And, make hints keep showing, because the first field focuses automatically */
+.author-view .sc-text-field-view.focus .sc-hint { display: block; }
+.author-view .sc-text-field-view.not-empty .sc-hint { display: none; }
