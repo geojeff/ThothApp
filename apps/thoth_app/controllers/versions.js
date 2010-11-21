@@ -123,7 +123,6 @@ ThothApp.versionsController = SC.ArrayController.create(
               { conditions: "fixturesKey ANY {id_fixtures_array}",
                 parameters: { id_fixtures_array: ThothApp.Version.FIXTURES[fixturesKey-1].reviews }}
             ));
-
             versionRecord.get('reviews').pushObjects(reviewRecords);
           });
 

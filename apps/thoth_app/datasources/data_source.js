@@ -11,9 +11,9 @@ This controller manages the creation of data.
    @author Jeff Pittman
 */
 
-sc_require('thothsc/data_sources/WebsocketDataSource');
+sc_require('WebSocketDataSource');
 
-ThothApp.DataSource = ThothSC.WebsocketDataSource.extend({
+ThothApp.DataSource = ThothSC.WebSocketDataSource.extend({
   authSuccessCallback: function(){
     ThothApp.statechart.sendEvent('authSuccess');
   },
