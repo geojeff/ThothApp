@@ -163,61 +163,7 @@ ThothApp.booksController = SC.ArrayController.create(
     sel.firstObject().get('versions').pushObject(version);
 
     this.gatherVersions();
-  },
-
-  generateCheckBooksFunction: function(book){
-    var me = this;
-    return function(val){
-      if (val & SC.Record.READY_CLEAN){
-        me._tmpRecordCount--;
-        ThothApp.bumpBookCount();
-        if (me._tmpRecordCount === 0){
-          delete me._tmpRecordCount;
-
-          var bookRecords = ThothApp.store.find(ThothApp.Book);
-          bookRecords.forEach(function(bookRecord) {
-            var fixturesKey = bookRecord.readAttribute('fixturesKey');
-
-            var versionRecords = ThothApp.store.find(SC.Query.local(
-              ThothApp.Version,
-              { conditions: "fixturesKey ANY {id_fixtures_array}",
-                parameters: {id_fixtures_array: ThothApp.Book.FIXTURES[fixturesKey-1].versions }}
-            ));
-
-            bookRecord.get('versions').pushObjects(versionRecords);
-          });
-
-          ThothApp.store.commitRecords();
-
-          ThothApp.statechart.sendEvent('booksDidLoad');
-        }
-        return YES;
-      }
-      else return NO;
-    };
-  },
- 
-  loadBooks: function(){
-    this._tmpRecordCount = ThothApp.Book.FIXTURES.get('length');
-
-    for (var i=0,len=ThothApp.Book.FIXTURES.get('length'); i<len; i++){
-      var book;
-      book = ThothApp.store.createRecord(ThothApp.Book, {
-        "fixturesKey": ThothApp.Book.FIXTURES[i].key,
-        "title":       ThothApp.Book.FIXTURES[i].title
-      });
-
-      this._tmpRecordCache.push(ThothApp.Book.FIXTURES[i].id);
-      
-      // The book record has been created, and its versions and the reviews of those versions.
-      // Once the book records come back READY_CLEAN, create authors in the final step.
-      book.addFiniteObserver('status',this,this.generateCheckBooksFunction(book),this);
-    }
-    ThothApp.store.commitRecords();
-  },
-
-  _tmpRecordCache: [],
-  _tmpRecordCount: 0
+  }
 
 });
 

@@ -56,56 +56,6 @@ ThothApp.reviewsController = SC.ArrayController.create(
         //version.commitRecord();
       }
     };
-  },
-
-  generateCheckReviewsFunction: function(review) {
-    var me = this;
-    return function(val) {
-      if (val & SC.Record.READY_CLEAN) {
-        me._tmpRecordCount--;
-
-        ThothApp.bumpReviewCount();
-
-        if (me._tmpRecordCount === 0) {
-          delete me._tmpRecordCount;
-
-          ThothApp.statechart.sendEvent('reviewsDidLoad');
-        }
-        return YES;
-      }
-      else return NO;
-    };
-  },
-
-  alertPaneDidDismiss: function(pane, status) {
-    if (!this._pendingOperation) return;
-    switch (status) {
-      case SC.BUTTON1_STATUS:
-        this[this._pendingOperation.action].call();
-        this._pendingOperation = null;
-        break;
-      case SC.BUTTON2_STATUS:
-        break;
-    }
-  },
-
-  loadReviews: function() {
-    var len =  ThothApp.Review.FIXTURES.get('length');
-    this._tmpRecordCount = len;
-
-    for (var i=0; i<len; i++) {
-      var review;
-      review = ThothApp.store.createRecord(ThothApp.Review, {
-        "fixturesKey":  ThothApp.Review.FIXTURES[i].key,
-        "text":         ThothApp.Review.FIXTURES[i].text
-      });
-
-      review.addFiniteObserver('status', this, this.generateCheckReviewsFunction(review), this);
-    }
-
-    ThothApp.store.commitRecords();
-  },
-
-  _tmpRecordCount: 0
+  }
 
 });

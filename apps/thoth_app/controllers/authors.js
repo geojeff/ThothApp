@@ -151,38 +151,6 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
     this.gatherBooks();
 	},
 
-  generateCheckAuthorsFunction: function(){
-    var me = this;
-    return function(val){
-      if (val & SC.Record.READY_CLEAN){
-        me._tmpRecordCount--;
-        ThothApp.bumpAuthorCount();
-        if (me._tmpRecordCount === 0){
-          delete me._tmpRecordCount;
-
-          var authorRecords = ThothApp.store.find(ThothApp.Author);
-          authorRecords.forEach(function(authorRecord) {
-            var fixturesKey = authorRecord.readAttribute('fixturesKey');
-
-            var bookRecords = ThothApp.store.find(SC.Query.local(
-              ThothApp.Book,
-              { conditions: "fixturesKey ANY {id_fixtures_array}",
-                parameters: {id_fixtures_array: ThothApp.Author.FIXTURES[fixturesKey-1].books }}
-            ));
-
-            authorRecord.get('books').pushObjects(bookRecords);
-          });
-
-          ThothApp.store.commitRecords();
-
-          ThothApp.statechart.sendEvent('authorsDidLoad');
-        }
-        return YES;
-      }
-      else return NO;
-    };
-  },
-
   generateCheckAuthorFunction: function(authorRecord){
     var me = this;
     return function(val){
@@ -231,22 +199,5 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
       listItem.beginEditing();
     });
   },
-
-  loadAuthors: function(){
-    this._tmpRecordCount = ThothApp.Author.FIXTURES.get('length');
-    for (var i=0,len=ThothApp.Author.FIXTURES.get('length'); i<len; i++){
-      var author;
-      author = ThothApp.store.createRecord(ThothApp.Author, {
-        //"key":         ThothApp.Author.FIXTURES[i].key,
-        "fixturesKey": ThothApp.Author.FIXTURES[i].key,
-        "firstName":   ThothApp.Author.FIXTURES[i].firstName,
-        "lastName":    ThothApp.Author.FIXTURES[i].lastName
-      });
-      author.addFiniteObserver('status',this,this.generateCheckAuthorsFunction(),this);
-    }
-    ThothApp.store.commitRecords();
-  },
-
-  _tmpRecordCount: 0
 
 }) ;
