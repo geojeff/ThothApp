@@ -107,14 +107,10 @@ ThothApp.statechart = SC.Statechart.create({
       _tmpRecordCount: 0,
 
       enterState: function() {
-        return this.performAsync('callLoadReviews');
+        return this.performAsync('loadReviews');
       },
 
       exitState: function() {
-      },
-
-      callLoadReviews: function() {
-        ThothApp.reviewsController.loadReviews();
       },
 
       reviewsDidLoad: function() {
@@ -128,12 +124,10 @@ ThothApp.statechart = SC.Statechart.create({
           if (val & SC.Record.READY_CLEAN) {
             me._tmpRecordCount--;
 
-            ThothApp.bumpReviewCount();
-
             if (me._tmpRecordCount === 0) {
               delete me._tmpRecordCount;
 
-              this.sendEvent('reviewsDidLoad');
+              this.reviewsDidLoad();
             }
             return YES;
           }
@@ -192,7 +186,6 @@ ThothApp.statechart = SC.Statechart.create({
       },
 
       versionsDidLoad: function() {
-
         this.resumeGotoState();
         this.gotoState('VERSIONS_LOADED');
       },
@@ -215,17 +208,17 @@ ThothApp.statechart = SC.Statechart.create({
               versionRecords.forEach(function(versionRecord) {
                 var fixturesKey = versionRecord.readAttribute('fixturesKey');
 
-                var reviewRecords = ThothApp.store.find(SC.Query.local(
-                        ThothApp.Review,
-                { conditions: "fixturesKey ANY {id_fixtures_array}",
-                  parameters: { id_fixtures_array: ThothApp.Version.FIXTURES[fixturesKey - 1].reviews }}
-                        ));
+                var reviewRecords = ThothApp.store.find(SC.Query.local(ThothApp.Review, {
+                  conditions: "fixturesKey ANY {id_fixtures_array}",
+                  parameters: {  id_fixtures_array: ThothApp.Version.FIXTURES[fixturesKey - 1].reviews  }
+                }));
+
                 versionRecord.get('reviews').pushObjects(reviewRecords);
               });
 
               ThothApp.store.commitRecords();
 
-              this.sendEvent('versionsDidLoad');
+              this.versionsDidLoad();
             }
             return YES;
           }
@@ -270,24 +263,29 @@ ThothApp.statechart = SC.Statechart.create({
     //    state: VERSIONS_LOADED
     // ----------------------------------------
     VERSIONS_LOADED: SC.State.design({
-      enterState: function() {
-        console.log('VERSIONS_LOADED');
-        if (SC.none(ThothApp.get('loadBooksPane'))) {
-          ThothApp.getPath('loadBooksPane').append();
+      initialSubstate: "PRESENTING_REPORT",
+
+      PRESENTING_REPORT: SC.State.design({
+        enterState: function() {
+          console.log('VERSIONS_LOADED');
+          if (SC.none(ThothApp.get('loadBooksPane'))) {
+            ThothApp.getPath('loadBooksPane').append();
+          }
+          console.log('loadBooksPane popped');
+        },
+
+        exitState: function() {
+          ThothApp.getPath('loadBooksPane').remove();
+        },
+
+        loadBooks: function() {
+          this.gotoState('LOADING_BOOKS');
+        },
+
+        showGraphic: function() {
+          this.gotoState('SHOWING_GRAPHIC');
         }
-      },
-
-      exitState: function() {
-        ThothApp.getPath('loadBooksPane').remove();
-      },
-
-      loadBooks: function() {
-        this.gotoState('LOADING_BOOKS');
-      },
-
-      showGraphic: function() {
-        this.gotoState('SHOWING_GRAPHIC');
-      },
+      }),
 
       SHOWING_GRAPHIC: SC.State.design({
         enterState: function() {
@@ -312,14 +310,10 @@ ThothApp.statechart = SC.Statechart.create({
       _tmpRecordCount: 0,
 
       enterState: function() {
-        return this.performAsync('callLoadBooks');
+        return this.performAsync('loadBooks');
       },
 
       exitState: function() {
-      },
-
-      callLoadBooks: function() {
-        ThothApp.booksController.loadBooks();
       },
 
       booksDidLoad: function() {
@@ -351,7 +345,7 @@ ThothApp.statechart = SC.Statechart.create({
 
               ThothApp.store.commitRecords();
 
-              this.sendEvent('booksDidLoad');
+              this.booksDidLoad();
             }
             return YES;
           }
@@ -403,14 +397,10 @@ ThothApp.statechart = SC.Statechart.create({
       _tmpRecordCount: 0,
 
       enterState: function() {
-        return this.performAsync('callLoadAuthors');
+        return this.performAsync('loadAuthors');
       },
 
       exitState: function() {
-      },
-
-      callLoadAuthors: function() {
-        ThothApp.authorsController.loadAuthors();
       },
 
       authorsDidLoad: function() {
@@ -442,7 +432,7 @@ ThothApp.statechart = SC.Statechart.create({
 
               ThothApp.store.commitRecords();
 
-              this.sendEvent('authorsDidLoad');
+              this.authorsDidLoad();
             }
             return YES;
           }
