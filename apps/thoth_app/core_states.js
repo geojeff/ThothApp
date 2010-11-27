@@ -268,10 +268,7 @@ ThothApp.statechart = SC.Statechart.create({
       PRESENTING_REPORT: SC.State.design({
         enterState: function() {
           console.log('VERSIONS_LOADED');
-          if (SC.none(ThothApp.get('loadBooksPane'))) {
-            ThothApp.getPath('loadBooksPane').append();
-          }
-          console.log('loadBooksPane popped');
+          ThothApp.getPath('loadBooksPane').append();
         },
 
         exitState: function() {
