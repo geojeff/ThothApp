@@ -123,7 +123,7 @@ ThothApp.statechart = SC.Statechart.create({
         return function(val) {
           if (val & SC.Record.READY_CLEAN) {
             me._tmpRecordCount--;
-
+            ThothApp.bumpReviewCount();
             if (me._tmpRecordCount === 0) {
               delete me._tmpRecordCount;
 
