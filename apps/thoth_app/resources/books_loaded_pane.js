@@ -1,5 +1,5 @@
 // ==========================================================================
-// ThothApp.loadBooksPane
+// ThothApp.booksLoadedPane
 // ==========================================================================
 /*globals ThothApp*/
 
@@ -8,7 +8,7 @@
    @author Jeff Pittman
 */
 
-ThothApp.loadBooksPane = SC.PanelPane.create({
+ThothApp.booksLoadedPane = SC.PanelPane.create({
   layout: { top: 0, bottom: 0, left: 0, right: 0 },
   defaultResponder: 'ThothApp.statechart',
 
