@@ -14,32 +14,29 @@ ThothApp.booksLoadedPane = SC.PanelPane.create({
 
   contentView: SC.View.design({
 
-    layout: { centerX: 0, centerY: 0, width: 400, height: 600 },
+    layout: { centerX: 0, centerY: 0, width: 400, height: 432 },
 
-    childViews: 'explanation1 explanation2 loadBooksButton'.w(),
+    childViews: 'explanation1 explanation2 loadAuthorsButton'.w(),
 
     explanation1: SC.LabelView.design({
-      layout: { left: 60, top: 60, right: 60, height: 300 },
-      value: "Version records have been loaded, and relations set to the reviews associated with each version. For the " +
-             "version records, you see in the console createRecordResult reports, then a series of lines from Thoth about " +
-             "updateRecord being called, and expected results. updateRecord calls were triggered by the data controller " +
-             "when review records are added to the associated version records (Book versions contain reviews, specified " +
-             "in a toMany relation). After the console lines about updateRecord calls, you see updateRecordResult reports, " +
-             "for the version records, in which you will see Riak keys of the associated review records in array notation."
+      layout: { left: 60, top: 60, right: 60, height: 140 },
+      value: "Book records have been loaded, and relations set to the versions associated with each book. Examine the " +
+             "console reports to see the same pattern of createRecordResults, followed by updateRecord notifications, " +
+             "followed by updateRecordResults."
     }),
 
     explanation2: SC.LabelView.design({
-      layout: { left: 60, top: 370, right: 60, height: 80 },
-      value: "Now we load books. It will be a case of repeat procedure, wherein book records will be added, followed by " +
-             "the setting of relations between books and their versions."
+      layout: { left: 60, top: 210, right: 60, height: 80 },
+      value: "Finally we load authors, wherein author records will be added, followed by the setting of relations " +
+             "between authors and their books. You will see the app come up afterward."
     }),
 
-    loadBooksButton: SC.ButtonView.design({
+    loadAuthorsButton: SC.ButtonView.design({
       layout: { right: 60, bottom: 60, width: 120, height: 32 },
       titleMinWidth: 0,
       isDefault: YES,
-      title: 'Load Books',
-      action: 'loadBooks'
+      title: 'Load Authors',
+      action: 'loadAuthors'
     })
   })
 });

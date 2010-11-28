@@ -88,11 +88,11 @@ ThothApp.statechart = SC.Statechart.create({
     // ----------------------------------------
     AUTHENTICATED: SC.State.design({
       enterState: function() {
-        ThothApp.getPath('reviewsLoadedPane').append();
+        ThothApp.getPath('authenticatedPane').append();
       },
 
       exitState: function() {
-        ThothApp.getPath('reviewsLoadedPane').remove();
+        ThothApp.getPath('authenticatedPane').remove();
       },
 
       loadReviews: function() {
@@ -160,11 +160,11 @@ ThothApp.statechart = SC.Statechart.create({
     REVIEWS_LOADED: SC.State.design({
       enterState: function() {
         console.log('REVIEWS_LOADED');
-        ThothApp.getPath('versionsLoadedPane').append();
+        ThothApp.getPath('reviewsLoadedPane').append();
       },
 
       exitState: function() {
-        ThothApp.getPath('versionsLoadedPane').remove();
+        ThothApp.getPath('reviewsLoadedPane').remove();
       },
 
       loadVersions: function() {
@@ -268,11 +268,11 @@ ThothApp.statechart = SC.Statechart.create({
       PRESENTING_REPORT: SC.State.design({
         enterState: function() {
           console.log('VERSIONS_LOADED');
-          ThothApp.getPath('booksLoadedPane').append();
+          ThothApp.getPath('versionsLoadedPane').append();
         },
 
         exitState: function() {
-          ThothApp.getPath('booksLoadedPane').remove();
+          ThothApp.getPath('versionsLoadedPane').remove();
         },
 
         loadBooks: function() {
@@ -375,11 +375,11 @@ ThothApp.statechart = SC.Statechart.create({
     BOOKS_LOADED: SC.State.design({
       enterState: function() {
         console.log('BOOKS_LOADED');
-        ThothApp.getPath('authorsLoadedPane').append();
+        ThothApp.getPath('booksLoadedPane').append();
       },
 
       exitState: function() {
-        ThothApp.getPath('authorsLoadedPane').remove();
+        ThothApp.getPath('booksLoadedPane').remove();
       },
 
       loadAuthors: function() {

@@ -13,32 +13,29 @@ ThothApp.reviewsLoadedPane = SC.PanelPane.create({
   defaultResponder: 'ThothApp.statechart',
 
   contentView: SC.View.design({
-    layout: { centerX: 0, centerY: 0, width: 400, height: 542 },
-    childViews: 'instructions explanation1 explanation2 loadReviewsButton'.w(),
 
-    instructions: SC.LabelView.design({
-      layout: { left: 60, top: 60, right: 60, height: 80 },
-      value: "If you do not yet have the javascript console open in your browser, please open it now. You will be inspecting console.log reports."
-    }),
+    layout: { centerX: 0, centerY: 0, width: 400, height: 392 },
+
+    childViews: 'explanation1 explanation2 loadVersionsButton'.w(),
 
     explanation1: SC.LabelView.design({
-      layout: { left: 60, top: 150, right: 60, height: 130 },
-      value: "Sample data will be loaded from FIXTURES files, with a twist, wherein an integer key in the FIXTURES data is used to associate " +
-             "records for setting relations. As records are created in the store, the Riak backend will set its own long string key for each record."
+      layout: { left: 60, top: 60, right: 60, height: 180},
+      value: "Review records have been loaded. Examine the console for integer counts printed from the controller " +
+             "making the createRecord calls, followed by createRecordResult messages from the Thoth datasource. Observe " +
+             "the long hash keys set by Riak, along with the original fixtures integer keys and the record data."
     }),
 
     explanation2: SC.LabelView.design({
-      layout: { left: 60, top: 300, right: 60, height: 100 },
-      value: "Review record data will be loaded first, because these records have no child records (They have no toMany relations), so can be " +
-             "created without complication -- without the need to set relations to other records."
+      layout: { left: 60, top: 230, right: 60, height: 40 },
+      value: "Now we load versions (book versions: paperback, hardback, DVD, etc.)."
     }),
 
-    loadReviewsButton: SC.ButtonView.design({
+    loadVersionsButton: SC.ButtonView.design({
       layout: { right: 60, bottom: 60, width: 120, height: 32 },
       titleMinWidth: 0,
       isDefault: YES,
-      title: 'Load Reviews',
-      action: 'loadReviews'
+      title: 'Load Versions',
+      action: 'loadVersions'
     })
   })
 });
