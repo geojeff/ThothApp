@@ -14,9 +14,9 @@ ThothApp.versionsLoadedPane = SC.PanelPane.create({
 
   contentView: SC.View.design({
 
-    layout: { centerX: 0, centerY: 0, width: 400, height: 600 },
+    layout: { centerX: 0, centerY: 0, width: 400, height: 660 },
 
-    childViews: 'explanation1 explanation2 loadBooksButton'.w(),
+    childViews: 'explanation1 explanation2 showGraphicButton loadBooksButton'.w(),
 
     explanation1: SC.LabelView.design({
       layout: { left: 60, top: 60, right: 60, height: 300 },
@@ -32,6 +32,14 @@ ThothApp.versionsLoadedPane = SC.PanelPane.create({
       layout: { left: 60, top: 370, right: 60, height: 80 },
       value: "Now we load books. It will be a case of repeat procedure, wherein book records will be added, followed by " +
              "the setting of relations between books and their versions."
+    }),
+
+    showGraphicButton: SC.ButtonView.design({
+      layout: { right: 60, bottom: 120, width: 120, height: 32 },
+      titleMinWidth: 0,
+      isDefault: NO,
+      title: 'Show Graphic',
+      action: 'showGraphic'
     }),
 
     loadBooksButton: SC.ButtonView.design({

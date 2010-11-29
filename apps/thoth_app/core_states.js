@@ -287,14 +287,14 @@ ThothApp.statechart = SC.Statechart.create({
       SHOWING_GRAPHIC: SC.State.design({
         enterState: function() {
           console.log('SHOWING_GRAPHIC');
-          ThothApp.getPath('showGraphicPane').append();
+          ThothApp.getPath('graphicPane').append();
         },
 
         exitState: function() {
-          ThothApp.getPath('showGraphicPane').remove();
+          ThothApp.getPath('graphicPane').remove();
         },
 
-        backToVersionsLoadedState: function() {
+        dismissGraphicPane: function() {
           this.gotoState('VERSIONS_LOADED');
         }
       })
