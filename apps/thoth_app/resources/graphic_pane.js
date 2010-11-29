@@ -5,7 +5,7 @@
 
 sc_require('views/record_icon');
 
-ThothApp.graphicPane = SC.PanelPane.create({
+ThothApp.graphicPane = SC.PanelPane.design({
   layout: { top: 0, bottom: 0, left: 0, right: 0 },
   defaultResponder: 'ThothApp.statechart',
 
@@ -19,7 +19,8 @@ ThothApp.graphicPane = SC.PanelPane.create({
         console.log('in here');
         var reviewIcons = [], x = 10, y = 10, stepX = 20, stepY = 20;
 
-        ThothApp.reviewsController.forEach(function(review) {
+        console.log(ThothApp.reviewsController.get('length'));
+        ThothApp.reviewsController.arrangedObjects.forEach(function(review) {
           console.log('in here here');
           reviewIcons.pushObject(ThothApp.RecordIconView.design({
             layerId: 'graphic-view',
