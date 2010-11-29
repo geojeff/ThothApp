@@ -19,8 +19,7 @@ ThothApp.graphicPane = SC.PanelPane.design({
         console.log('in here');
         var reviewIcons = [], x = 10, y = 10, stepX = 20, stepY = 20;
 
-        console.log(ThothApp.reviewsController.get('length'));
-        ThothApp.reviewsController.arrangedObjects.forEach(function(review) {
+        for (var i=0; i<ThothApp.loadedReviewCount; i++) {
           console.log('in here here');
           reviewIcons.pushObject(ThothApp.RecordIconView.design({
             layerId: 'graphic-view',
@@ -28,7 +27,7 @@ ThothApp.graphicPane = SC.PanelPane.design({
             backgroundColor: 'green'
           }));
           y += stepY;
-        });
+        }
 
         this.set('childViews', reviewIcons);
       }
