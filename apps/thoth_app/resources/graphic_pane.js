@@ -15,7 +15,8 @@ ThothApp.graphicPane = SC.PanelPane.create({
 
     reviews: SC.View.design({
       layout: { top: 0, left: 0, right: 0, bottom: 0 },
-      childViews: function() {
+      childViews: null,
+      generateReviewIcons: function(key, value) {
         var reviewIcons, x = 10, y = 10, stepX = 20, stepY = 20;
 
         ThothApp.reviewsController.forEach(function(review) {
@@ -30,7 +31,7 @@ ThothApp.graphicPane = SC.PanelPane.create({
 
         return reviewIcons;
       }
-    }),
+    }).property('childViews').cacheable(),
 
     dismissButton: SC.ButtonView.design({
       layout: { right: 60, bottom: 60, width: 120, height: 32 },
