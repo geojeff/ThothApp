@@ -12,8 +12,7 @@ ThothApp.GraphicView = Sai.CanvasView.design({
        for (i=0; i<ThothApp.loadedReviewCount; i++) {
          c = canvas.circle(x, y, 10);
          c.set('fill', '#ff0000');
-         console.log('review-@a'.fmt(i));
-         c.set('id', 'review-@a'.fmt(i));
+         c.set('id', 'review-%@'.fmt(i));
          y += yStep;
        }
 
@@ -21,7 +20,7 @@ ThothApp.GraphicView = Sai.CanvasView.design({
        for (i=0; i<ThothApp.loadedVersionCount; i++) {
          c = canvas.circle(x, y, 10);
          c.set('fill', '#00ff00');
-         c.set('id', 'version-@a'.fmt(i));
+         c.set('id', 'version-%@'.fmt(i));
          y += yStep;
        }
 
@@ -29,7 +28,7 @@ ThothApp.GraphicView = Sai.CanvasView.design({
        for (i=0; i<ThothApp.loadedBookCount; i++) {
          c = canvas.circle(x, y, 10);
          c.set('fill', '#0000ff');
-         c.set('id', 'book-@a'.fmt(i));
+         c.set('id', 'book-%@'.fmt(i));
          y += yStep;
        }
 
@@ -37,7 +36,7 @@ ThothApp.GraphicView = Sai.CanvasView.design({
        for (i=0; i<ThothApp.loadedAuthorCount; i++) {
          c = canvas.circle(x, y, 10);
          c.set('fill', '#00ffff');
-         c.set('id', 'author-@a'.fmt(i));
+         c.set('id', 'author-%@'.fmt(i));
          y += yStep;
        }
 

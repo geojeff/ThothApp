@@ -287,8 +287,7 @@ ThothApp.statechart = SC.Statechart.create({
       SHOWING_GRAPHIC: SC.State.design({
         enterState: function() {
           console.log('SHOWING_GRAPHIC');
-          var gp = ThothApp.getPath('graphicPane').create();
-          gp.append();
+          ThothApp.getPath('graphicPane').append();
         },
 
         exitState: function() {
