@@ -1,9 +1,9 @@
 // ==========================================================================
-// Project:   ThothApp.RecordIconView
+// Project:   ThothApp.GraphicView
 // ==========================================================================
 /*globals ThothApp Sai*/
 
-ThothApp.RecordIconView = Sai.CanvasView.design({
+ThothApp.GraphicView = Sai.CanvasView.design({
 
    renderCanvas: function(canvas, firstTime) {
      if (firstTime) {

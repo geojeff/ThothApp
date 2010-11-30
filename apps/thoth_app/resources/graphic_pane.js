@@ -11,9 +11,9 @@ ThothApp.graphicPane = SC.PanelPane.design({
 
   contentView: SC.View.design({
     layout: { centerX: 0, centerY: 0, width: 400, height: 660 },
-    childViews: 'reviews dismissButton'.w(),
+    childViews: 'graphic dismissButton'.w(),
 
-    reviews: ThothApp.RecordIconView.design({
+    graphic: ThothApp.GraphicView.design({
       layerId: 'graphic-view',
       layout: { left: 10, top: 10, width: 100, height: 500},
       backgroundColor: 'green'
