@@ -13,24 +13,10 @@ ThothApp.graphicPane = SC.PanelPane.design({
     layout: { centerX: 0, centerY: 0, width: 400, height: 660 },
     childViews: 'reviews dismissButton'.w(),
 
-    reviews: SC.View.design({
-      layout: { top: 0, left: 0, right: 0, bottom: 0 },
-      createChildViews: function() {
-        console.log('in here');
-        var reviewIcons = [], x = 10, y = 10, stepX = 20, stepY = 20;
-
-        for (var i=0; i<ThothApp.loadedReviewCount; i++) {
-          console.log('in here here');
-          reviewIcons.pushObject(ThothApp.RecordIconView.design({
-            layerId: 'graphic-view',
-            layout: { left: x, top: y, height: 20, width: 20},
-            backgroundColor: 'green'
-          }));
-          y += stepY;
-        }
-
-        this.set('childViews', reviewIcons);
-      }
+    reviews: ThothApp.RecordIconView.design({
+      layerId: 'graphic-view',
+      layout: { left: 10, top: 10, width: 100, height: 500},
+      backgroundColor: 'green'
     }),
 
     dismissButton: SC.ButtonView.design({
