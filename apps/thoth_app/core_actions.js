@@ -13,33 +13,42 @@ sc_require('controllers/books');
 sc_require('controllers/authors');
 
 ThothApp.mixin({
+  loadedReviews: [],
+  loadedVersions: [],
+  loadedBooks: [],
+  loadedAuthors: [],
+
   loadedAuthorCount:  0,
   loadedBookCount:    0,
   loadedVersionCount: 0,
   loadedReviewCount:  0,
 
-  bumpAuthorCount: function() {
+  bumpAuthorCount: function(key) {
+    this.get('loadedAuthors').push(key);
     var count = this.get('loadedAuthorCount');
     count++;
     this.set('loadedAuthorCount', count);
     console.log(count);
   },
 
-  bumpBookCount: function() {
+  bumpBookCount: function(key) {
+    this.get('loadedBooks').push(key);
     var count = this.get('loadedBookCount');
     count++;
     this.set('loadedBookCount', count);
     console.log(count);
   },
 
-  bumpVersionCount: function() {
+  bumpVersionCount: function(key) {
+    this.get('loadedVersions').push(key);
     var count = this.get('loadedVersionCount');
     count++;
     this.set('loadedVersionCount', count);
     console.log(count);
   },
 
-  bumpReviewCount: function() {
+  bumpReviewCount: function(key) {
+    this.get('loadedReviews').push(key);
     var count = this.get('loadedReviewCount');
     count++;
     this.set('loadedReviewCount', count);

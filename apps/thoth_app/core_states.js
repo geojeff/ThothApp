@@ -123,7 +123,8 @@ ThothApp.statechart = SC.Statechart.create({
         return function(val) {
           if (val & SC.Record.READY_CLEAN) {
             me._tmpRecordCount--;
-            ThothApp.bumpReviewCount();
+            console.log(SC.inspect(val));
+            ThothApp.bumpReviewCount(review.get('fixturesKey'));
             if (me._tmpRecordCount === 0) {
               delete me._tmpRecordCount;
 
@@ -200,7 +201,7 @@ ThothApp.statechart = SC.Statechart.create({
         return function(val) {
           if (val & SC.Record.READY_CLEAN) {
             me._tmpRecordCount--;
-            ThothApp.bumpVersionCount();
+            ThothApp.bumpVersionCount(version.get('fixturesKey'));
             if (me._tmpRecordCount === 0) {
               delete me._tmpRecordCount;
 
@@ -210,7 +211,7 @@ ThothApp.statechart = SC.Statechart.create({
 
                 var reviewRecords = ThothApp.store.find(SC.Query.local(ThothApp.Review, {
                   conditions: "fixturesKey ANY {id_fixtures_array}",
-                  parameters: {  id_fixtures_array: ThothApp.Version.FIXTURES[fixturesKey - 1].reviews  }
+                  parameters: { id_fixtures_array: ThothApp.Version.FIXTURES[fixturesKey - 1].reviews  }
                 }));
 
                 versionRecord.get('reviews').pushObjects(reviewRecords);
@@ -286,6 +287,7 @@ ThothApp.statechart = SC.Statechart.create({
 
       SHOWING_GRAPHIC: SC.State.design({
         enterState: function() {
+
           console.log('SHOWING_GRAPHIC');
           ThothApp.getPath('graphicPane').append();
         },
@@ -323,7 +325,7 @@ ThothApp.statechart = SC.Statechart.create({
         return function(val){
           if (val & SC.Record.READY_CLEAN){
             me._tmpRecordCount--;
-            ThothApp.bumpBookCount();
+            ThothApp.bumpBookCount(book.get('fixturesKey'));
             if (me._tmpRecordCount === 0){
               delete me._tmpRecordCount;
 
@@ -405,12 +407,12 @@ ThothApp.statechart = SC.Statechart.create({
         this.gotoState('AUTHORS_LOADED');
       },
 
-      generateCheckAuthorsFunction: function(){
+      generateCheckAuthorsFunction: function(author){
         var me = this;
         return function(val){
           if (val & SC.Record.READY_CLEAN){
             me._tmpRecordCount--;
-            ThothApp.bumpAuthorCount();
+            ThothApp.bumpAuthorCount(author.get('fixturesKey'));
             if (me._tmpRecordCount === 0){
               delete me._tmpRecordCount;
 
@@ -447,7 +449,7 @@ ThothApp.statechart = SC.Statechart.create({
             "firstName":   ThothApp.Author.FIXTURES[i].firstName,
             "lastName":    ThothApp.Author.FIXTURES[i].lastName
           });
-          author.addFiniteObserver('status',this,this.generateCheckAuthorsFunction(),this);
+          author.addFiniteObserver('status',this,this.generateCheckAuthorsFunction(author),this);
         }
         ThothApp.store.commitRecords();
       }
@@ -460,13 +462,13 @@ ThothApp.statechart = SC.Statechart.create({
     AUTHORS_LOADED: SC.State.design({
       enterState: function() {
         console.log('AUTHORS_LOADED');
-        var authors = ThothApp.store.find(SC.Query.local(ThothApp.Author));
-        var books = ThothApp.store.find(SC.Query.local(ThothApp.Book));
+        //var authors = ThothApp.store.find(SC.Query.local(ThothApp.Author));
+        //var books = ThothApp.store.find(SC.Query.local(ThothApp.Book));
         //var versions = ThothApp.store.find(ThothApp.Version);
         //var reviews = ThothApp.store.find(ThothApp.Review);
 
-        ThothApp.authorsController.set('all', books);
-        ThothApp.authorsController.set('content', authors);
+        //ThothApp.authorsController.set('all', books);
+        //ThothApp.authorsController.set('content', authors);
         //ThothApp.booksController.set('content', books);
         //ThothApp.versionsController.set('content', versions);
         //ThothApp.reviewsController.set('content', reviews);
