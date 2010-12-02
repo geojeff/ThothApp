@@ -1,3 +1,6 @@
 [submodule "frameworks/Thoth-SC"]
 	path = frameworks/Thoth-SC
 	url = git://github.com/mauritslamers/Thoth-SC.git
+[submodule "frameworks/Sai"]
+	path = frameworks/Sai
+	url = https://github.com/etgryphon/sai.git
