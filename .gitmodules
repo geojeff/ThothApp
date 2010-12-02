@@ -4,3 +4,6 @@
 [submodule "frameworks/Sai"]
 	path = frameworks/Sai
 	url = https://github.com/etgryphon/sai.git
+[submodule "frameworks/sproutcore"]
+	path = frameworks/sproutcore
+	url = git://github.com/geojeff/sproutcore.git
