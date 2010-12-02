@@ -1,0 +1,3 @@
+[submodule "frameworks/Thoth-SC"]
+	path = frameworks/Thoth-SC
+	url = git://github.com/mauritslamers/Thoth-SC.git
