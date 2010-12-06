@@ -207,6 +207,7 @@ ThothApp.statechart = SC.Statechart.create({
 
               var versionRecords = ThothApp.store.find(ThothApp.Version);
               versionRecords.forEach(function(versionRecord) {
+                //console.log(SC.inspect(versionRecord));
                 var fixturesKey = versionRecord.readAttribute('fixturesKey');
 
                 var reviewRecords = ThothApp.store.find(SC.Query.local(ThothApp.Review, {
@@ -462,16 +463,16 @@ ThothApp.statechart = SC.Statechart.create({
     AUTHORS_LOADED: SC.State.design({
       enterState: function() {
         console.log('AUTHORS_LOADED');
-        //var authors = ThothApp.store.find(SC.Query.local(ThothApp.Author));
-        //var books = ThothApp.store.find(SC.Query.local(ThothApp.Book));
-        //var versions = ThothApp.store.find(ThothApp.Version);
-        //var reviews = ThothApp.store.find(ThothApp.Review);
+        var authors = ThothApp.store.find(SC.Query.local(ThothApp.Author));
+        var books = ThothApp.store.find(SC.Query.local(ThothApp.Book));
+        var versions = ThothApp.store.find(ThothApp.Version);
+        var reviews = ThothApp.store.find(ThothApp.Review);
 
-        //ThothApp.authorsController.set('all', books);
-        //ThothApp.authorsController.set('content', authors);
-        //ThothApp.booksController.set('content', books);
-        //ThothApp.versionsController.set('content', versions);
-        //ThothApp.reviewsController.set('content', reviews);
+        ThothApp.authorsController.set('all', books);
+        ThothApp.authorsController.set('content', authors);
+        ThothApp.booksController.set('content', books);
+        ThothApp.versionsController.set('content', versions);
+        ThothApp.reviewsController.set('content', reviews);
 
         ThothApp.getPath('mainPage.mainPanel').append();
       },

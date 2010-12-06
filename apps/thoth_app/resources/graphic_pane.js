@@ -22,26 +22,26 @@ ThothApp.graphicPane = SC.PanelPane.create({
 
       reviewsGraphic: ThothApp.ReviewsGraphicView.design({
         layout: { left: 10, top: 10, width: 30, height: 500 },
-        layerId: 'graphic-view',
-        backgroundColor: 'green'
+        layerId: 'reviews-graphic-view',
+        backgroundColor: 'lightgray'
       }),
 
       versionsGraphic: ThothApp.VersionsGraphicView.design({
         layout: { left: 50, top: 10, width: 30, height: 500 },
-        layerId: 'graphic-view',
-        backgroundColor: 'green'
+        layerId: 'versions-graphic-view',
+        backgroundColor: 'lightgray'
       }),
 
       booksGraphic: ThothApp.BooksGraphicView.design({
         layout: { left: 90, top: 10, width: 30, height: 500 },
-        layerId: 'graphic-view',
-        backgroundColor: 'green'
+        layerId: 'books-graphic-view',
+        backgroundColor: 'lightgray'
       }),
 
       authorsGraphic: ThothApp.AuthorsGraphicView.design({
         layout: { left: 130, top: 10, width: 30, height: 500 },
-        layerId: 'graphic-view',
-        backgroundColor: 'green'
+        layerId: 'authors-graphic-view',
+        backgroundColor: 'lightgray'
       })
     }),
 
