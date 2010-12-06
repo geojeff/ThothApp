@@ -3,10 +3,7 @@
 // ==========================================================================
 /*globals ThothApp Sai Forms*/
 
-sc_require('views/reviewsGraphic');
-sc_require('views/versionsGraphic');
-sc_require('views/booksGraphic');
-sc_require('views/authorsGraphic');
+sc_require('views/RecordsGraphicView');
 
 ThothApp.graphicPane = SC.PanelPane.create({
   layout: { top: 0, bottom: 0, left: 0, right: 0 },
@@ -20,26 +17,30 @@ ThothApp.graphicPane = SC.PanelPane.create({
       layout: { left: 0, top: 0, width: 400, height: 500 },
       childViews: 'reviewsGraphic versionsGraphic booksGraphic authorsGraphic'.w(),
 
-      reviewsGraphic: ThothApp.ReviewsGraphicView.design({
+      reviewsGraphic: ThothApp.RecordsGraphicView.design({
         layout: { left: 10, top: 10, width: 30, height: 500 },
+        recordType: ThothApp.Review,
         layerId: 'reviews-graphic-view',
         backgroundColor: 'lightgray'
       }),
 
-      versionsGraphic: ThothApp.VersionsGraphicView.design({
+      versionsGraphic: ThothApp.RecordsGraphicView.design({
         layout: { left: 50, top: 10, width: 30, height: 500 },
+        recordType: ThothApp.Version,
         layerId: 'versions-graphic-view',
         backgroundColor: 'lightgray'
       }),
 
-      booksGraphic: ThothApp.BooksGraphicView.design({
+      booksGraphic: ThothApp.RecordsGraphicView.design({
         layout: { left: 90, top: 10, width: 30, height: 500 },
+        recordType: ThothApp.Book,
         layerId: 'books-graphic-view',
         backgroundColor: 'lightgray'
       }),
 
-      authorsGraphic: ThothApp.AuthorsGraphicView.design({
+      authorsGraphic: ThothApp.RecordsGraphicView.design({
         layout: { left: 130, top: 10, width: 30, height: 500 },
+        recordType: ThothApp.Author,
         layerId: 'authors-graphic-view',
         backgroundColor: 'lightgray'
       })
