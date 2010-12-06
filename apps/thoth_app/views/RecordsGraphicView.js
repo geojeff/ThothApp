@@ -6,6 +6,7 @@
 ThothApp.RecordsGraphicView = Sai.CanvasView.extend({
   circles: [],
   recordType: null,
+  iconColor: 'white',
 
   _recordTypeStringShort: null, // e.g., Review
   _recordTypeStringLong: null,  // e.g., ThothApp.Review
@@ -29,7 +30,7 @@ ThothApp.RecordsGraphicView = Sai.CanvasView.extend({
         c.set('stroke', 'black');
         c.set('strokeWidth', 1);
         if (this.isLoaded(key)) {
-          c.set('fill', 'blue');
+          c.set('fill', this.get('iconColor'));
         }
         this.circles.push(c);
       }
@@ -38,7 +39,7 @@ ThothApp.RecordsGraphicView = Sai.CanvasView.extend({
       for (i=0, len=loadedRecordKeys.get('length'); i<len; i++) {
         c = this.findCircle(this.idFor(loadedRecordKeys[i]));
         if (c) {
-          c.set('fill', 'blue');
+          c.set('fill', this.get('iconColor'));
         }
       }
     }

@@ -21,6 +21,7 @@ ThothApp.graphicPane = SC.PanelPane.create({
         layout: { left: 10, top: 10, width: 30, height: 500 },
         recordType: ThothApp.Review,
         layerId: 'reviews-graphic-view',
+        iconColor: 'blue',
         backgroundColor: 'lightgray'
       }),
 
@@ -28,6 +29,7 @@ ThothApp.graphicPane = SC.PanelPane.create({
         layout: { left: 50, top: 10, width: 30, height: 500 },
         recordType: ThothApp.Version,
         layerId: 'versions-graphic-view',
+        iconColor: 'green',
         backgroundColor: 'lightgray'
       }),
 
@@ -35,6 +37,7 @@ ThothApp.graphicPane = SC.PanelPane.create({
         layout: { left: 90, top: 10, width: 30, height: 500 },
         recordType: ThothApp.Book,
         layerId: 'books-graphic-view',
+        iconColor: 'yellow',
         backgroundColor: 'lightgray'
       }),
 
@@ -42,6 +45,7 @@ ThothApp.graphicPane = SC.PanelPane.create({
         layout: { left: 130, top: 10, width: 30, height: 500 },
         recordType: ThothApp.Author,
         layerId: 'authors-graphic-view',
+        iconColor: 'red',
         backgroundColor: 'lightgray'
       })
     }),
