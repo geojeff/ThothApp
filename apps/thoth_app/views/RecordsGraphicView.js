@@ -6,7 +6,7 @@
 ThothApp.RecordsGraphicView = Sai.CanvasView.extend({
   circles: [],
   recordTypes: [ThothApp.Review, ThothApp.Version, ThothApp.Book, ThothApp.Author],
-  iconColors: ['green', 'blue', 'yellow', 'red'],
+  iconColors: ['lightgreen', 'lightblue', 'lightyellow', 'lightred'],
   //iconStyleFuncs: [Sai.Canvas.circle, Sai.Canvas.circle, Sai.Canvas.circle, Sai.Canvas.circle],
   iconSizes: [10, 10, 10, 10],
 
@@ -31,6 +31,8 @@ ThothApp.RecordsGraphicView = Sai.CanvasView.extend({
                                                                 recordTypeStringLong.length);
             //iconStyleFunc = this.get('iconStyles').objectAt(i);
 
+        // For a given record type, for a given fixture record, add an icon, and if there are
+        // children, add connection lines between parent record and children.
         for (j=0; j<lenFixtures; j++) {
           key = this.get('recordTypes').objectAt(i).FIXTURES[j].key;
           c = canvas.circle(columnWidth * (i+1), (key * rowHeight), this.get('iconSizes').objectAt(i));
@@ -39,38 +41,54 @@ ThothApp.RecordsGraphicView = Sai.CanvasView.extend({
           c.set('strokeWidth', 1);
           this.circles.push(c);
           if (this.isLoaded(recordTypeStringShort, key)) {
-            var childRecords = [];
+            // For loaded records, paint the fill color for the icon.
             c.set('fill', this.get('iconColors').objectAt(i));
-            switch (recordTypeStringLong) {
-              case 'ThothApp.Review':
+
+            // Check for children, setting variables, preparing to draw connections.
+            var childColumn, lenChildren, children, childRecordType;
+            switch (recordTypeStringShort) {
+              case 'Review':
+                // Reviews are the "leaf" record types -- they have no children.
                 break;
-              case 'ThothApp.Version':
-                var p1, p2, l, childKey,
-                    reviewColumn = this.get('recordTypes').indexOf(ThothApp.Review)+1;
-                var lenReviews = this.get('recordTypes').objectAt(i).FIXTURES[key-1].reviews.get('length');
-                for (var k=0; k<lenReviews; k++) {
-                  childKey = this.get('recordTypes').objectAt(i).FIXTURES[key-1].reviews[k];
-                  p1 = canvas.circle(columnWidth * (i+1), (key * rowHeight), 5);
-                  p1.set('id', this.idFor('connection-point-version', key));
-                  p1.set('stroke', 'black');
-                  p1.set('fill', 'black');
-                  p2 = canvas.circle(columnWidth * reviewColumn, (childKey * rowHeight), 5);
-                  p2.set('id', this.idFor('connection-point-review', key));
-                  p2.set('stroke', 'black');
-                  p2.set('fill', 'black');
-                  l = canvas.path('M%@,%@ L%@,%@'.fmt(columnWidth * (i+1),
-                                                      (key * rowHeight),
-                                                      columnWidth * reviewColumn,
-                                                      (childKey * rowHeight)));
-                  l.set('id', this.idFor('connection-line-version-%@-to-review'.fmt(key), childKey));
-                  l.set('stroke', 'black');
-                  l.set('strokeWidth', 2);
-                }
+              case 'Version':
+                childRecordType = 'Review';
+                childColumn = this.get('recordTypes').indexOf(ThothApp.Review)+1;
+                lenChildren = this.get('recordTypes').objectAt(i).FIXTURES[key-1].reviews.get('length');
+                children = this.get('recordTypes').objectAt(i).FIXTURES[key-1].reviews;
                 break;
-              case 'ThothApp.Book':
+              case 'Book':
+                childRecordType = 'Version';
+                childColumn = this.get('recordTypes').indexOf(ThothApp.Version)+1;
+                lenChildren = this.get('recordTypes').objectAt(i).FIXTURES[key-1].versions.get('length');
+                children = this.get('recordTypes').objectAt(i).FIXTURES[key-1].versions;
                 break;
-              case 'ThothApp.Author':
+              case 'Author':
+                childRecordType = 'Book';
+                childColumn = this.get('recordTypes').indexOf(ThothApp.Book)+1;
+                lenChildren = this.get('recordTypes').objectAt(i).FIXTURES[key-1].books.get('length');
+                children = this.get('recordTypes').objectAt(i).FIXTURES[key-1].books;
                 break;
+            }
+            if (lenChildren > 0) {
+              var p1, p2, l, childKey;
+              for (var k = 0; k < lenChildren; k++) {
+                childKey = children[k];
+                p1 = canvas.circle(columnWidth * (i + 1), (key * rowHeight), 5);
+                p1.set('id', this.idFor('connection-point-%@'.fmt(recordTypeStringShort), key));
+                p1.set('stroke', 'black');
+                p1.set('fill', 'black');
+                p2 = canvas.circle(columnWidth * childColumn, (childKey * rowHeight), 5);
+                p2.set('id', this.idFor('connection-point-%@'.fmt(childRecordType), key));
+                p2.set('stroke', 'black');
+                p2.set('fill', 'black');
+                l = canvas.path('M%@,%@ L%@,%@'.fmt(columnWidth * (i + 1),
+                        (key * rowHeight),
+                        columnWidth * childColumn,
+                        (childKey * rowHeight)));
+                l.set('id', this.idFor('connection-line-version-%@-to-review'.fmt(key), childKey));
+                l.set('stroke', 'black');
+                l.set('strokeWidth', 2);
+              }
             }
           }
         }
