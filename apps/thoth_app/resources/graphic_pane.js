@@ -29,7 +29,7 @@ ThothApp.graphicPane = SC.PanelPane.create({
       titleMinWidth: 0,
       isDefault: YES,
       title: 'Dismiss',
-      action: 'dismissGraphicPane'
+      action: 'dismiss'
     })
   })
 });

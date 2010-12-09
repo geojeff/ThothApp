@@ -6,7 +6,7 @@
 ThothApp.RecordsGraphicView = Sai.CanvasView.extend({
   circles: [],
   recordTypes: [ThothApp.Review, ThothApp.Version, ThothApp.Book, ThothApp.Author],
-  iconColors: ['lightgreen', 'lightblue', 'lightyellow', 'lightred'],
+  iconColors: ['lightgreen', 'lightblue', 'gray', 'red'],
   //iconStyleFuncs: [Sai.Canvas.circle, Sai.Canvas.circle, Sai.Canvas.circle, Sai.Canvas.circle],
   iconSizes: [10, 10, 10, 10],
 
@@ -32,7 +32,7 @@ ThothApp.RecordsGraphicView = Sai.CanvasView.extend({
             //iconStyleFunc = this.get('iconStyles').objectAt(i);
 
         // For a given record type, for a given fixture record, add an icon, and if there are
-        // children, add connection lines between parent record and children.
+        // children, add connection lines between record and children.
         for (j=0; j<lenFixtures; j++) {
           key = this.get('recordTypes').objectAt(i).FIXTURES[j].key;
           c = canvas.circle(columnWidth * (i+1), (key * rowHeight), this.get('iconSizes').objectAt(i));
@@ -69,6 +69,7 @@ ThothApp.RecordsGraphicView = Sai.CanvasView.extend({
                 children = this.get('recordTypes').objectAt(i).FIXTURES[key-1].books;
                 break;
             }
+            console.log(childColumn, lenChildren, children, childRecordType);
             if (lenChildren > 0) {
               var p1, p2, l, childKey;
               for (var k = 0; k < lenChildren; k++) {

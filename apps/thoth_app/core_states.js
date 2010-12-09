@@ -261,6 +261,60 @@ ThothApp.statechart = SC.Statechart.create({
 
     }),
 
+    // -----------------------------------------------
+    //    state: SHOWING_GRAPHIC_FOR_VERSIONS_LOADED
+    // -----------------------------------------------
+    SHOWING_GRAPHIC_FOR_VERSIONS_LOADED: SC.State.design({
+      enterState: function() {
+        console.log('SHOWING_GRAPHIC_FOR_VERSIONS_LOADED');
+        ThothApp.getPath('graphicPane').append();
+      },
+
+      exitState: function() {
+        ThothApp.getPath('graphicPane').remove();
+      },
+
+      dismiss: function() {
+        this.gotoState('VERSIONS_LOADED');
+      }
+    }),
+
+    // ----------------------------------------------
+    //    state: SHOWING_GRAPHIC_FOR_BOOKS_LOADED
+    // ----------------------------------------------
+    SHOWING_GRAPHIC_FOR_BOOKS_LOADED: SC.State.design({
+      enterState: function() {
+        console.log('SHOWING_GRAPHIC_FOR_BOOKS_LOADED');
+        ThothApp.getPath('graphicPane').append();
+      },
+
+      exitState: function() {
+        ThothApp.getPath('graphicPane').remove();
+      },
+
+      dismiss: function() {
+        this.gotoState('BOOKS_LOADED');
+      }
+    }),
+
+    // ----------------------------------------------
+    //    state: SHOWING_GRAPHIC_FOR_AUTHORS_LOADED
+    // ----------------------------------------------
+    SHOWING_GRAPHIC_FOR_AUTHORS_LOADED: SC.State.design({
+      enterState: function() {
+        console.log('SHOWING_GRAPHIC_FOR_AUTHORS_LOADED');
+        ThothApp.getPath('graphicPane').append();
+      },
+
+      exitState: function() {
+        ThothApp.getPath('graphicPane').remove();
+      },
+
+      dismiss: function() {
+        this.gotoState('AUTHORS_LOADED');
+      }
+    }),
+
     // ----------------------------------------
     //    state: VERSIONS_LOADED
     // ----------------------------------------
@@ -281,24 +335,8 @@ ThothApp.statechart = SC.Statechart.create({
           this.gotoState('LOADING_BOOKS');
         },
 
-        showGraphic: function() {
-          this.gotoState('SHOWING_GRAPHIC');
-        }
-      }),
-
-      SHOWING_GRAPHIC: SC.State.design({
-        enterState: function() {
-
-          console.log('SHOWING_GRAPHIC');
-          ThothApp.getPath('graphicPane').append();
-        },
-
-        exitState: function() {
-          ThothApp.getPath('graphicPane').remove();
-        },
-
-        dismissGraphicPane: function() {
-          this.gotoState('VERSIONS_LOADED');
+        showGraphicForVersionsLoaded: function() {
+          this.gotoState('SHOWING_GRAPHIC_FOR_VERSIONS_LOADED');
         }
       })
     }),
@@ -369,7 +407,6 @@ ThothApp.statechart = SC.Statechart.create({
         }
         ThothApp.store.commitRecords();
       }
-
     }),
 
     // ----------------------------------------
@@ -387,6 +424,10 @@ ThothApp.statechart = SC.Statechart.create({
 
       loadAuthors: function() {
         this.gotoState('LOADING_AUTHORS');
+      },
+
+      showGraphicForBooksLoaded: function() {
+        this.gotoState('SHOWING_GRAPHIC_FOR_BOOKS_LOADED');
       }
     }),
 
@@ -463,6 +504,28 @@ ThothApp.statechart = SC.Statechart.create({
     AUTHORS_LOADED: SC.State.design({
       enterState: function() {
         console.log('AUTHORS_LOADED');
+        ThothApp.getPath('authorsLoadedPane').append();
+      },
+
+      exitState: function() {
+        ThothApp.getPath('authorsLoadedPane').remove();
+      },
+
+      loadApp: function() {
+        this.gotoState('LOADING_APP');
+      },
+
+      showGraphicForAuthorsLoaded: function() {
+        this.gotoState('SHOWING_GRAPHIC_FOR_AUTHORS_LOADED');
+      }
+    }),
+
+    // ----------------------------------------
+    //    state: LOADING_APP
+    // ----------------------------------------
+    LOADING_APP: SC.State.design({
+      enterState: function() {
+        console.log('LOADING_APP');
         var authors = ThothApp.store.find(SC.Query.local(ThothApp.Author));
         var books = ThothApp.store.find(SC.Query.local(ThothApp.Book));
         var versions = ThothApp.store.find(ThothApp.Version);
@@ -475,6 +538,20 @@ ThothApp.statechart = SC.Statechart.create({
         ThothApp.reviewsController.set('content', reviews);
 
         ThothApp.getPath('mainPage.mainPanel').append();
+
+        this.gotoState('APP_LOADED');
+      },
+
+      exitState: function() {
+      }
+    }),
+
+    // ----------------------------------------
+    //    state: APP_LOADED
+    // ----------------------------------------
+    APP_LOADED: SC.State.design({
+      enterState: function() {
+        console.log('APP_LOADED');
       },
 
       exitState: function() {

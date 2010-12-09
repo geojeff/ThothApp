@@ -39,7 +39,7 @@ ThothApp.versionsLoadedPane = SC.PanelPane.create({
       titleMinWidth: 0,
       isDefault: NO,
       title: 'Show Graphic',
-      action: 'showGraphic'
+      action: 'showGraphicForVersionsLoaded'
     }),
 
     loadBooksButton: SC.ButtonView.design({

@@ -1,5 +1,5 @@
 // ==========================================================================
-// ThothApp.booksLoadedPane
+// ThothApp.authorsLoadedPane
 // ==========================================================================
 /*globals ThothApp*/
 
@@ -8,7 +8,7 @@
    @author Jeff Pittman
 */
 
-ThothApp.booksLoadedPane = SC.PanelPane.create({
+ThothApp.authorsLoadedPane = SC.PanelPane.create({
   layout: { top: 0, bottom: 0, left: 0, right: 0 },
   defaultResponder: 'ThothApp.statechart',
 
@@ -16,19 +16,20 @@ ThothApp.booksLoadedPane = SC.PanelPane.create({
 
     layout: { centerX: 0, centerY: 0, width: 400, height: 512 },
 
-    childViews: 'explanation1 explanation2 showGraphicButton loadAuthorsButton'.w(),
+    childViews: 'explanation1 explanation2 showGraphicButton loadAppButton'.w(),
 
     explanation1: SC.LabelView.design({
       layout: { left: 60, top: 60, right: 60, height: 140 },
-      value: "Book records have been loaded, and relations set to the versions associated with each book. Examine the " +
+      value: "Author records have been loaded, and relations set to the books associated with each author. Examine the " +
              "console reports to see the same pattern of createRecordResults, followed by updateRecord notifications, " +
              "followed by updateRecordResults."
     }),
 
     explanation2: SC.LabelView.design({
       layout: { left: 60, top: 210, right: 60, height: 80 },
-      value: "Finally we load authors, wherein author records will be added, followed by the setting of relations " +
-             "between authors and their books. You will see the app come up afterward."
+      value: "Finally we load the app. We do this by setting the records, now loaded in the store (for reviews, versions," +
+             "books, and authors), into the controllers, which are bound to user interface elements. The user interface" +
+             "elements, upon instantiation, adjust to present the records as their bound controllers receive the data."
     }),
 
     showGraphicButton: SC.ButtonView.design({
@@ -36,15 +37,15 @@ ThothApp.booksLoadedPane = SC.PanelPane.create({
       titleMinWidth: 0,
       isDefault: NO,
       title: 'Show Graphic',
-      action: 'showGraphicForBooksLoaded'
+      action: 'showGraphicForAuthorsLoaded'
     }),
 
-    loadAuthorsButton: SC.ButtonView.design({
+    loadAppButton: SC.ButtonView.design({
       layout: { right: 60, bottom: 60, width: 120, height: 32 },
       titleMinWidth: 0,
       isDefault: YES,
-      title: 'Load Authors',
-      action: 'loadAuthors'
+      title: 'Load App',
+      action: 'loadApp'
     })
   })
 });
