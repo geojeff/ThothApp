@@ -9,21 +9,46 @@
 
   @extends SC.ArrayController
 */
+
+sc_require('fixtures/author');
+
 ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate,
 /** @scope ThothApp.authorsController.prototype */ {
 	allowMultipleSelection: YES,
 	all: null,
 	selection: null,
   gatheredBooks: null,
+  allAssociated: null,
+  isLoadedArray: [],
+  loadedCount: 0,
 
-	allDidChange: function(){
-	  if (!this.get("selection")) {
+  changedAuthor: function(){
+    ThothApp.getPath('graphicsPane.canvas').displayDidChange();
+  },
+
+  initializeForLoading: function() {
+    var arr = this.get('isLoadedArray');
+    for (var i=0,len=ThothApp.Author.FIXTURES.get('length'); i<len; i++) {
+      arr.pushObject(NO);
+    }
+  },
+
+  recordWasLoaded: function(key) {
+    this.get('isLoadedArray').replace(key-1, 1, [YES]);
+    var count = this.get('loadedCount');
+    this.set('loadedCount', count+1);
+  },
+
+  allDidChange: function(){
+    if (!this.get("selection")) {
       this.set("gatheredBooks", this.get("all"));
+      this.gatherAllAssociated();
       this.set("allIsSelected", YES);
     } else {
+      this.gatherAllAssociated();
       this.gatherBooks();
     }
-	}.observes("all", "[]"),
+  }.observes("all", "[]"),
 
 	selectAllAuthorsItem: function(){
 	  this.set("selection", null);
@@ -31,20 +56,28 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
 	  this.set("allIsSelected", YES);
 	},
 
+  selectFirst: function() {
+    this.selectObject(this.firstSelectableObject());
+  },
+
 	selectionDidChange: function() {
 	  this.gatherBooks();
+    this.gatherAllAssociated();
 	}.observes("selection"),
 
 	gatherBooks: function() {
-    var authors, books;
+    var authors, books, authorBooks;
     authors = this.get("selection"); // multiselect allowed
     //console.log('authors in gatherBooks ' + SC.inspect(authors));
 	  if (!SC.none(authors)) {
 	    books = SC.Set.create();
 	    authors.forEach(function(author){
-	      author.get("books").forEach(function(book) {
-          books.add(book);
-        });
+        authorBooks = author.get("books");
+        if (!SC.none(authorBooks)) {
+	        authorBooks.forEach(function(book) {
+            books.add(book);
+          });
+        }
 	    });
 
       this.set("gatheredBooks", books.toArray());
@@ -56,20 +89,45 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
     }
 	},
 
-	gatherVersions: function() {
-	  var authors, versions;
+	gatherAllAssociated: function() {
+	  var selection, authors, books, versions, reviews, allAssociated = SC.Set.create();
+
     authors = this.get("selection"); // multiselect allowed
+
     if (!SC.none(authors)) {
-	    versions = SC.Set.create();
+      console.log('authors length ', authors.get('length'));
 	    authors.forEach(function(author){
-	      author.get("books").forEach(function(book) {
-          book.get("versions").forEach(function(version) {
-            versions.add(version);
+        allAssociated.add(author);
+
+        books = author.get("books");
+        console.log('books length ', books.get('length'));
+        if (!SC.none(books)) {
+	        books.forEach(function(book) {
+            allAssociated.add(book);
+
+            versions = book.get("versions");
+            console.log('versions length ', versions.get('length'));
+            if (!SC.none(versions)) {
+              versions.forEach(function(version) {
+                allAssociated.add(version);
+
+                reviews = version.get("reviews");
+                console.log('reviews length ', reviews.get('length'));
+                if (!SC.none(reviews)) {
+                  reviews.forEach(function(review) {
+                    allAssociated.add(review);
+                  });
+                }
+              });
+            }
           });
-        });
+        }
 	    });
 
-      this.set("gatheredVersions", versions.toArray());
+      console.log('allAssociated ', allAssociated.get('length'));
+      this.set("allAssociated", allAssociated.toArray());
+    } else {
+      console.log('author selection is null');
     }
 	},
 
@@ -198,6 +256,6 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
       var listItem = list.itemViewForContentIndex(contentIndex);
       listItem.beginEditing();
     });
-  },
+  }
 
 }) ;

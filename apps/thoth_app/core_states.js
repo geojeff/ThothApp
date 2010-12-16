@@ -19,6 +19,11 @@ ThothApp.statechart = SC.Statechart.create({
     STARTING: SC.State.design({
 
       enterState: function() {
+        ThothApp.reviewsController.initializeForLoading();
+        ThothApp.versionsController.initializeForLoading();
+        ThothApp.booksController.initializeForLoading();
+        ThothApp.authorsController.initializeForLoading();
+
         var panel = ThothApp.getPath('loginPanel');
         if (panel) {
           panel.append();
@@ -124,7 +129,7 @@ ThothApp.statechart = SC.Statechart.create({
           if (val & SC.Record.READY_CLEAN) {
             me._tmpRecordCount--;
             console.log(SC.inspect(val));
-            ThothApp.bumpReviewCount(review.get('fixturesKey'));
+            ThothApp.reviewsController.recordWasLoaded(review.get('fixturesKey'));
             if (me._tmpRecordCount === 0) {
               delete me._tmpRecordCount;
 
@@ -144,7 +149,8 @@ ThothApp.statechart = SC.Statechart.create({
           var review;
           review = ThothApp.store.createRecord(ThothApp.Review, {
             "fixturesKey":  ThothApp.Review.FIXTURES[i].key,
-            "text":         ThothApp.Review.FIXTURES[i].text
+            "text":         ThothApp.Review.FIXTURES[i].text,
+            "position":     ThothApp.Review.FIXTURES[i].position
           });
 
           review.addFiniteObserver('status', this, this.generateCheckReviewsFunction(review), this);
@@ -201,7 +207,7 @@ ThothApp.statechart = SC.Statechart.create({
         return function(val) {
           if (val & SC.Record.READY_CLEAN) {
             me._tmpRecordCount--;
-            ThothApp.bumpVersionCount(version.get('fixturesKey'));
+            ThothApp.versionsController.recordWasLoaded(version.get('fixturesKey'));
             if (me._tmpRecordCount === 0) {
               delete me._tmpRecordCount;
 
@@ -247,7 +253,8 @@ ThothApp.statechart = SC.Statechart.create({
             "width":           ThothApp.Version.FIXTURES[i].width,
             "depth":           ThothApp.Version.FIXTURES[i].depth,
             "isbn10":          ThothApp.Version.FIXTURES[i].isbn10,
-            "isbn13":          ThothApp.Version.FIXTURES[i].isbn13
+            "isbn13":          ThothApp.Version.FIXTURES[i].isbn13,
+            "position":        ThothApp.Version.FIXTURES[i].position
           });
 
           // this.generateCheckVersionsFunction is provided to create the function that
@@ -261,12 +268,13 @@ ThothApp.statechart = SC.Statechart.create({
 
     }),
 
-    // -----------------------------------------------
-    //    state: SHOWING_GRAPHIC_FOR_VERSIONS_LOADED
-    // -----------------------------------------------
-    SHOWING_GRAPHIC_FOR_VERSIONS_LOADED: SC.State.design({
+    // -------------------------------------------
+    //    state: SHOWING_GRAPHIC
+    // -------------------------------------------
+    SHOWING_GRAPHIC: SC.State.design({
       enterState: function() {
-        console.log('SHOWING_GRAPHIC_FOR_VERSIONS_LOADED');
+        console.log('SHOWING_GRAPHIC');
+        ThothApp.authorsController.gatherAllAssociated();
         ThothApp.getPath('graphicPane').append();
       },
 
@@ -275,43 +283,7 @@ ThothApp.statechart = SC.Statechart.create({
       },
 
       dismiss: function() {
-        this.gotoState('VERSIONS_LOADED');
-      }
-    }),
-
-    // ----------------------------------------------
-    //    state: SHOWING_GRAPHIC_FOR_BOOKS_LOADED
-    // ----------------------------------------------
-    SHOWING_GRAPHIC_FOR_BOOKS_LOADED: SC.State.design({
-      enterState: function() {
-        console.log('SHOWING_GRAPHIC_FOR_BOOKS_LOADED');
-        ThothApp.getPath('graphicPane').append();
-      },
-
-      exitState: function() {
-        ThothApp.getPath('graphicPane').remove();
-      },
-
-      dismiss: function() {
-        this.gotoState('BOOKS_LOADED');
-      }
-    }),
-
-    // ----------------------------------------------
-    //    state: SHOWING_GRAPHIC_FOR_AUTHORS_LOADED
-    // ----------------------------------------------
-    SHOWING_GRAPHIC_FOR_AUTHORS_LOADED: SC.State.design({
-      enterState: function() {
-        console.log('SHOWING_GRAPHIC_FOR_AUTHORS_LOADED');
-        ThothApp.getPath('graphicPane').append();
-      },
-
-      exitState: function() {
-        ThothApp.getPath('graphicPane').remove();
-      },
-
-      dismiss: function() {
-        this.gotoState('AUTHORS_LOADED');
+        this.gotoState('APP_READY');
       }
     }),
 
@@ -333,11 +305,8 @@ ThothApp.statechart = SC.Statechart.create({
 
         loadBooks: function() {
           this.gotoState('LOADING_BOOKS');
-        },
-
-        showGraphicForVersionsLoaded: function() {
-          this.gotoState('SHOWING_GRAPHIC_FOR_VERSIONS_LOADED');
         }
+
       })
     }),
 
@@ -364,7 +333,7 @@ ThothApp.statechart = SC.Statechart.create({
         return function(val){
           if (val & SC.Record.READY_CLEAN){
             me._tmpRecordCount--;
-            ThothApp.bumpBookCount(book.get('fixturesKey'));
+            ThothApp.booksController.recordWasLoaded(book.get('fixturesKey'));
             if (me._tmpRecordCount === 0){
               delete me._tmpRecordCount;
 
@@ -372,10 +341,9 @@ ThothApp.statechart = SC.Statechart.create({
               bookRecords.forEach(function(bookRecord) {
                 var fixturesKey = bookRecord.readAttribute('fixturesKey');
 
-                var versionRecords = ThothApp.store.find(SC.Query.local(
-                  ThothApp.Version,
-                  { conditions: "fixturesKey ANY {id_fixtures_array}",
-                    parameters: {id_fixtures_array: ThothApp.Book.FIXTURES[fixturesKey-1].versions }}
+                var versionRecords = ThothApp.store.find(SC.Query.local(ThothApp.Version, {
+                  conditions: "fixturesKey ANY {id_fixtures_array}",
+                  parameters: {id_fixtures_array: ThothApp.Book.FIXTURES[fixturesKey-1].versions }}
                 ));
 
                 bookRecord.get('versions').pushObjects(versionRecords);
@@ -398,7 +366,8 @@ ThothApp.statechart = SC.Statechart.create({
           var book;
           book = ThothApp.store.createRecord(ThothApp.Book, {
             "fixturesKey": ThothApp.Book.FIXTURES[i].key,
-            "title":       ThothApp.Book.FIXTURES[i].title
+            "title":       ThothApp.Book.FIXTURES[i].title,
+            "position":    ThothApp.Book.FIXTURES[i].position
           });
 
           // The book record has been created, and its versions and the reviews of those versions.
@@ -424,10 +393,6 @@ ThothApp.statechart = SC.Statechart.create({
 
       loadAuthors: function() {
         this.gotoState('LOADING_AUTHORS');
-      },
-
-      showGraphicForBooksLoaded: function() {
-        this.gotoState('SHOWING_GRAPHIC_FOR_BOOKS_LOADED');
       }
     }),
 
@@ -454,7 +419,7 @@ ThothApp.statechart = SC.Statechart.create({
         return function(val){
           if (val & SC.Record.READY_CLEAN){
             me._tmpRecordCount--;
-            ThothApp.bumpAuthorCount(author.get('fixturesKey'));
+            ThothApp.authorsController.recordWasLoaded(author.get('fixturesKey'));
             if (me._tmpRecordCount === 0){
               delete me._tmpRecordCount;
 
@@ -462,10 +427,9 @@ ThothApp.statechart = SC.Statechart.create({
               authorRecords.forEach(function(authorRecord) {
                 var fixturesKey = authorRecord.readAttribute('fixturesKey');
 
-                var bookRecords = ThothApp.store.find(SC.Query.local(
-                  ThothApp.Book,
-                  { conditions: "fixturesKey ANY {id_fixtures_array}",
-                    parameters: {id_fixtures_array: ThothApp.Author.FIXTURES[fixturesKey-1].books }}
+                var bookRecords = ThothApp.store.find(SC.Query.local(ThothApp.Book, {
+                  conditions: "fixturesKey ANY {id_fixtures_array}",
+                  parameters: {id_fixtures_array: ThothApp.Author.FIXTURES[fixturesKey-1].books }}
                 ));
 
                 authorRecord.get('books').pushObjects(bookRecords);
@@ -489,7 +453,8 @@ ThothApp.statechart = SC.Statechart.create({
             //"key":         ThothApp.Author.FIXTURES[i].key,
             "fixturesKey": ThothApp.Author.FIXTURES[i].key,
             "firstName":   ThothApp.Author.FIXTURES[i].firstName,
-            "lastName":    ThothApp.Author.FIXTURES[i].lastName
+            "lastName":    ThothApp.Author.FIXTURES[i].lastName,
+            "position":    ThothApp.Author.FIXTURES[i].position
           });
           author.addFiniteObserver('status',this,this.generateCheckAuthorsFunction(author),this);
         }
@@ -513,10 +478,6 @@ ThothApp.statechart = SC.Statechart.create({
 
       loadApp: function() {
         this.gotoState('LOADING_APP');
-      },
-
-      showGraphicForAuthorsLoaded: function() {
-        this.gotoState('SHOWING_GRAPHIC_FOR_AUTHORS_LOADED');
       }
     }),
 
@@ -528,14 +489,20 @@ ThothApp.statechart = SC.Statechart.create({
         console.log('LOADING_APP');
         var authors = ThothApp.store.find(SC.Query.local(ThothApp.Author));
         var books = ThothApp.store.find(SC.Query.local(ThothApp.Book));
-        var versions = ThothApp.store.find(ThothApp.Version);
-        var reviews = ThothApp.store.find(ThothApp.Review);
+        var versions = ThothApp.store.find(SC.Query.local(ThothApp.Version));
+        var reviews = ThothApp.store.find(SC.Query.local(ThothApp.Review));
+        //var versions = ThothApp.store.find(ThothApp.Version);
+        //var reviews = ThothApp.store.find(ThothApp.Review);
 
+        console.log('versions found ', versions.get('length'));
+        console.log('reviews found ', reviews.get('length'));
         ThothApp.authorsController.set('all', books);
         ThothApp.authorsController.set('content', authors);
         ThothApp.booksController.set('content', books);
         ThothApp.versionsController.set('content', versions);
         ThothApp.reviewsController.set('content', reviews);
+
+        ThothApp.authorsController.selectFirst();
 
         ThothApp.getPath('mainPage.mainPanel').append();
 
@@ -551,10 +518,36 @@ ThothApp.statechart = SC.Statechart.create({
     // ----------------------------------------
     APP_LOADED: SC.State.design({
       enterState: function() {
-        console.log('APP_LOADED');
+      },
+
+      showGraphic: function() {
+        this.gotoState('SHOWING_GRAPHIC');
       },
 
       exitState: function() {
+      },
+
+      dismiss: function() {
+        this.gotoState('APP_READY');
+      }
+    }),
+
+    // ----------------------------------------
+    //    state: APP_READY
+    // ----------------------------------------
+    APP_READY: SC.State.design({
+      enterState: function() {
+      },
+
+      showGraphic: function() {
+        this.gotoState('SHOWING_GRAPHIC');
+      },
+
+      exitState: function() {
+      },
+
+      dismiss: function() {
+        this.gotoState('APP_READY');
       }
     })
   })

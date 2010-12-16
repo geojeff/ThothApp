@@ -18,13 +18,22 @@ ThothApp.mainPage = SC.Page.design({
     toolbar: SC.ToolbarView.design({
       classNames: ["hback", "toolbar"],
       layout: { left: 0, top: 0, right: 0, height: 32 },
-      childViews: "appLabel countsLabel authorCount bookCount versionCount reviewCount".w(),
+      defaultResponder: 'ThothApp.statechart',
+
+      childViews: "appLabel showGraphic countsLabel authorCount bookCount versionCount reviewCount".w(),
 
       appLabel: SC.LabelView.design({
         layout: { left: 10, width: 200, height: 20, centerY: 0 },
         textAlign: SC.ALIGN_CENTER,
         tagName: "h1",
         value: "Welcome to ThothApp!"
+      }),
+
+      showGraphic: SC.ButtonView.design({
+        layout: { left: 230, top: 0, width:72, height: 20 },
+        target: "ThothApp.statechart",
+        action: "showGraphic",
+        title: "Show Graphic"
       }),
 
       countsLabel: SC.LabelView.design({
@@ -34,22 +43,22 @@ ThothApp.mainPage = SC.Page.design({
 
       authorCount: SC.LabelView.design({
         layout: { right: 130, width: 30, height: 20, centerY: 0 },
-        valueBinding: "ThothApp.loadedAuthorCount"
+        valueBinding: "ThothApp.authorsController.loadedCount"
       }),
 
       bookCount: SC.LabelView.design({
         layout: { right: 90, width: 30, height: 20, centerY: 0 },
-        valueBinding: "ThothApp.loadedBookCount"
+        valueBinding: "ThothApp.booksController.loadedCount"
       }),
 
       versionCount: SC.LabelView.design({
         layout: { right: 50, width: 30, height: 20, centerY: 0 },
-        valueBinding: "ThothApp.loadedVersionCount"
+        valueBinding: "ThothApp.versionsController.loadedCount"
       }),
 
       reviewCount: SC.LabelView.design({
         layout: { right: 10, width: 30, height: 20, centerY: 0 },
-        valueBinding: "ThothApp.loadedReviewCount"
+        valueBinding: "ThothApp.reviewsController.loadedCount"
       })
 
     }), // toolbar

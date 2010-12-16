@@ -10,6 +10,9 @@ This controller manages book data.
    @extends SC.ArrayController
    @author Jeff Pittman
 */
+
+sc_require('fixtures/book');
+
 ThothApp.booksController = SC.ArrayController.create(
 /** @scope ThothApp.booksController.prototype */ {
 
@@ -20,6 +23,21 @@ ThothApp.booksController = SC.ArrayController.create(
   canReorderContent: NO,
   canRemoveContent: YES,
   isEditable: YES,
+  isLoadedArray: [],
+  loadedCount: 0,
+
+  initializeForLoading: function() {
+    var arr = this.get('isLoadedArray');
+    for (var i=0,len=ThothApp.Book.FIXTURES.get('length'); i<len; i++) {
+      arr.pushObject(NO);
+    }
+  },
+
+  recordWasLoaded: function(key) {
+    this.get('isLoadedArray').replace(key-1, 1, [YES]);
+    var count = this.get('loadedCount');
+    this.set('loadedCount', count+1);
+  },
 
   // deleting books is handled by booksController.
   // removing books from authors is handled by the authorController.
@@ -31,15 +49,18 @@ ThothApp.booksController = SC.ArrayController.create(
 	}.observes("selection"),
 
 	gatherVersions: function() {
-    var books, versions;
+    var books, versions, bookVersions;
 
     books= this.get("selection");
 	  if (!SC.none(books)) {
 	    versions = SC.Set.create();
 	    books.forEach(function(book){
-	      book.get("versions").forEach(function(version) {
-          versions.add(version);
-        });
+        bookVersions = book.get("versions");
+        if (!SC.none(bookVersions)) {
+	        bookVersions.forEach(function(version) {
+            versions.add(version);
+          });
+        }
 	    });
 
       this.set("gatheredVersions", versions.toArray());

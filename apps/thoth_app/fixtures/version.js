@@ -20,7 +20,8 @@ ThothApp.Version.FIXTURES = [
     book: 1,
     isbn10: "1440477035",
     isbn13: "978-1440477034",
-    reviews: [1,2] },
+    reviews: [1,2],
+    position: {y: 50, x: 300}},
   {
     key: 2,
     format: "paperback",
@@ -35,7 +36,8 @@ ThothApp.Version.FIXTURES = [
     book: 2,
     isbn10: "0553210793",
     isbn13: "978-0553210798",
-    reviews: [3,4] },
+    reviews: [3,4],
+    position: {y: 50, x: 300}},
   {
     key: 3,
     format: "hardcover",
@@ -50,7 +52,8 @@ ThothApp.Version.FIXTURES = [
     book: 2,
     isbn10: "1904633463",
     isbn13: "978-1904633464",
-    reviews: [5,6] },
+    reviews: [5,6],
+    position: {y: 100, x: 300}},
   {
     key: 4,
     format: "paperback",
@@ -65,7 +68,8 @@ ThothApp.Version.FIXTURES = [
     book: 3,
     isbn10: "145373211X",
     isbn13: "978-1453732113",
-    reviews: [7,8] },
+    reviews: [7,8],
+    position: {y: 50, x: 300}},
   {
     key: 5,
     format: "paperback",
@@ -80,7 +84,8 @@ ThothApp.Version.FIXTURES = [
     book: 4,
     isbn10: "0060955422",
     isbn13: "978-0060955427",
-    reviews: [9,10] },
+    reviews: [9,10],
+    position: {y: 50, x: 300}},
   {
     key: 6,
     format: "paperback",
@@ -95,7 +100,8 @@ ThothApp.Version.FIXTURES = [
     book: 5,
     isbn10: "1770457135",
     isbn13: "978-1770457133",
-    reviews: [11,12] },
+    reviews: [11,12],
+    position: {y: 50, x: 300}},
   {
     key: 7,
     format: "hardback",
@@ -110,7 +116,8 @@ ThothApp.Version.FIXTURES = [
     book: 5,
     isbn10: "1404314067",
     isbn13: "978-1404314061",
-    reviews: [13] },
+    reviews: [13],
+    position: {y: 50, x: 300}},
   {
     key: 8,
     format: "paperback",
@@ -125,7 +132,8 @@ ThothApp.Version.FIXTURES = [
     book: 6,
     isbn10: "0141325291",
     isbn13: "978-0141325293",
-    reviews: [14,15] },
+    reviews: [14,15],
+    position: {y: 100, x: 300}},
   {
     key: 9,
     format: "paperback",
@@ -140,6 +148,7 @@ ThothApp.Version.FIXTURES = [
     book: 7,
     isbn10: "1591940842",
     isbn13: "978-1591940845",
-    reviews: [16] }
+    reviews: [16],
+    position: {y: 50, x: 300}}
 ];
 

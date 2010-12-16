@@ -14,9 +14,9 @@ ThothApp.authorsLoadedPane = SC.PanelPane.create({
 
   contentView: SC.View.design({
 
-    layout: { centerX: 0, centerY: 0, width: 400, height: 512 },
+    layout: { centerX: 0, centerY: 0, width: 400, height: 482 },
 
-    childViews: 'explanation1 explanation2 showGraphicButton loadAppButton'.w(),
+    childViews: 'explanation1 explanation2 loadAppButton'.w(),
 
     explanation1: SC.LabelView.design({
       layout: { left: 60, top: 60, right: 60, height: 140 },
@@ -30,14 +30,6 @@ ThothApp.authorsLoadedPane = SC.PanelPane.create({
       value: "Finally we load the app. We do this by setting the records, now loaded in the store (for reviews, versions," +
              "books, and authors), into the controllers, which are bound to user interface elements. The user interface" +
              "elements, upon instantiation, adjust to present the records as their bound controllers receive the data."
-    }),
-
-    showGraphicButton: SC.ButtonView.design({
-      layout: { right: 60, bottom: 120, width: 120, height: 32 },
-      titleMinWidth: 0,
-      isDefault: NO,
-      title: 'Show Graphic',
-      action: 'showGraphicForAuthorsLoaded'
     }),
 
     loadAppButton: SC.ButtonView.design({
