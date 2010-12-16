@@ -42,7 +42,7 @@ ThothApp.Review = SC.Record.extend(LinkIt.Node, {
         startNode: v,
         startTerminal: 'reviews',
         endNode: this,
-        endTerminal: 'myVersion'
+        endTerminal: 'version'
       });
       links.push(vLink);
     }

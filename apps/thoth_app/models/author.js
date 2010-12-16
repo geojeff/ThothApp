@@ -21,16 +21,14 @@ ThothApp.Author = SC.Record.extend(LinkIt.Node, {
 
   isAuthor:    YES,
 
-  allAssociated: null,
-
   name: function() {
-//    var parts = this.get('fullName').w(); // first, last names, or just last name
-//
-//    if (parts.get('length') === 2) {
-//      return '%@. %@'.fmt(parts[0].charAt[0], (parts[1].length < 14) ? parts[1] : '%@...'.fmt(parts[1].substr(0, 9)));
-//    } else {
-//      return parts[0];
-//    }
+    var parts = this.get('fullName').w(); // first, last names, or just last name
+
+    if (parts.get('length') === 2) {
+      return '%@. %@'.fmt(parts[0].charAt[0], (parts[1].length < 14) ? parts[1] : '%@...'.fmt(parts[1].substr(0, 9)));
+    } else {
+      return parts[0];
+    }
     return 'author';
   }.property(),
 
@@ -67,45 +65,6 @@ ThothApp.Author = SC.Record.extend(LinkIt.Node, {
   }.property('firstName', 'lastName').cacheable(),
 
   books: SC.Record.toMany("ThothApp.Book", { inverse: "author", isMaster: YES }),
-
-  allAssociatedObserver: function(){
-    var book, version, review, books, versions, reviews;
-
-    var i, j, k, lenBooks, lenVersions, lenReviews, all = [];
-
-    console.log('in allAssociated');
-
-    all.push(this); // add ourself
-
-    books = this.get('books');
-    lenBooks = books.get('length');
-    for (i=0; i<lenBooks; i++ ){
-      book = books.objectAt(i);
-      if (!SC.none(book)) {
-        all.push(book);
-        versions = book.get('versions');
-        lenVersions = versions.get('length');
-        for (j=0; j<lenVersions; j++ ){
-          version = versions.objectAt(j);
-          if (!SC.none(version)) {
-            all.push(version);
-            reviews = version.get('reviews');
-            lenReviews = reviews.get('length');
-            for (k=0; k<lenReviews; k++) {
-              review = reviews.objectAt(k);
-              if (!SC.none(review)) {
-                all.push(review);
-              }
-            }
-          }
-        }
-      }
-    }
-
-    //return all;
-    this.set('allAssociated', all);
-
-  }.property('books').cacheable(), // doesn't quite work, because books is only property in here (need authors, versions, reviews also)
 
   //
   // LinkIt-specific Information
