@@ -95,25 +95,25 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
     authors = this.get("selection"); // multiselect allowed
 
     if (!SC.none(authors)) {
-      console.log('authors length ', authors.get('length'));
 	    authors.forEach(function(author){
+        console.log('authors length ', authors.get('length'));
         allAssociated.add(author);
 
         books = author.get("books");
-        console.log('books length ', books.get('length'));
         if (!SC.none(books)) {
+          console.log('books length ', books.get('length'));
 	        books.forEach(function(book) {
             allAssociated.add(book);
 
             versions = book.get("versions");
-            console.log('versions length ', versions.get('length'));
             if (!SC.none(versions)) {
+              console.log('versions length ', versions.get('length'));
               versions.forEach(function(version) {
                 allAssociated.add(version);
 
                 reviews = version.get("reviews");
-                console.log('reviews length ', reviews.get('length'));
                 if (!SC.none(reviews)) {
+                  console.log('reviews length ', reviews.get('length'));
                   reviews.forEach(function(review) {
                     allAssociated.add(review);
                   });
