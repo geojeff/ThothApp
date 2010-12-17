@@ -25,7 +25,7 @@ ThothApp.versionsLoadedPane = SC.PanelPane.create({
              "updateRecord being called, and expected results. updateRecord calls were triggered by the data controller " +
              "when review records are added to the associated version records (Book versions contain reviews, specified " +
              "in a toMany relation). After the console lines about updateRecord calls, you see updateRecordResult reports, " +
-             "for the version records, in which you will see Riak keys of the associated review records in array notation."
+             "for the version records, in which you will see keys of the associated review records in array notation."
     }),
 
     explanation2: SC.LabelView.design({

@@ -22,7 +22,7 @@ ThothApp.reviewsLoadedPane = SC.PanelPane.create({
       layout: { left: 60, top: 60, right: 60, height: 180},
       value: "Review records have been loaded. Examine the console for integer counts printed from the controller " +
              "making the createRecord calls, followed by createRecordResult messages from the Thoth datasource. Observe " +
-             "the long hash keys set by Riak, along with the original fixtures integer keys and the record data."
+             "the long hash keys set by the data source, along with the original fixtures integer keys and the record data."
     }),
 
     explanation2: SC.LabelView.design({
