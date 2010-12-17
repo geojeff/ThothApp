@@ -64,7 +64,6 @@
 	-webkit-box-shadow: none;
 }
 
-
 .toolbar .button-icon {
   left: 0px; top: 0px; right: 0px; position: relative; width:16px; height:16px;
 }
@@ -92,6 +91,41 @@
 	max-height:none; background: transparent;
 }
 .toolbar .sc-button-view.sc-regular-size.square.active .ellipsis {
+	max-height:none; background: transparent;
+}
+
+.toolbar-in-view {
+    border-left:1px solid #888;
+    -webkit-box-shadow: none;
+}
+
+.toolbar-in-view .button-icon {
+    left: 0px; top: 0px; right: 0px; position: relative; width:16px; height:16px;
+}
+
+/* Toolbar Buttons—normal */
+.toolbar-in-view .sc-button-view.sc-regular-size.square {
+	max-height: none; background: transparent;
+	border-right:1px solid #888;
+	text-shadow: 1px 1px 1px white;
+}
+.toolbar-in-view .sc-button-view.sc-regular-size.square .sc-button-inner {
+	padding-top:4px;
+	max-height:none; background:transparent;
+}
+.toolbar-in-view .sc-button-view.sc-regular-size.square .ellipsis {
+	max-height:none; background:transparent;
+	margin: 0px;
+}
+
+/* Toolbar Buttons- Active */
+.toolbar-in-view .sc-button-view.sc-regular-size.square.active {
+	max-height: none; background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#3F3F3F), to(#5B5B5B));
+}
+.toolbar-in-view .sc-button-view.sc-regular-size.square.active .sc-button-inner {
+	max-height:none; background: transparent;
+}
+.toolbar-in-view .sc-button-view.sc-regular-size.square.active .ellipsis {
 	max-height:none; background: transparent;
 }
 
