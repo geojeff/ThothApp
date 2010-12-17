@@ -26,10 +26,11 @@ ThothApp.Author = SC.Record.extend(LinkIt.Node, {
 
     if (parts.get('length') === 2) {
       return '%@. %@'.fmt(parts[0].charAt[0], (parts[1].length < 14) ? parts[1] : '%@...'.fmt(parts[1].substr(0, 9)));
-    } else {
+    } else if parts.get('length') === 1) {
       return parts[0];
+    } else {
+      return 'error';
     }
-    return 'author';
   }.property(),
 
   fullName: function(key, value) {
