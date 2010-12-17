@@ -9,7 +9,7 @@
  /*globals LinkIt ThothApp*/
 
 ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
-  layout: { top: 0, left: 0, width: 150, height: 45 },
+  layout: { top: 0, left: 0, width: 80, height: 32 },
   displayProperties: ['content', 'isSelected'],
 
   content: null,
@@ -50,25 +50,28 @@ ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
           classNames: ['name'],
           content: content,
           isEditable: YES,
-          layout: { centerY: 0, centerX: 0, width: 125, height: 25},
+          layout: { centerY: 0, centerX: 0, width: 100, height: 25},
           textAlign: SC.ALIGN_CENTER,
           valueBinding: SC.binding('.name', content)
         })
       );
       childViews.push(contentView);
 
-      // Author Terminal
-      this._term_author = this.createChildView(
+      // Author is the root, so has no input terminal.
+
+      // Books terminal
+      this._term_books = this.createChildView(
         SC.View.extend(LinkIt.Terminal, {
-          classNames: ['author-terminal'],
-          layout: { left: 40, top: -5, width: 10, height: 10 },
-          linkStyle: { lineStyle: LinkIt.STRAIGHT, width: 3, color: '#A5C0DC', cap: LinkIt.ROUND},
+          classNames: ['books-terminal'],
+          layout: { bottom: -5, centerX: 0, width: 10, height: 10 },
+          linkStyle: { lineStyle: LinkIt.STRAIGHT, width: 3, color: '#AEE76B', cap: LinkIt.ROUND},
           node: content,
-          terminal: 'author',
-          direction: LinkIt.INPUT_TERMINAL
+          terminal: 'books',
+          direction: LinkIt.OUTPUT_TERMINAL
         })
       );
-      childViews.push(this._term_author);
+      childViews.push(this._term_books);
+
     } else if(content.get('isBook')) {
       console.log('pushing book views');
       // This is the content of the view
@@ -77,7 +80,7 @@ ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
           classNames: ['name'],
           content: content,
           isEditable: YES,
-          layout: { centerY: 0, centerX: 0, width: 125, height: 25},
+          layout: { centerY: 0, centerX: 0, width: 100, height: 25},
           textAlign: SC.ALIGN_CENTER,
           valueBinding: SC.binding('.name', content)
         })
@@ -97,6 +100,19 @@ ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
       );
       childViews.push(this._term_book);
 
+      // Versions terminal
+      this._term_versions = this.createChildView(
+        SC.View.extend(LinkIt.Terminal, {
+          classNames: ['versions-terminal'],
+          layout: { bottom: -5, centerX: 0, width: 10, height: 10 },
+          linkStyle: { lineStyle: LinkIt.STRAIGHT, width: 3, color: '#AEE76B', cap: LinkIt.ROUND},
+          node: content,
+          terminal: 'versions',
+          direction: LinkIt.OUTPUT_TERMINAL
+        })
+      );
+      childViews.push(this._term_versions);
+
     } else if(content.get('isVersion')) {
       console.log('pushing version views');
       // This is the content of the view
@@ -105,7 +121,7 @@ ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
           classNames: ['name'],
           content: content,
           isEditable: YES,
-          layout: { centerY: 0, centerX: 0, width: 125, height: 25},
+          layout: { centerY: 0, centerX: 0, width: 100, height: 25},
           textAlign: SC.ALIGN_CENTER,
           valueBinding: SC.binding('.name', content)
         })
@@ -125,6 +141,19 @@ ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
       );
       childViews.push(this._term_version);
 
+      // Reviews terminal
+      this._term_reviews = this.createChildView(
+        SC.View.extend(LinkIt.Terminal, {
+          classNames: ['reviews-terminal'],
+          layout: { bottom: -5, centerX: 0, width: 10, height: 10 },
+          linkStyle: { lineStyle: LinkIt.STRAIGHT, width: 3, color: '#AEE76B', cap: LinkIt.ROUND},
+          node: content,
+          terminal: 'reviews',
+          direction: LinkIt.OUTPUT_TERMINAL
+        })
+      );
+      childViews.push(this._term_reviews);
+
     } else if(content.get('isReview')) {
       console.log('pushing review views');
       // This is the content of the view
@@ -133,7 +162,7 @@ ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
           classNames: ['name'],
           content: content,
           isEditable: YES,
-          layout: { centerY: 0, centerX: 0, width: 125, height: 25},
+          layout: { centerY: 0, centerX: 0, width: 100, height: 25},
           textAlign: SC.ALIGN_CENTER,
           valueBinding: SC.binding('.name', content)
         })
@@ -152,6 +181,8 @@ ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
         })
       );
       childViews.push(this._term_review);
+
+      // Review is the leaf, so has no output terminal.
 
     }
 
