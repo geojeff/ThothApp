@@ -108,14 +108,7 @@ ThothApp.Author = SC.Record.extend(LinkIt.Node, {
     // Make sure we don't already have this link.
     if (this._hasLink(link)) return NO;
 
-    var terminals = '%@ %@'.fmt(st, et);
-
-    // Data Points
-    var hasVersions = (terminals.indexOf('versions') > -1);
-    var hasBook = (terminals.indexOf('book') > -1);
-
-    if(hasVersions && hasBook) {
-      //console.log('(%@,%@) Book link to Versions: %@'.fmt(SC.guidFor(sn), SC.guidFor(en), terminals ));
+    if ((st === 'author' && et === 'books') || (st === 'books' && et === 'author')) {
       return YES;
     }
 

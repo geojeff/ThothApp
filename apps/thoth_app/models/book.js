@@ -53,6 +53,18 @@ ThothApp.Book = SC.Record.extend(LinkIt.Node, {
     return links;
   }.property('author').cacheable(),
 
+  isAuthorToBooks: function(t1, t2) {
+    if (t1 === 'author' && t2 == 'books') return YES;
+    if (t2 === 'author' && t1 == 'books') return YES;
+    return NO;
+  },
+
+  isBookToVersions: function(t1, t2) {
+    if (t1 === 'book' && t2 == 'versions') return YES;
+    if (t2 === 'book' && t1 == 'versions') return YES;
+    return NO;
+  },
+
   canLink: function(link) {
     if (!link) return NO;
 
@@ -66,14 +78,7 @@ ThothApp.Book = SC.Record.extend(LinkIt.Node, {
     // Make sure we don't already have this link.
     if (this._hasLink(link)) return NO;
 
-    var terminals = '%@ %@'.fmt(st, et);
-
-    // Data Points
-    var hasVersions = (terminals.indexOf('versions') > -1);
-    var hasBook = (terminals.indexOf('author') > -1);
-
-    if(hasVersions && hasBook) {
-      //console.log('(%@,%@) Book link to Versions: %@'.fmt(SC.guidFor(sn), SC.guidFor(en), terminals ));
+    if(this.isAuthorToBooks(st, et) || this.isBookToVersions(st, et)) {
       return YES;
     }
 
