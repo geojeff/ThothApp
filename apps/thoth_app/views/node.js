@@ -91,7 +91,7 @@ ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
       this._term_book = this.createChildView(
         SC.View.extend(LinkIt.Terminal, {
           classNames: ['book-terminal'],
-          layout: { right: 40, top: -5, width: 10, height: 10 },
+          layout: { top: -5, centerX: 0, width: 10, height: 10 },
           linkStyle: { lineStyle: LinkIt.STRAIGHT, width: 3, color: '#E08CDF', cap: LinkIt.ROUND},
           node: content,
           terminal: 'book',
@@ -132,7 +132,7 @@ ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
       this._term_version = this.createChildView(
         SC.View.extend(LinkIt.Terminal, {
           classNames: ['version-terminal'],
-          layout: { right: 40, top: -5, width: 10, height: 10 },
+          layout: { top: -5, centerX: 0, width: 10, height: 10 },
           linkStyle: { lineStyle: LinkIt.STRAIGHT, width: 3, color: '#E08CDF', cap: LinkIt.ROUND},
           node: content,
           terminal: 'version',
