@@ -31,7 +31,6 @@ ThothApp.mainPage = SC.Page.design({
 
       appLogo: SC.View.design({
         layout: {left: 0, top: 0, right: 0, height: 32},
-        classNames: ['header'],
 
         render: function(context, firstTime){
           context = context.begin('div').addClass('logo').text('thoth app').end();

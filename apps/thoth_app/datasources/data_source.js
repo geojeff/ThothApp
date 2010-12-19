@@ -23,7 +23,8 @@ ThothApp.DataSource = ThothSC.WebSocketDataSource.extend({
   },
 
   ThothHost: 'localhost',
-  ThothPort: 8080
+  ThothPort: '8080',
+  ThothURLPrefix: '/thoth'
 });
 
 //sc_require('XHRPollingDataSource');
