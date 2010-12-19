@@ -100,6 +100,7 @@ ThothApp.AuthorView = SC.View.extend(SC.Animatable,
       classNames: "hback toolbar-in-view".w(),
       layout: { left: 0, bottom: 0, right: 0, height: 32 },
       childViews: "add".w(),
+
       add: SC.ButtonView.design({
         layout: { left: 0, top: 0, bottom: 0, width:32 },
         target: "ThothApp.booksController",

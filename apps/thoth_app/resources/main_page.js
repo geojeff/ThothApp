@@ -20,14 +20,7 @@ ThothApp.mainPage = SC.Page.design({
       layout: { left: 0, top: 0, right: 0, height: 32 },
       defaultResponder: 'ThothApp.statechart',
 
-      childViews: "appLogo showGraphic countsLabel authorCount bookCount versionCount reviewCount".w(),
-
-//      appLabel: SC.LabelView.design({
-//        layout: { left: 10, width: 200, height: 20, centerY: 0 },
-//        textAlign: SC.ALIGN_CENTER,
-//        tagName: "h1",
-//        value: "Welcome to ThothApp!"
-//      }),
+      childViews: "appLogo countsLabel authorCount bookCount versionCount reviewCount".w(),
 
       appLogo: SC.View.design({
         layout: {left: 0, top: 0, right: 0, height: 32},
@@ -35,13 +28,6 @@ ThothApp.mainPage = SC.Page.design({
         render: function(context, firstTime){
           context = context.begin('div').addClass('logo').text('thoth app').end();
         }
-      }),
-
-      showGraphic: SC.ButtonView.design({
-        layout: { left: 230, top: 0, width:72, height: 20 },
-        target: "ThothApp.statechart",
-        action: "showGraphic",
-        title: "Show Graphic"
       }),
 
       countsLabel: SC.LabelView.design({
@@ -161,7 +147,8 @@ ThothApp.mainPage = SC.Page.design({
         toolbar: SC.ToolbarView.design({
           classNames: "hback toolbar".w(),
           layout: { left: 0, bottom: 0, right: 0, height: 32 },
-          childViews: "add".w(),
+          childViews: "add showGraphic".w(),
+
           add: SC.ButtonView.design({
             layout: { left: 0, top: 0, bottom: 0, width:32 },
             target: "ThothApp.authorsController",
@@ -171,7 +158,17 @@ ThothApp.mainPage = SC.Page.design({
             isActiveDidChange: function() {
               this.set("icon", (this.get("isActive") ? "icons plus-active button-icon" : "icons plus button-icon"));
             }.observes("isActive")
+          }),
+
+          showGraphic: SC.ButtonView.design({
+            layout: { right: 0, top: 0, bottom: 0, height: 32 },
+            //icon: "icons graphic button-graphic",
+            target: "ThothApp.statechart",
+            titleMinWidth: 16,
+            action: "showGraphic",
+            title: "Show Graphic"
           })
+
         }) // toolbar
       }), // topLeftView
 

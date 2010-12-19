@@ -30,8 +30,10 @@ ThothApp.graphicPane = SC.PanelPane.create({
     }),
 
     dismissButton: SC.ButtonView.design({
-      layout: { right: 60, bottom: 60, width: 120, height: 32 },
-      titleMinWidth: 0,
+      layout: { right: 60, bottom: 60, width: 120, height: 24 },
+      classNames: ['thoth-button'],
+      fontWeight: SC.BOLD_WEIGHT,
+      color: '#999',
       isDefault: YES,
       title: 'Dismiss',
       action: 'dismiss'

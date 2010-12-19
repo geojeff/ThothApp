@@ -1,7 +1,7 @@
 // ==========================================================================
 // ThothApp.authenticatedPane
 // ==========================================================================
-/*globals ThothApp*/
+/*globals ThothApp SCUI*/
 
 /**
 
@@ -34,9 +34,11 @@ ThothApp.authenticatedPane = SC.PanelPane.create({
     }),
 
     loadReviewsButton: SC.ButtonView.design({
-      layout: { right: 60, bottom: 60, width: 120, height: 32 },
-      titleMinWidth: 0,
+      layout: {right: 60, bottom: 60, width: 120, height:24 },
+      classNames: ['thoth-button'],
       isDefault: YES,
+      fontWeight: SC.BOLD_WEIGHT,
+      color: '#999',
       title: 'Load Reviews',
       action: 'loadReviews'
     })
