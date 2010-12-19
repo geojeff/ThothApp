@@ -20,13 +20,22 @@ ThothApp.mainPage = SC.Page.design({
       layout: { left: 0, top: 0, right: 0, height: 32 },
       defaultResponder: 'ThothApp.statechart',
 
-      childViews: "appLabel showGraphic countsLabel authorCount bookCount versionCount reviewCount".w(),
+      childViews: "appLogo showGraphic countsLabel authorCount bookCount versionCount reviewCount".w(),
 
-      appLabel: SC.LabelView.design({
-        layout: { left: 10, width: 200, height: 20, centerY: 0 },
-        textAlign: SC.ALIGN_CENTER,
-        tagName: "h1",
-        value: "Welcome to ThothApp!"
+//      appLabel: SC.LabelView.design({
+//        layout: { left: 10, width: 200, height: 20, centerY: 0 },
+//        textAlign: SC.ALIGN_CENTER,
+//        tagName: "h1",
+//        value: "Welcome to ThothApp!"
+//      }),
+
+      appLogo: SC.View.design({
+        layout: {left: 0, top: 0, right: 0, height: 32},
+        classNames: ['header'],
+
+        render: function(context, firstTime){
+          context = context.begin('div').addClass('logo').text('thoth app').end();
+        }
       }),
 
       showGraphic: SC.ButtonView.design({
