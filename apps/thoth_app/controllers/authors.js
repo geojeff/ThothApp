@@ -65,6 +65,17 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
     this.gatherAllAssociated();
 	}.observes("selection"),
 
+  generateSelectBookFunction: function(book) {
+    var me = this;
+    return function(val){
+      if (val & SC.Record.READY_CLEAN){
+        if (!ThothApp.booksController.hasSelection()) {
+          ThothApp.booksController.selectObject(book);
+        }
+      }
+    };
+  },
+
 	gatherBooks: function() {
     var authors, books, authorBooks;
     authors = this.get("selection"); // multiselect allowed
@@ -131,17 +142,6 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
     }
 	},
 
-  generateSelectBookFunction: function(book) {
-    var me = this;
-    return function(val){
-      if (val & SC.Record.READY_CLEAN){
-        if (!ThothApp.booksController.hasSelection()) {
-          ThothApp.booksController.selectObject(book);
-        }
-      }
-    };
-  },
-
 	collectionViewDeleteContent: function(view, content, indexes) {
 	  this._pendingOperation = { action: "deleteAuthors", indexes: indexes  };
 	  SC.AlertPane.warn(
@@ -155,8 +155,7 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
 	  );
 	},
 
-	deleteAuthors: function(op)
-	{
+	deleteAuthors: function(op) {
 	  var indexes = op.indexes;
 	  var records = indexes.map(function(idx) {
 	    return this.objectAt(idx);

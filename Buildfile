@@ -19,3 +19,5 @@ config :sc_theme,
   :debug_required => ['sproutcore/debug']
 
 config :thoth_app, :required => [:sproutcore, "sproutcore/forms", "sproutcore/animation", "sproutcore/statechart", :scui, :'Thoth-SC'], :theme => :sc_theme
+
+proxy '/thoth', :to => 'localhost:8080'
