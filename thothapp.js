@@ -3,7 +3,7 @@ var g = require('../garcon/lib/garçon'),
 
 myApp = server.addApp({
   name: 'thoth_app',
-  theme: 'sc-theme'
+  theme: 'sc_theme'
   //theme: 'ace',
   //buildLanguage: 'french'
 });
@@ -14,6 +14,7 @@ myApp.addFrameworks(
 //  { path: 'frameworks/calendar' },
 //  { path: 'themes/my_theme' },
   //{ path: 'frameworks/sproutcore/themes/ace'},
+  { path: 'themes/sc_theme'},
   { path: 'frameworks/sproutcore/themes/empty_theme'},
   { path: 'frameworks/sproutcore/themes/empty_theme'},
   { path: 'frameworks/sproutcore/themes/standard_theme'},
