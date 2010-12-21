@@ -11,9 +11,25 @@ This controller manages the creation of data.
    @author Jeff Pittman
 */
 
-sc_require('WebSocketDataSource');
+//sc_require('WebSocketDataSource');
+//
+//ThothApp.DataSource = ThothSC.WebSocketDataSource.extend({
+//  authSuccessCallback: function(){
+//    ThothApp.statechart.sendEvent('authSuccess');
+//  },
+//
+//  authFailureCallback: function(){
+//    ThothApp.statechart.sendEvent('authFailure');
+//  },
+//
+//  ThothHost: 'localhost',
+//  ThothPort: '8080',
+//  ThothURLPrefix: '/thoth'
+//});
 
-ThothApp.DataSource = ThothSC.WebSocketDataSource.extend({
+sc_require('XHRPollingDataSource');
+
+ThothApp.DataSource = ThothSC.XHRPollingDataSource.extend({
   authSuccessCallback: function(){
     ThothApp.statechart.sendEvent('authSuccess');
   },
@@ -22,20 +38,6 @@ ThothApp.DataSource = ThothSC.WebSocketDataSource.extend({
     ThothApp.statechart.sendEvent('authFailure');
   },
 
-  ThothHost: 'localhost',
-  ThothPort: '8080',
   ThothURLPrefix: '/thoth'
 });
-
-//sc_require('XHRPollingDataSource');
-//
-//ThothApp.DataSource = ThothSC.XHRPollingDataSource.extend({
-//  authSuccessCallback: function(){
-//    ThothApp.statechart.sendEvent('authSuccess');
-//  },
-//
-//  authFailureCallback: function(){
-//    ThothApp.statechart.sendEvent('authFailure');
-//  }
-//});
 

@@ -42,12 +42,11 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
   allDidChange: function(){
     if (!this.get("selection")) {
       this.set("gatheredBooks", this.get("all"));
-      this.gatherAllAssociated();
       this.set("allIsSelected", YES);
     } else {
-      this.gatherAllAssociated();
       this.gatherBooks();
     }
+    this.gatherAllAssociated();
   }.observes("all", "[]"),
 
 	selectAllAuthorsItem: function(){

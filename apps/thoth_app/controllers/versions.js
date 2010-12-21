@@ -55,7 +55,23 @@ ThothApp.versionsController = SC.ArrayController.create(
       });
 
       this.set("gatheredReviews", reviews.toArray());
+
+      var fo = reviews .firstObject();
+      if (!SC.none(fo)) {
+        fo.addFiniteObserver('status',this,this.generateSelectReviewFunction(fo),this);
+      }
     }
+  },
+
+  generateSelectReviewFunction: function(review) {
+    var me = this;
+    return function(val){
+      if (val & SC.Record.READY_CLEAN){
+        if (!ThothApp.reviewsController.hasSelection()) {
+          ThothApp.reviewsController.selectObject(review);
+        }
+      }
+    };
   },
 
   deleteVersions: function(op) {
