@@ -14,12 +14,6 @@ sc_require('fixtures/author');
 
 ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate,
 /** @scope ThothApp.authorsController.prototype */ {
-  //
-  // Selections possible:
-  //
-  //    single author
-  //    multiple authors
-  //
 	allowMultipleSelection: YES,
   selection: null,
 
@@ -46,14 +40,6 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
   selectFirst: function() {
     this.selectObject(this.firstSelectableObject());
   },
-
-//  contentDidChange: function() {
-//    this.gather();
-//  }.observes("[]"),
-//
-//	selectionDidChange: function() {
-//	  this.gather();
-//	}.observes("selection"),
 
   generateSelectBookFunction: function(book) {
     var me = this;
