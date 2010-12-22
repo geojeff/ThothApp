@@ -489,13 +489,8 @@ ThothApp.statechart = SC.Statechart.create({
         console.log('LOADING_APP');
         var authors = ThothApp.store.find(SC.Query.local(ThothApp.Author));
 
-        if (!SC.none(authors) && authors.get('length') > 0) {
-          authors.forEach(function(author) {
-            allAssociated.add(author);
-          });
-          ThothApp.authorsController.set('content', authors);
-          ThothApp.authorsController.selectFirst();
-        }
+        ThothApp.authorsController.set('content', authors);
+        ThothApp.authorsController.selectFirst();
 
         ThothApp.getPath('mainPage.mainPanel').append();
 
