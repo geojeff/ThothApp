@@ -16,7 +16,7 @@ sc_require('fixtures/review');
 ThothApp.reviewsController = SC.ArrayController.create(
   /** @scope ThothApp.reviewsController.prototype */ {
 
-  contentBinding: "ThothApp.versionsController.gatheredReviews",
+  contentBinding: "ThothApp.versionController.reviews",
   selection: null,
   isLoadedArray: [],
   loadedCount: 0,
@@ -32,6 +32,10 @@ ThothApp.reviewsController = SC.ArrayController.create(
     this.get('isLoadedArray').replace(key-1, 1, [YES]);
     var count = this.get('loadedCount');
     this.set('loadedCount', count+1);
+  },
+
+  selectFirst: function() {
+    this.selectObject(this.firstSelectableObject());
   },
 
   deleteReviews: function(op) {

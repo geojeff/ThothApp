@@ -19,8 +19,8 @@ ThothApp.Book = SC.Record.extend(LinkIt.Node, {
   isBook:      YES,
 
   // relations:
-  //author:   SC.Record.toOne("ThothApp.Author", { inverse: "book", isMaster: NO }),
-  author:   SC.Record.toOne("ThothApp.Author", { isMaster: NO }),
+  author:   SC.Record.toOne("ThothApp.Author", { inverse: 'books', isMaster: NO }),
+  //author:   SC.Record.toOne("ThothApp.Author", { isMaster: NO }),
   versions: SC.Record.toMany("ThothApp.Version", { inverse: "book", isMaster: YES }),
 
   name: function() {

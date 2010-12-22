@@ -18,7 +18,8 @@ ThothApp.Review = SC.Record.extend(LinkIt.Node, {
 
   isReview:    YES,
 
-  version: SC.Record.toOne("ThothApp.Version",  { isMaster: NO }),
+  version: SC.Record.toOne("ThothApp.Version",  { inverse: 'review', isMaster: NO }),
+  //version: SC.Record.toOne("ThothApp.Version",  { isMaster: NO }),
 
   name: function() {
     var text = this.get('text');

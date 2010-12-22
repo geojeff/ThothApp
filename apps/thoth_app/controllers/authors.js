@@ -14,11 +14,25 @@ sc_require('fixtures/author');
 
 ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate,
 /** @scope ThothApp.authorsController.prototype */ {
+  //
+  // Selections possible:
+  //
+  //    single author
+  //    multiple authors
+  //
 	allowMultipleSelection: YES,
-	all: null,
-	selection: null,
-  gatheredBooks: null,
-  allAssociated: null,
+  selection: null,
+
+  // gatheredAll is used to hold all objects associated with the current selection of authors, including the authors
+  // and the books, versions, and reviews associated with the selection of authors. This is needed for display
+  // in the LinkIt graphicsPane.
+  gatheredAll: null,
+
+  // individual arrays for list views
+  gatheredBooks: [],
+  gatheredVersions: [],
+  gatheredReviews: [],
+
   isLoadedArray: [],
   loadedCount: 0,
 
@@ -39,30 +53,17 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
     this.set('loadedCount', count+1);
   },
 
-  allDidChange: function(){
-    if (!this.get("selection")) {
-      this.set("gatheredBooks", this.get("all"));
-      this.set("allIsSelected", YES);
-    } else {
-      this.gatherBooks();
-    }
-    this.gatherAllAssociated();
-  }.observes("all", "[]"),
-
-	selectAllAuthorsItem: function(){
-	  this.set("selection", null);
-	  this.set("gatheredBooks", this.get("all"));
-	  this.set("allIsSelected", YES);
-	},
-
   selectFirst: function() {
     this.selectObject(this.firstSelectableObject());
   },
 
-	selectionDidChange: function() {
-	  this.gatherBooks();
-    this.gatherAllAssociated();
-	}.observes("selection"),
+//  contentDidChange: function() {
+//    this.gather();
+//  }.observes("[]"),
+//
+//	selectionDidChange: function() {
+//	  this.gather();
+//	}.observes("selection"),
 
   generateSelectBookFunction: function(book) {
     var me = this;
@@ -75,69 +76,66 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
     };
   },
 
-	gatherBooks: function() {
-    var authors, books, authorBooks;
-    authors = this.get("selection"); // multiselect allowed
-    //console.log('authors in gatherBooks ' + SC.inspect(authors));
-	  if (!SC.none(authors)) {
-	    books = SC.Set.create();
+	gather: function() {
+	  var i, lenBookIds,
+        j, lenVersionIds,
+        k, lenReviewIds,
+        book, version, review,
+        bookIds, versionIds, reviewIds,
+        authors = this.get("selection"); // multiselect allowed
+        books = SC.Set.create(), versions = SC.Set.create(), reviews = SC.Set.create(), allAssociated = SC.Set.create();
+
+    if (!SC.none(authors) && authors.get('length') > 0) {
+      console.log('authors length ', authors.get('length'));
 	    authors.forEach(function(author){
-        authorBooks = author.get("books");
-        if (!SC.none(authorBooks)) {
-	        authorBooks.forEach(function(book) {
-            books.add(book);
-          });
-        }
-	    });
-
-      this.set("gatheredBooks", books.toArray());
-	    this.set("allIsSelected", NO);
-      var fo = books.firstObject();
-      if (!SC.none(fo)) {
-        fo.addFiniteObserver('status',this,this.generateSelectBookFunction(fo),this);
-      }
-    }
-	},
-
-	gatherAllAssociated: function() {
-	  var selection, authors, books, versions, reviews, allAssociated = SC.Set.create();
-
-    authors = this.get("selection"); // multiselect allowed
-
-    if (!SC.none(authors)) {
-	    authors.forEach(function(author){
-        console.log('authors length ', authors.get('length'));
         allAssociated.add(author);
 
-        books = author.get("books");
-        if (!SC.none(books)) {
-          console.log('books length ', books.get('length'));
-	        books.forEach(function(book) {
-            allAssociated.add(book);
-
-            versions = book.get("versions");
-            if (!SC.none(versions)) {
-              console.log('versions length ', versions.get('length'));
-              versions.forEach(function(version) {
-                allAssociated.add(version);
-
-                reviews = version.get("reviews");
-                if (!SC.none(reviews)) {
-                  console.log('reviews length ', reviews.get('length'));
-                  reviews.forEach(function(review) {
-                    allAssociated.add(review);
-                  });
-                }
-              });
+        bookIds = author.readAttribute("books");
+        if (!SC.none(bookIds)) {
+	        for (i=0, lenBookIds=bookIds.get('length'); i<lenBookIds; i++) {
+            book = ThothApp.store.find(ThothApp.Book, bookIds[i]);
+            if (!SC.none(book)) {
+              books.add(book);
+              allAssociated.add(book);
             }
-          });
+
+            versionIds = book.readAttribute("versions");
+            if (!SC.none(versionIds)) {
+              for (j=0, lenVersionIds=versionIds.get('length'); j<lenVersionIds; j++) {
+                version = ThothApp.store.find(ThothApp.Version, versionIds[j]);
+                if (!SC.none(version)) {
+                  versions.add(version);
+                  allAssociated.add(version);
+                }
+
+                reviewIds = version.get("reviews");
+                if (!SC.none(reviewIds)) {
+                  for (k=0, lenReviewIds=reviewIds.get('length'); k<lenReviewIds; k++) {
+                    review = ThothApp.store.find(ThothApp.Review, reviewIds[k]);
+                    if (!SC.none(review)) {
+                      reviews.add(review);
+                      allAssociated.add(review);
+                    }
+                  }
+                  //this.set("gatheredReviews", reviews.toArray());
+                  ThothApp.reviewsController.set("content", reviews.toArray());
+                }
+              }
+              //this.set("gatheredVersions", versions.toArray());
+              ThothApp.versionsController.set("content", versions.toArray());
+            }
+          }
+          console.log(books.toArray());
+          //this.set("gatheredBooks", books.toArray());
+          ThothApp.booksController.set("content", books.toArray());
+          ThothApp.booksController.selectFirst();
         }
 	    });
 
-      console.log('allAssociated ', allAssociated.get('length'));
-      this.set("allAssociated", allAssociated.toArray());
-    } else {
-      console.log('author selection is null');
+      this.set("gatheredAuthors", authors);
+
+      console.log('gatheredAll ', allAssociated.get('length'));
+      this.set("gatheredAll", allAssociated.toArray());
     }
 	},
 

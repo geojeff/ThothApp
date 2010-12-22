@@ -64,39 +64,11 @@ ThothApp.mainPage = SC.Page.design({
       dividerThickness: 1,
 
       topLeftView: SC.View.design({
-        childViews: "allAuthorsItem authorList toolbar".w(),
+        childViews: "authorList toolbar".w(),
         classNames: "authors".w(),
 
-        allAuthorsItem: SC.View.design({
-          childViews: "label separator".w(),
-          layout: { left: 0, right: 0, top: 0, height: 32 },
-
-          selectedBinding: "ThothApp.authorsController.allIsSelected",
-          displayProperties: ["selected"],
-          render: function(context){
-            sc_super();
-            if (this.get("selected")) context.addClass("hback list-big-selection selected");
-          },
-
-          click: function() {
-            ThothApp.authorsController.selectAllAuthorsItem();
-            return YES;
-          },
-
-          label: SC.LabelView.design({
-            layout: { height: 18, centerY: 0, left: 10, right: 10 },
-            value: "All",
-            fontWeight: SC.FONT_BOLD
-          }),
-
-          separator: SC.SeparatorView.design({
-            layoutDirection: SC.LAYOUT_HORIZONTAL,
-            layout: { bottom:0, left:0, right:0, height: 1}
-          })
-        }), // allAuthorsItem
-
         authorList: SC.ScrollView.design({
-          layout: { left:0, right:0, top: 32, bottom:32},
+          layout: { left:0, right:0, top: 0, bottom:32},
           borderStyle: SC.BORDER_NONE,
           hasHorizontalScroller: NO,
           contentView: SC.ListView.design({

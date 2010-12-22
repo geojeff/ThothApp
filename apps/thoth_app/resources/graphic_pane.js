@@ -20,7 +20,7 @@ ThothApp.graphicPane = SC.PanelPane.create({
       canvas: LinkIt.CanvasView.design({
         layout: { left: 10, top: 10, right: 10, height: 500 },
         classNames: ['authors-canvas'],
-        contentBinding: SC.Binding.from('ThothApp.authorsController.allAssociated').oneWay(),
+        contentBinding: SC.Binding.from('ThothApp.allItemsController.content').oneWay(),
         selectionBinding: 'ThothApp.authorsController.selection',
         nodeViewDelegate: ThothApp.bookshelfController,
         exampleView: ThothApp.NodeView,

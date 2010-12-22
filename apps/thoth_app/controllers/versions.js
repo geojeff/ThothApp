@@ -16,9 +16,9 @@ sc_require('fixtures/version');
 ThothApp.versionsController = SC.ArrayController.create(
 /** @scope ThothApp.versionsController.prototype */ {
 
-  contentBinding: "ThothApp.booksController.gatheredVersions",
-  gatheredReviews: null,
+  contentBinding: "ThothApp.bookController.versions",
   selection: null,
+
   isLoadedArray: [],
   loadedCount: 0,
 
@@ -35,43 +35,8 @@ ThothApp.versionsController = SC.ArrayController.create(
     this.set('loadedCount', count+1);
   },
 
-  selectionDidChange: function() {
-    this.gatherReviews();
-  }.observes("selection"),
-
-  gatherReviews: function() {
-    var versions, reviews, versionReviews;
-
-    versions = this.get("selection");
-    if (!SC.none(versions)) {
-      reviews = SC.Set.create();
-      this.get("selection").forEach(function(version){
-        versionReviews = version.get("reviews");
-        if (!SC.none(versionReviews)) {
-          versionReviews.forEach(function(review) {
-            reviews.add(review);
-          });
-        }
-      });
-
-      this.set("gatheredReviews", reviews.toArray());
-
-      var fo = reviews .firstObject();
-      if (!SC.none(fo)) {
-        fo.addFiniteObserver('status',this,this.generateSelectReviewFunction(fo),this);
-      }
-    }
-  },
-
-  generateSelectReviewFunction: function(review) {
-    var me = this;
-    return function(val){
-      if (val & SC.Record.READY_CLEAN){
-        if (!ThothApp.reviewsController.hasSelection()) {
-          ThothApp.reviewsController.selectObject(review);
-        }
-      }
-    };
+  selectFirst: function() {
+    this.selectObject(this.firstSelectableObject());
   },
 
   deleteVersions: function(op) {

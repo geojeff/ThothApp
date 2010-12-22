@@ -15,7 +15,7 @@ ThothApp.bookshelfController = SC.ObjectController.create(
 
   isEditable: NO,
 
-  contentBinding: 'ThothApp.authorController.allAssociated',
+  contentBinding: 'ThothApp.authorController.gatheredAll',
   contentBindingDefault: SC.Binding.oneWay().single(),
   selection: null
 

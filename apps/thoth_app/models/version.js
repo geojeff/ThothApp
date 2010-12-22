@@ -33,7 +33,8 @@ ThothApp.Version = SC.Record.extend(LinkIt.Node, {
   }.property(),
 
   // Relations
-  book: SC.Record.toOne("ThothApp.Book",  { isMaster: NO }),
+  book: SC.Record.toOne("ThothApp.Book",  { inverse: 'versions', isMaster: NO }),
+  //book: SC.Record.toOne("ThothApp.Book",  { isMaster: NO }),
   reviews: SC.Record.toMany("ThothApp.Review", { inverse: "version", isMaster: YES }),
 
   //

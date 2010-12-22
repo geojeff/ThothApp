@@ -16,15 +16,20 @@ sc_require('fixtures/book');
 ThothApp.booksController = SC.ArrayController.create(
 /** @scope ThothApp.booksController.prototype */ {
 
-  contentBinding: "ThothApp.authorsController.gatheredBooks",
+  contentBinding: "ThothApp.authorController.books",
   selection: null,
   gatheredVersions: null,
   canAddContent: YES,
   canReorderContent: NO,
   canRemoveContent: YES,
   isEditable: YES,
+
   isLoadedArray: [],
   loadedCount: 0,
+
+  // deleting books is handled by booksController.
+
+  // removing books from authors is handled by the authorController.
 
   initializeForLoading: function() {
     var arr = this.get('isLoadedArray');
@@ -39,47 +44,8 @@ ThothApp.booksController = SC.ArrayController.create(
     this.set('loadedCount', count+1);
   },
 
-  // deleting books is handled by booksController.
-  // removing books from authors is handled by the authorController.
-  inAll: YES, // can be NO or YES. If YES, the parent controller is called to remove items.
-  inAllBinding: "ThothApp.authorsController.allIsSelected",
-
-  selectionDidChange: function() {
-    this.gatherVersions();
-	}.observes("selection"),
-
-	gatherVersions: function() {
-    var books, versions, bookVersions;
-
-    books= this.get("selection");
-	  if (!SC.none(books)) {
-	    versions = SC.Set.create();
-	    books.forEach(function(book){
-        bookVersions = book.get("versions");
-        if (!SC.none(bookVersions)) {
-	        bookVersions.forEach(function(version) {
-            versions.add(version);
-          });
-        }
-	    });
-
-      this.set("gatheredVersions", versions.toArray());
-      var fo = versions.firstObject();
-      if (!SC.none(fo)) {
-        fo.addFiniteObserver('status',this,this.generateSelectVersionFunction(fo),this);
-      }
-    }
-	},
-
-  generateSelectVersionFunction: function(version) {
-    var me = this;
-    return function(val){
-      if (val & SC.Record.READY_CLEAN){
-        if (!ThothApp.versionsController.hasSelection()) {
-          ThothApp.versionsController.selectObject(version);
-        }
-      }
-    };
+  selectFirst: function() {
+    this.selectObject(this.firstSelectableObject());
   },
 
   collectionViewDeleteContent: function(view, content, indexes) {
@@ -87,12 +53,6 @@ ThothApp.booksController = SC.ArrayController.create(
     var records = indexes.map(function(idx) {
       return this.objectAt(idx);
     }, this);
-
-    // we only handle deletion if in "All" category.
-    if (!this.get("inAll")) {
-      ThothApp.authorsController.removeBooks(records);
-      return;
-    }
 
     // process OUR WAY!
     this._pendingOperation = { action: "deleteBooks", records: records, indexes: indexes  };
@@ -144,8 +104,6 @@ ThothApp.booksController = SC.ArrayController.create(
   },
 
   addBook: function() {
-    if (this.get("inAll") || !ThothApp.authorsController.isSingleSelection()) return;
-
     var book;
 
     book = ThothApp.store.createRecord(ThothApp.Book, {
