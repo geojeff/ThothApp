@@ -23,16 +23,6 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
 	allowMultipleSelection: YES,
   selection: null,
 
-  // gatheredAll is used to hold all objects associated with the current selection of authors, including the authors
-  // and the books, versions, and reviews associated with the selection of authors. This is needed for display
-  // in the LinkIt graphicsPane.
-  gatheredAll: null,
-
-  // individual arrays for list views
-  gatheredBooks: [],
-  gatheredVersions: [],
-  gatheredReviews: [],
-
   isLoadedArray: [],
   loadedCount: 0,
 
@@ -75,69 +65,6 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
       }
     };
   },
-
-	gather: function() {
-	  var i, lenBookIds,
-        j, lenVersionIds,
-        k, lenReviewIds,
-        book, version, review,
-        bookIds, versionIds, reviewIds,
-        authors = this.get("selection"); // multiselect allowed
-        books = SC.Set.create(), versions = SC.Set.create(), reviews = SC.Set.create(), allAssociated = SC.Set.create();
-
-    if (!SC.none(authors) && authors.get('length') > 0) {
-      console.log('authors length ', authors.get('length'));
-	    authors.forEach(function(author){
-        allAssociated.add(author);
-
-        bookIds = author.readAttribute("books");
-        if (!SC.none(bookIds)) {
-	        for (i=0, lenBookIds=bookIds.get('length'); i<lenBookIds; i++) {
-            book = ThothApp.store.find(ThothApp.Book, bookIds[i]);
-            if (!SC.none(book)) {
-              books.add(book);
-              allAssociated.add(book);
-            }
-
-            versionIds = book.readAttribute("versions");
-            if (!SC.none(versionIds)) {
-              for (j=0, lenVersionIds=versionIds.get('length'); j<lenVersionIds; j++) {
-                version = ThothApp.store.find(ThothApp.Version, versionIds[j]);
-                if (!SC.none(version)) {
-                  versions.add(version);
-                  allAssociated.add(version);
-                }
-
-                reviewIds = version.get("reviews");
-                if (!SC.none(reviewIds)) {
-                  for (k=0, lenReviewIds=reviewIds.get('length'); k<lenReviewIds; k++) {
-                    review = ThothApp.store.find(ThothApp.Review, reviewIds[k]);
-                    if (!SC.none(review)) {
-                      reviews.add(review);
-                      allAssociated.add(review);
-                    }
-                  }
-                  //this.set("gatheredReviews", reviews.toArray());
-                  ThothApp.reviewsController.set("content", reviews.toArray());
-                }
-              }
-              //this.set("gatheredVersions", versions.toArray());
-              ThothApp.versionsController.set("content", versions.toArray());
-            }
-          }
-          console.log(books.toArray());
-          //this.set("gatheredBooks", books.toArray());
-          ThothApp.booksController.set("content", books.toArray());
-          ThothApp.booksController.selectFirst();
-        }
-	    });
-
-      this.set("gatheredAuthors", authors);
-
-      console.log('gatheredAll ', allAssociated.get('length'));
-      this.set("gatheredAll", allAssociated.toArray());
-    }
-	},
 
 	collectionViewDeleteContent: function(view, content, indexes) {
 	  this._pendingOperation = { action: "deleteAuthors", indexes: indexes  };

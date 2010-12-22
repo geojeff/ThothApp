@@ -538,21 +538,21 @@ ThothApp.statechart = SC.Statechart.create({
           ThothApp.authorsController.set('content', authors);
           ThothApp.authorsController.selectFirst();
 
-          if (!SC.none(bookIds)) {
-            ThothApp.booksController.set("content", books.toArray());
-            ThothApp.booksController.selectFirst();
-
-            if (!SC.none(versionIds)) {
-              console.log('we have versions ... ', versions.get('length'));
-              ThothApp.versionsController.set("content", versions.toArray());
-              ThothApp.versionsController.selectFirst();
-
-              if (!SC.none(reviewIds)) {
-                ThothApp.reviewsController.set("content", reviews.toArray());
-                ThothApp.reviewsController.selectFirst();
-              }
-            }
-          }
+//          if (!SC.none(bookIds)) {
+//            ThothApp.booksController.set("content", books.toArray());
+//            ThothApp.booksController.selectFirst();
+//
+//            if (!SC.none(versionIds)) {
+//              console.log('we have versions ... ', versions.get('length'));
+//              ThothApp.versionsController.set("content", versions.toArray());
+//              ThothApp.versionsController.selectFirst();
+//
+//              if (!SC.none(reviewIds)) {
+//                ThothApp.reviewsController.set("content", reviews.toArray());
+//                ThothApp.reviewsController.selectFirst();
+//              }
+//            }
+//          }
         }
 
         //ThothApp.allController.set("content", allAssociated.toArray());
