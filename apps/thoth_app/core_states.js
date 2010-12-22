@@ -488,85 +488,14 @@ ThothApp.statechart = SC.Statechart.create({
       enterState: function() {
         console.log('LOADING_APP');
         var authors = ThothApp.store.find(SC.Query.local(ThothApp.Author));
-        var i, lenBookIds,
-            j, lenVersionIds,
-            k, lenReviewIds,
-            book, version, review,
-            bookIds, versionIds, reviewIds,
-            books = SC.Set.create(),
-            versions = SC.Set.create(),
-            reviews = SC.Set.create(),
-            allAssociated = SC.Set.create();
 
         if (!SC.none(authors) && authors.get('length') > 0) {
           authors.forEach(function(author) {
             allAssociated.add(author);
-
-            bookIds = author.readAttribute("books");
-            if (!SC.none(bookIds)) {
-              for (i = 0,lenBookIds = bookIds.get('length'); i < lenBookIds; i++) {
-                book = ThothApp.store.find(ThothApp.Book, bookIds[i]);
-                if (!SC.none(book)) {
-                  books.add(book);
-                  allAssociated.add(book);
-                }
-
-                versionIds = book.readAttribute("versions");
-                if (!SC.none(versionIds)) {
-                  for (j = 0,lenVersionIds = versionIds.get('length'); j < lenVersionIds; j++) {
-                    version = ThothApp.store.find(ThothApp.Version, versionIds[j]);
-                    if (!SC.none(version)) {
-                      versions.add(version);
-                      allAssociated.add(version);
-                    }
-
-                    reviewIds = version.get("reviews");
-                    if (!SC.none(reviewIds)) {
-                      for (k = 0,lenReviewIds = reviewIds.get('length'); k < lenReviewIds; k++) {
-                        review = ThothApp.store.find(ThothApp.Review, reviewIds[k]);
-                        if (!SC.none(review)) {
-                          reviews.add(review);
-                          allAssociated.add(review);
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
           });
           ThothApp.authorsController.set('content', authors);
           ThothApp.authorsController.selectFirst();
-
-//          if (!SC.none(bookIds)) {
-//            ThothApp.booksController.set("content", books.toArray());
-//            ThothApp.booksController.selectFirst();
-//
-//            if (!SC.none(versionIds)) {
-//              console.log('we have versions ... ', versions.get('length'));
-//              ThothApp.versionsController.set("content", versions.toArray());
-//              ThothApp.versionsController.selectFirst();
-//
-//              if (!SC.none(reviewIds)) {
-//                ThothApp.reviewsController.set("content", reviews.toArray());
-//                ThothApp.reviewsController.selectFirst();
-//              }
-//            }
-//          }
         }
-
-        //ThothApp.allController.set("content", allAssociated.toArray());
-
-
-        //var books = ThothApp.store.find(SC.Query.local(ThothApp.Book));
-        //var versions = ThothApp.store.find(SC.Query.local(ThothApp.Version));
-        //var reviews = ThothApp.store.find(SC.Query.local(ThothApp.Review));
-        //var versions = ThothApp.store.find(ThothApp.Version);
-        //var reviews = ThothApp.store.find(ThothApp.Review);
-
-        //ThothApp.booksController.set('content', books);
-        //ThothApp.versionsController.set('content', versions);
-        //ThothApp.reviewsController.set('content', reviews);
 
         ThothApp.getPath('mainPage.mainPanel').append();
 
