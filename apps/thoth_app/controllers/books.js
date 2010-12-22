@@ -17,8 +17,6 @@ ThothApp.booksController = SC.ArrayController.create(
 /** @scope ThothApp.booksController.prototype */ {
 
   contentBinding: "ThothApp.authorController.books",
-  selection: null,
-  gatheredVersions: null,
   canAddContent: YES,
   canReorderContent: NO,
   canRemoveContent: YES,

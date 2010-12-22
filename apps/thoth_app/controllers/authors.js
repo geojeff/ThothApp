@@ -15,7 +15,6 @@ sc_require('fixtures/author');
 ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate,
 /** @scope ThothApp.authorsController.prototype */ {
 	allowMultipleSelection: YES,
-  selection: null,
 
   isLoadedArray: [],
   loadedCount: 0,
