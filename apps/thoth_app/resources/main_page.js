@@ -65,13 +65,13 @@ ThothApp.mainPage = SC.Page.design({
 
       topLeftView: SC.View.design({
         backgroundColor: "#555",
-        layout: { left: 0, top: 15, right: 0, bottom: 15 },
+        layout: { left: 0, top: 15, right: 0, bottom: 0 },
         childViews: "authorList toolbar".w(),
         classNames: "authors".w(),
 
         authorList: SC.ScrollView.design({
           backgroundColor: "lightgrey",
-          layout: { left: 15, right: 0, top: 15, bottom: 47},
+          layout: { left: 15, right: 0, top: 15, bottom: 32},
           borderStyle: SC.BORDER_NONE,
           hasHorizontalScroller: NO,
           contentView: SC.ListView.design({
@@ -121,7 +121,7 @@ ThothApp.mainPage = SC.Page.design({
 
         toolbar: SC.ToolbarView.design({
           classNames: "hback toolbar".w(),
-          layout: { left: 0, bottom: 0, right: 0, height: 32 },
+          layout: { left: 15, bottom: 0, right: 0, height: 32 },
           childViews: "add del showGraphic".w(),
 
           add: SC.ButtonView.design({
@@ -161,7 +161,7 @@ ThothApp.mainPage = SC.Page.design({
       // book view
       bottomRightView: SC.View.design({
         backgroundColor: "#555",
-        childViews: 'noAuthorView authorView toolbar'.w(),
+        childViews: 'noAuthorView authorView'.w(),
 
         noAuthorView: SC.LabelView.design({
           layout: { centerX: 0, centerY: 0, height: 18, width: 200 },
@@ -179,7 +179,7 @@ ThothApp.mainPage = SC.Page.design({
           },
 
           classNames: ["book-panel"],
-          layout: { left: 15, right: 15, bottom: 47, top: 15 },
+          layout: { left: 15, right: 15, bottom: 0, top: 15 },
           borderStyle: SC.BORDER_NONE,
             contentView: ThothApp.AuthorView.design({
             contentBinding: "ThothApp.versionController"
@@ -193,60 +193,7 @@ ThothApp.mainPage = SC.Page.design({
               this.adjust({"opacity": 0, display: "none"});
             }
           }.observes("shouldDisplay")
-        }), // bookView
-
-        toolbar: SC.ToolbarView.design({
-          layout: { left:0, right:0, bottom:0, height:32 },
-          classNames: "hback toolbar".w(),
-          childViews: "edit save".w(),
-          edit: SC.ButtonView.design(SC.Animatable, {
-            transitions: {
-              opacity: 0.25
-            },
-            title: "Edit",
-            layout: { left: 0, top: 0, bottom: 0, width: 90 },
-            target: ThothApp.bookController,
-            action: "beginEditing",
-            style: { opacity: 1 }
-          }),
-
-          save: SC.ButtonView.design(SC.Animatable, {
-            transitions: { opacity: 0.25 },
-            title: "Save",
-            layout: { left: 0, top:0, bottom: 0, width: 90 },
-            target: ThothApp.bookController,
-            action: "endEditing",
-            style: {
-              opacity: 0, display: "none"
-            }
-          }),
-
-          controllerIsEditing: NO,
-          controllerIsEditingBinding: "ThothApp.bookController.isEditing",
-          controllerIsEditingDidChange: function() {
-            var save = this.get("save");
-            var edit = this.get("edit");
-
-            if (save.isClass) return;
-
-            if (this.get("controllerIsEditing")) {
-              save.adjust({
-                opacity: 1, display: "block"
-              }).updateLayout();
-              edit.adjust({
-                opacity: 1, display: "none"
-              }).updateLayout();
-            } else {
-              edit.adjust({
-                opacity: 1, display: "block"
-              }).updateLayout();
-              save.adjust({
-                opacity: 1, display: "none"
-              }).updateLayout();
-            }
-          }.observes("controllerIsEditing")
-
-        }) // toolbar
+        }) // bookView
       }) // bottomRightView (bookView)
     }) // splitter
   }) // mainPane
