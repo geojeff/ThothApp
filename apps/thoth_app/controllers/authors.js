@@ -44,7 +44,7 @@ ThothApp.authorsController = SC.ArrayController.create(
     return YES;
   },
 
-	addNewBook: function(book) {
+	addBookToAuthor: function(book) {
 	  var sel = this.get("selection");
 	  if (!sel) return;
     if (sel.get('length') > 1) return; // although multiselect authors allowed, not for adding book

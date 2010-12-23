@@ -623,7 +623,7 @@ ThothApp.statechart = SC.Statechart.create({
         var me = this;
         return function(val) {
           if (val & SC.Record.READY_CLEAN) {
-            ThothApp.authorsController.addNewBook(book); // this will add book to the selected author
+            ThothApp.authorsController.addBookToAuthor(book); // this will add book to the selected author
 
             me.selectObject(book);
 
@@ -663,7 +663,7 @@ ThothApp.statechart = SC.Statechart.create({
         var me = this;
         return function(val) {
           if (val & SC.Record.READY_CLEAN) {
-            ThothApp.booksController.addNewVersion(version);  // adds version to selected book
+            ThothApp.booksController.addVersionToBook(version);  // adds version to selected book
 
             ThothApp.versionsController.selectObject(version);
 
@@ -699,7 +699,7 @@ ThothApp.statechart = SC.Statechart.create({
         var me = this;
         return function(val) {
           if (val & SC.Record.READY_CLEAN) {
-            ThothApp.versionsController.addNewReview(review); // adds review to current version
+            ThothApp.versionsController.addReviewToVersion(review); // adds review to current version
 
             ThothApp.reviewsController.selectObject(review);
 

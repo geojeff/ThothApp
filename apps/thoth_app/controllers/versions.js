@@ -35,7 +35,7 @@ ThothApp.versionsController = SC.ArrayController.create(
     this.set('loadedCount', count+1);
   },
 
-  addNewReview: function(review) {
+  addReviewToVersion: function(review) {
     var sel = this.get("selection");
     if (!sel) return;
     review.set("version", sel.firstObject());

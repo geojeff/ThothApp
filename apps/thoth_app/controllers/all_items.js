@@ -13,9 +13,9 @@
 ThothApp.allItemsController = SC.ArrayController.create(
 /** @scope ThothApp.allItemsController.prototype */ {
   authorsBinding: 'ThothApp.authorsController.selection',
-  booksBinding: 'ThothApp.booksController.arrangedObjects',
-  versionsBinding: 'ThothApp.versionsController.arrangedObjects',
-  reviewsBinding: 'ThothApp.reviewsController.arrangedObjects',
+  booksBinding: 'ThothApp.booksController',
+  versionsBinding: 'ThothApp.versionsController',
+  reviewsBinding: 'ThothApp.reviewsController',
 
   content: function() {
     var all = [],

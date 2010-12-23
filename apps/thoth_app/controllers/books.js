@@ -26,10 +26,6 @@ ThothApp.booksController = SC.ArrayController.create(
   isLoadedArray: [],
   loadedCount: 0,
 
-  // deleting books is handled by booksController.
-
-  // removing books from authors is handled by the authorController.
-
   initializeForLoading: function() {
     var arr = this.get('isLoadedArray');
     for (var i=0,len=ThothApp.Book.FIXTURES.get('length'); i<len; i++) {
@@ -43,7 +39,7 @@ ThothApp.booksController = SC.ArrayController.create(
     this.set('loadedCount', count+1);
   },
 
-  addNewVersion: function(version) {
+  addVersionToBook: function(version) {
     var sel = this.get("selection");
     if (!sel) return;
     version.set("book", sel.firstObject());
