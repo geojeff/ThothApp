@@ -147,7 +147,7 @@ ThothApp.mainPage = SC.Page.design({
           }),
 
           showGraphic: SC.ButtonView.design({
-            layout: { right: 0, top: 0, bottom: 0, height: 32 },
+            layout: { left: 64, right: 0, top: 0, bottom: 0 },
             //icon: "icons graphic button-graphic",
             target: "ThothApp.statechart",
             titleMinWidth: 16,
