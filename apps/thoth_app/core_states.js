@@ -127,8 +127,7 @@ ThothApp.statechart = SC.Statechart.create({
       // completion of version records. The top-level generator function has version
       // as a passed-in argument, in scope for the generated function. The
       // 'var me = this;' line sets me, providing a reference to here (this state)
-      // within the generated function. See use of _tmpRecordCount. This same use is
-      // found in the other LOADING states.
+      // within the generated function. See use of _tmpRecordCount.
       generateCheckReviewsFunction: function(review) {
         var me = this;
         return function(val) {
@@ -530,29 +529,16 @@ ThothApp.statechart = SC.Statechart.create({
       exitState: function() {
       },
 
-      showGraphic: function() {
-        this.gotoState('SHOWING_GRAPHIC');
-      },
-
-      dismissGraphicPane: function() {
-        this.gotoState('APP_READY');
-      },
-
-      addAuthor: function() {
-        this.gotoState('ADDING_AUTHOR');
-      },
-
-      addBook: function() {
-        this.gotoState('ADDING_BOOK');
-      },
-
-      addVersion: function() {
-        this.gotoState('ADDING_VERSION');
-      },
-
-      addReview: function() {
-        this.gotoState('ADDING_REVIEW');
-      }
+      showGraphic:        function() { this.gotoState('SHOWING_GRAPHIC'); },
+      dismissGraphicPane: function() { this.gotoState('APP_READY'); },
+      addAuthor:          function() { this.gotoState('ADDING_AUTHOR'); },
+      addBook:            function() { this.gotoState('ADDING_BOOK'); },
+      addVersion:         function() { this.gotoState('ADDING_VERSION'); },
+      addReview:          function() { this.gotoState('ADDING_REVIEW'); },
+      deleteAuthors:      function() { this.gotoState('DELETING_AUTHORS'); },
+      deleteBook:         function() { this.gotoState('DELETING_BOOK'); },
+      deleteVersion:      function() { this.gotoState('DELETING_VERSION'); },
+      deleteReview:       function() { this.gotoState('DELETING_REVIEW'); }
 
     }),
 
@@ -563,8 +549,6 @@ ThothApp.statechart = SC.Statechart.create({
       enterState: function() {
         var author;
 
-        var authorKey = ThothApp.nextRecordKey();
-
         author = ThothApp.store.createRecord(ThothApp.Author, {
           //"key":         authorKey,
           "fixturesKey": authorKey,
@@ -572,14 +556,10 @@ ThothApp.statechart = SC.Statechart.create({
           "lastName":    "Last"
         });
 
-        ThothApp.authorsController.selectObject(author);
+        ThothApp.store.commitRecords();
 
-        this.invokeLater(function() {
-          var contentIndex = this.indexOf(author);
-          var list = ThothApp.mainPage.getPath("mainPane.splitter.topLeftView.authorList.contentView");
-          var listItem = list.itemViewForContentIndex(contentIndex);
-          listItem.beginEditing();
-        });
+        // Once the author record comes back READY_CLEAN, start beginEditing in the list.
+        author.addFiniteObserver('status', this, this.generateCheckAuthorFunction(author), this);
       },
 
       exitState: function() {
@@ -605,7 +585,12 @@ ThothApp.statechart = SC.Statechart.create({
 
             ThothApp.store.commitRecords();
 
-            ThothApp.statechart.authorsLoaded();
+            this.invokeLater(function() {
+              var contentIndex = this.indexOf(author);
+              var list = ThothApp.mainPage.getPath("mainPane.splitter.topLeftView.authorList.contentView");
+              var listItem = list.itemViewForContentIndex(contentIndex);
+              listItem.beginEditing();
+            });
 
             return YES;
           }
@@ -622,12 +607,12 @@ ThothApp.statechart = SC.Statechart.create({
         var book;
 
         book = ThothApp.store.createRecord(ThothApp.Book, {
-          "title":       'title'
+          "title": 'title'
         });
 
         ThothApp.store.commitRecords();
 
-        // Once the book records come back READY_CLEAN, add book to current author.
+        // Once the book record comes back READY_CLEAN, add book to current author, and beginEditing in panel.
         book.addFiniteObserver('status', this, this.generateCheckBookFunction(book), this);
       },
 
@@ -638,17 +623,17 @@ ThothApp.statechart = SC.Statechart.create({
         var me = this;
         return function(val) {
           if (val & SC.Record.READY_CLEAN) {
-            ThothApp.authorsController.addNewBook(book);
+            ThothApp.authorsController.addNewBook(book); // this will add book to the selected author
 
             me.selectObject(book);
 
             me.invokeLater(function() {
               // Editing of a book title is not done in the book list, but in the panel on the right.
+              //
+              // Well, it looks here to think it is on the list. Must be a TODO...
+              //
               ThothApp.bookController.beginEditing();
             });
-
-            // this has already been done, eh?
-            //book.commitRecord();
           }
         };
       }
@@ -667,7 +652,7 @@ ThothApp.statechart = SC.Statechart.create({
 
         ThothApp.store.commitRecords();
 
-        // Once the book records come back READY_CLEAN, add book to current book.
+        // Once the version record comes back READY_CLEAN, add version to current book, and beginEditing.
         version.addFiniteObserver('status', this, this.generateCheckVersionFunction(version), this);
       },
 
@@ -678,16 +663,13 @@ ThothApp.statechart = SC.Statechart.create({
         var me = this;
         return function(val) {
           if (val & SC.Record.READY_CLEAN) {
-            ThothApp.booksController.addNewVersion(version);
+            ThothApp.booksController.addNewVersion(version);  // adds version to selected book
 
             ThothApp.versionsController.selectObject(version);
 
             me.invokeLater(function() {
               ThothApp.versionController.beginEditing();
             });
-
-            // this has already been done, eh?
-            //version.commitRecord();
           }
         };
       }
@@ -698,7 +680,7 @@ ThothApp.statechart = SC.Statechart.create({
     // ----------------------------------------
     ADDING_REVIEW: SC.State.design({
       enterState: function() {
-        var version;
+        var review;
 
         review = ThothApp.store.createRecord(ThothApp.Review, {
           "text": "Say what you think."
@@ -706,7 +688,7 @@ ThothApp.statechart = SC.Statechart.create({
 
         ThothApp.store.commitRecords();
 
-        // Once the book records come back READY_CLEAN, add review to current version.
+        // Once the review record comes back READY_CLEAN, add review to current version, and beginEditing.
         review.addFiniteObserver('status', this, this.generateCheckReviewFunction(review), this);
       },
 
@@ -717,18 +699,151 @@ ThothApp.statechart = SC.Statechart.create({
         var me = this;
         return function(val) {
           if (val & SC.Record.READY_CLEAN) {
-            ThothApp.versionsController.addNewReview(review);
+            ThothApp.versionsController.addNewReview(review); // adds review to current version
 
             ThothApp.reviewsController.selectObject(review);
 
             me.invokeLater(function() {
               ThothApp.versionController.beginEditing();
             });
-
-            // this has already been done, eh?
-            //version.commitRecord();
           }
         };
+      }
+    }),
+
+    // ----------------------------------------
+    //    state: DELETING_AUTHORS
+    // ----------------------------------------
+    DELETING_AUTHORS: SC.State.design({
+      enterState: function() {
+        SC.AlertPane.warn(
+                "Be Careful!",
+                "Are you sure you want to delete the selected authors?",
+                null,
+                "Keep Authors",
+                "Delete Authors",
+                null,
+                this
+                );
+      },
+
+      exitState: function() {
+      },
+
+      deleteAuthors: function() {
+        // do the delete
+      },
+
+      alertPaneDidDismiss: function(pane, status) {
+        switch (status) {
+          case SC.BUTTON2_STATUS:
+            this.deleteAuthors();
+            break;
+          case SC.BUTTON1_STATUS:
+            break;
+        }
+      }
+    }),
+
+    // ----------------------------------------
+    //    state: DELETING_BOOK
+    // ----------------------------------------
+    DELETING_BOOK: SC.State.design({
+      enterState: function() {
+        SC.AlertPane.warn(
+                "Be Careful!",
+                "Are you sure you want to delete the selected books?",
+                null,
+                "Keep Books",
+                "Delete Books",
+                null,
+                this
+                );
+      },
+
+      exitState: function() {
+      },
+
+      deleteBooks: function() {
+        // do the delete
+      },
+
+      alertPaneDidDismiss: function(pane, status) {
+        switch (status) {
+          case SC.BUTTON2_STATUS:
+            this.deleteBooks();
+            break;
+          case SC.BUTTON1_STATUS:
+            break;
+        }
+      }
+    }),
+
+    // ----------------------------------------
+    //    state: DELETING_VERSION
+    // ----------------------------------------
+    DELETING_VERSION: SC.State.design({
+      enterState: function() {
+        SC.AlertPane.warn(
+                "Be Careful!",
+                "Are you sure you want to delete the selected book versions?",
+                null,
+                "Keep Versions",
+                "Delete Versions",
+                null,
+                this
+                );
+      },
+
+      exitState: function() {
+      },
+
+      deleteVersions: function() {
+        // do the delete
+      },
+
+      alertPaneDidDismiss: function(pane, status) {
+        switch (status) {
+          case SC.BUTTON2_STATUS:
+            this.deleteVersions();
+            break;
+          case SC.BUTTON1_STATUS:
+            break;
+        }
+      }
+    }),
+
+    // ----------------------------------------
+    //    state: DELETING_REVIEW
+    // ----------------------------------------
+    DELETING_REVIEW: SC.State.design({
+      enterState: function() {
+        SC.AlertPane.warn(
+                "Be Careful!",
+                "Are you sure you want to delete the selected book reviews?",
+                null,
+                "Keep Reviews",
+                "Delete Reviews",
+                null,
+                this
+                );
+      },
+
+      exitState: function() {
+      },
+
+      deleteReviews: function() {
+        // do the delete
+      },
+
+      alertPaneDidDismiss: function(pane, status) {
+        switch (status) {
+          case SC.BUTTON2_STATUS:
+            this.deleteReviews();
+            break;
+          case SC.BUTTON1_STATUS:
+            break;
+        }
       }
     })
   })

@@ -12,7 +12,7 @@
 
 sc_require('fixtures/author');
 
-ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate,
+ThothApp.authorsController = SC.ArrayController.create(
 /** @scope ThothApp.authorsController.prototype */ {
 	allowsMultipleSelection: YES,
   allowsEmptySelection: NO,
@@ -47,45 +47,6 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
       }
     };
   },
-
-	collectionViewDeleteContent: function(view, content, indexes) {
-	  this._pendingOperation = { action: "deleteAuthors", indexes: indexes  };
-	  SC.AlertPane.warn(
-	    "Be Careful!",
-	    "Are you sure you want to delete these " + indexes.get("length") + " authors?",
-	    null,
-	    "Keep Authors",
-	    "Delete Authors",
-	    null,
-	    this
-	  );
-	},
-
-	deleteAuthors: function(op) {
-	  var indexes = op.indexes;
-	  var records = indexes.map(function(idx) {
-	    return this.objectAt(idx);
-	  }, this);
-	  records.invoke('destroy');
-
-	  var selIndex = indexes.get('min') - 1;
-	  if (selIndex < 0) selIndex = 0;
-	  this.selectObject(this.objectAt(selIndex));
-
-		ThothApp.store.commitRecords();
-	},
-
-	alertPaneDidDismiss: function(pane, status) {
-	  if (!this._pendingOperation) return;
-	  switch (status) {
-	    case SC.BUTTON2_STATUS:
-	      this[this._pendingOperation.action].call(this, this._pendingOperation);
-	      this._pendingOperation = null;
-	      break;
-	    case SC.BUTTON1_STATUS:
-	      break;
-	  }
-	},
 
 	removeBooks: function(books) {
 	  var sel = this.get("selection");
