@@ -61,14 +61,17 @@ ThothApp.mainPage = SC.Page.design({
     splitter: SC.SplitView.design({
       layout: { left: 0, top: 32, right: 0, bottom: 0 },
       defaultThickness: 200,
-      dividerThickness: 1,
+      dividerThickness: 0,
 
       topLeftView: SC.View.design({
+        backgroundColor: "#555",
+        layout: { left: 0, top: 15, right: 0, bottom: 15 },
         childViews: "authorList toolbar".w(),
         classNames: "authors".w(),
 
         authorList: SC.ScrollView.design({
-          layout: { left:0, right:0, top: 15, bottom:32},
+          backgroundColor: "lightgrey",
+          layout: { left: 15, right: 0, top: 15, bottom: 47},
           borderStyle: SC.BORDER_NONE,
           hasHorizontalScroller: NO,
           contentView: SC.ListView.design({
