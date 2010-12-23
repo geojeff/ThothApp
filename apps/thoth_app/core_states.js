@@ -282,7 +282,7 @@ ThothApp.statechart = SC.Statechart.create({
         ThothApp.getPath('graphicPane').remove();
       },
 
-      dismiss: function() {
+      dismissGraphicPane: function() {
         this.gotoState('APP_READY');
       }
     }),
@@ -514,7 +514,7 @@ ThothApp.statechart = SC.Statechart.create({
       exitState: function() {
       },
 
-      dismiss: function() {
+      dismissGraphicPane: function() {
         this.gotoState('APP_READY');
       }
     }),
