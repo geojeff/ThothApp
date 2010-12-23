@@ -490,7 +490,6 @@ ThothApp.statechart = SC.Statechart.create({
         var authors = ThothApp.store.find(SC.Query.local(ThothApp.Author));
 
         ThothApp.authorsController.set('content', authors);
-        ThothApp.authorsController.selectFirst();
 
         ThothApp.getPath('mainPage.mainPanel').append();
 

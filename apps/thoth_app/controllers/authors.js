@@ -14,7 +14,8 @@ sc_require('fixtures/author');
 
 ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate,
 /** @scope ThothApp.authorsController.prototype */ {
-	allowMultipleSelection: YES,
+	allowsMultipleSelection: YES,
+  allowsEmptySelection: NO,
 
   isLoadedArray: [],
   loadedCount: 0,
@@ -34,10 +35,6 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
     this.get('isLoadedArray').replace(key-1, 1, [YES]);
     var count = this.get('loadedCount');
     this.set('loadedCount', count+1);
-  },
-
-  selectFirst: function() {
-    this.selectObject(this.firstSelectableObject());
   },
 
   generateSelectBookFunction: function(book) {
@@ -113,8 +110,6 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
     if (sel.get('length') > 1) return; // although multiselect authors allowed, not for adding book
 	  book.set("author", sel.firstObject());
     sel.firstObject().get('books').pushObject(book);
-
-    this.gatherBooks();
 	}
 
 }) ;
