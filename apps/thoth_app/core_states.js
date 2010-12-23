@@ -123,6 +123,12 @@ ThothApp.statechart = SC.Statechart.create({
         this.gotoState('REVIEWS_LOADED');
       },
 
+      // This is a closure. It will create an unnamed function checking for
+      // completion of version records. The top-level generator function has version
+      // as a passed-in argument, in scope for the generated function. The
+      // 'var me = this;' line sets me, providing a reference to here (this state)
+      // within the generated function. See use of _tmpRecordCount. This same use is
+      // found in the other LOADING states.
       generateCheckReviewsFunction: function(review) {
         var me = this;
         return function(val) {
@@ -197,11 +203,6 @@ ThothApp.statechart = SC.Statechart.create({
         this.gotoState('VERSIONS_LOADED');
       },
 
-      // This is a closure. It will create an unnamed function checking for
-      // completion of version records. The top-level generator function has version
-      // as a passed-in argument, in scope for the generated function. The
-      // 'var me = this;' line sets me, providing a reference to here (this state)
-      // within the generated function. See use of _tmpRecordCount.
       generateCheckVersionsFunction: function(version) {
         var me = this;
         return function(val) {
