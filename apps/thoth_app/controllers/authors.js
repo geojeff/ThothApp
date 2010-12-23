@@ -37,27 +37,6 @@ ThothApp.authorsController = SC.ArrayController.create(
     this.set('loadedCount', count+1);
   },
 
-  generateSelectBookFunction: function(book) {
-    var me = this;
-    return function(val){
-      if (val & SC.Record.READY_CLEAN){
-        if (!ThothApp.booksController.hasSelection()) {
-          ThothApp.booksController.selectObject(book);
-        }
-      }
-    };
-  },
-
-	removeBooks: function(books) {
-	  var sel = this.get("selection");
-	  if (!sel) return;
-
-	  sel.forEach(function(item) {
-	    item.get("books").removeObjects(books);
-	  });
-	  ThothApp.store.commitRecords();
-	},
-
   isSingleSelection: function(){
     var sel = this.get("selection");
     if (!sel) return NO;

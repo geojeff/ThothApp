@@ -43,61 +43,6 @@ ThothApp.booksController = SC.ArrayController.create(
     this.set('loadedCount', count+1);
   },
 
-  collectionViewDeleteContent: function(view, content, indexes) {
-    // get records first for safety :)
-    var records = indexes.map(function(idx) {
-      return this.objectAt(idx);
-    }, this);
-
-    // process OUR WAY!
-    this._pendingOperation = { action: "deleteBooks", records: records, indexes: indexes  };
-
-    // calculate text
-    var text = "";
-    var name = "Book";
-    var len = indexes.get("length");
-    if (len > 1) {
-      name += "s";
-      text = "Are you sure you want to delete these " + len + " books?";
-    } else {
-      text = "Are you sure you want to delete this book?";
-    }
-
-    // show warning
-    SC.AlertPane.warn(
-      "Be Careful!",
-      text,
-      null,
-      "Keep " + name,
-      "Delete " + name,
-      null,
-      this
-    );
-  },
-
-  deleteBooks: function(op) {
-    var records = op.records, indexes = op.indexes;
-    records.invoke('destroy');
-
-    var selIndex = indexes.get('min') - 1;
-    if (selIndex < 0) selIndex = 0;
-    this.selectObject(this.objectAt(selIndex));
-
-    ThothApp.store.commitRecords();
-  },
-
-  alertPaneDidDismiss: function(pane, status) {
-    if (!this._pendingOperation) return;
-    switch (status) {
-      case SC.BUTTON2_STATUS:
-        this[this._pendingOperation.action].call(this, this._pendingOperation);
-        this._pendingOperation = null;
-        break;
-      case SC.BUTTON1_STATUS:
-        break;
-    }
-  },
-
   addNewVersion: function(version) {
     var sel = this.get("selection");
     if (!sel) return;
