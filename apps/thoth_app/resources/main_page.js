@@ -68,7 +68,7 @@ ThothApp.mainPage = SC.Page.design({
         classNames: "authors".w(),
 
         authorList: SC.ScrollView.design({
-          layout: { left:0, right:0, top: 0, bottom:32},
+          layout: { left:0, right:0, top: 15, bottom:32},
           borderStyle: SC.BORDER_NONE,
           hasHorizontalScroller: NO,
           contentView: SC.ListView.design({
