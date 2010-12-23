@@ -1,5 +1,5 @@
-.icons .minus-active, .icons.graphic { background:static_url('images/icons/sprites.png') no-repeat; background-position:-0px -0px; }
-.icons .minus, .icons.person { background:static_url('images/icons/sprites.png') no-repeat; background-position:-16px -0px; }
+.icons .minus-active, .icons.minus { background:static_url('images/icons/sprites.png') no-repeat; background-position:-0px -0px; }
+.icons .minus, .icons.minus { background:static_url('images/icons/sprites.png') no-repeat; background-position:-16px -0px; }
 .icons .plus-active, .icons.plus-active { background:static_url('images/icons/sprites.png') no-repeat; background-position:-32px -0px; }
 .icons .plus, .icons.plus { background:static_url('images/icons/sprites.png') no-repeat; background-position:-48px -0px; }
 .icons .search-16, .icons.search-16 { background:static_url('images/icons/sprites.png') no-repeat; background-position:-64px -0px; }
