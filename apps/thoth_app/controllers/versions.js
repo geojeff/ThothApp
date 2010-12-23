@@ -17,6 +17,7 @@ ThothApp.versionsController = SC.ArrayController.create(
 /** @scope ThothApp.versionsController.prototype */ {
 
   contentBinding: "ThothApp.bookController.versions",
+  allowsEmptySelection: NO,
 
   isLoadedArray: [],
   loadedCount: 0,

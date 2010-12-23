@@ -17,6 +17,7 @@ ThothApp.booksController = SC.ArrayController.create(
 /** @scope ThothApp.booksController.prototype */ {
 
   contentBinding: "ThothApp.authorController.books",
+  allowsEmptySelection: NO,
   canAddContent: YES,
   canReorderContent: NO,
   canRemoveContent: YES,
@@ -45,6 +46,11 @@ ThothApp.booksController = SC.ArrayController.create(
   selectFirst: function() {
     this.selectObject(this.firstSelectableObject());
   },
+
+//  yo: function() {
+//    //console.log('yo ', SC.inspect(this.get('selection')));
+//    this.selectFirst();
+//  }.observes('content'),
 
   collectionViewDeleteContent: function(view, content, indexes) {
     // get records first for safety :)

@@ -17,6 +17,7 @@ ThothApp.reviewsController = SC.ArrayController.create(
   /** @scope ThothApp.reviewsController.prototype */ {
 
   contentBinding: "ThothApp.versionController.reviews",
+  allowsEmptySelection: NO,
   isLoadedArray: [],
   loadedCount: 0,
 
