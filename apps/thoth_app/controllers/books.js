@@ -43,15 +43,6 @@ ThothApp.booksController = SC.ArrayController.create(
     this.set('loadedCount', count+1);
   },
 
-  selectFirst: function() {
-    this.selectObject(this.firstSelectableObject());
-  },
-
-//  yo: function() {
-//    //console.log('yo ', SC.inspect(this.get('selection')));
-//    this.selectFirst();
-//  }.observes('content'),
-
   collectionViewDeleteContent: function(view, content, indexes) {
     // get records first for safety :)
     var records = indexes.map(function(idx) {
@@ -107,45 +98,11 @@ ThothApp.booksController = SC.ArrayController.create(
     }
   },
 
-  addBook: function() {
-    var book;
-
-    book = ThothApp.store.createRecord(ThothApp.Book, {
-      "title":       'title'
-    });
-
-    ThothApp.store.commitRecords();
-    
-    // Once the book records come back READY_CLEAN, add book to current author.
-    book.addFiniteObserver('status',this,this.generateCheckBookFunction(book),this);
-  },
-
-  generateCheckBookFunction: function(book) {
-    var me = this;
-    return function(val){
-      if (val & SC.Record.READY_CLEAN){
-        ThothApp.authorsController.addNewBook(book);
-
-        me.selectObject(book);
-
-        me.invokeLater(function(){
-          // Editing of a book title is not done in the book list, but in the panel on the right.
-          ThothApp.bookController.beginEditing();
-        });
-
-        // this has already been done, eh?
-        //book.commitRecord();
-      }
-    };
-  },
-
   addNewVersion: function(version) {
     var sel = this.get("selection");
     if (!sel) return;
     version.set("book", sel.firstObject());
     sel.firstObject().get('versions').pushObject(version);
-
-    this.gatherVersions();
   }
 
 });

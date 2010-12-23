@@ -115,55 +115,6 @@ ThothApp.authorsController = SC.ArrayController.create(SC.CollectionViewDelegate
     sel.firstObject().get('books').pushObject(book);
 
     this.gatherBooks();
-	},
-
-  generateCheckAuthorFunction: function(authorRecord){
-    var me = this;
-    return function(val){
-      if (val & SC.Record.READY_CLEAN){
-        ThothApp.bumpAuthorCount();
-
-        var bookRecords = ThothApp.store.find(ThothApp.Book);
-        var fixturesKey = authorRecord.readAttribute('fixturesKey');
-
-        var bookRecordsForAuthor = [];
-        bookRecords.forEach(function(bookRecord) {
-          if (ThothApp.Author.FIXTURES[fixturesKey-1].books.indexOf(bookRecord.readAttribute('fixturesKey')) !== -1) {
-            bookRecordsForAuthor.pushObject(bookRecord);
-          }
-        });
-
-        authorRecord.get('books').pushObjects(bookRecordsForAuthor);
-
-        ThothApp.store.commitRecords();
-
-        ThothApp.statechart.authorsLoaded();
-
-        return YES;
-      }
-      else return NO;
-    };
-  },
-
-  addAuthor: function(){
-    var author;
-
-    var authorKey = ThothApp.nextRecordKey();
-
-    author = ThothApp.store.createRecord(ThothApp.Author, {
-      //"key":         authorKey,
-      "fixturesKey": authorKey,
-      "firstName":   "First",
-      "lastName":    "Last"
-    });
-
-    this.selectObject(author);
-    this.invokeLater(function(){
-      var contentIndex = this.indexOf(author);
-      var list = ThothApp.mainPage.getPath("mainPane.splitter.topLeftView.authorList.contentView");
-      var listItem = list.itemViewForContentIndex(contentIndex);
-      listItem.beginEditing();
-    });
-  }
+	}
 
 }) ;

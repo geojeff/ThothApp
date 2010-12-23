@@ -34,10 +34,6 @@ ThothApp.reviewsController = SC.ArrayController.create(
     this.set('loadedCount', count+1);
   },
 
-  selectFirst: function() {
-    this.selectObject(this.firstSelectableObject());
-  },
-
   deleteReviews: function(op) {
     var records = op.records, indexes = op.indexes;
     records.invoke('destroy');
@@ -47,37 +43,6 @@ ThothApp.reviewsController = SC.ArrayController.create(
     this.selectObject(this.objectAt(selIndex));
 
     ThothApp.store.commitRecords();
-  },
-
-  addReview: function() {
-    var version;
-
-    review = ThothApp.store.createRecord(ThothApp.Review, {
-      "text": "Say what you think."
-    });
-
-    ThothApp.store.commitRecords();
-
-    // Once the book records come back READY_CLEAN, add review to current version.
-    review.addFiniteObserver('status', this, this.generateCheckReviewFunction(review), this);
-  },
-
-  generateCheckReviewFunction: function(review) {
-    var me = this;
-    return function(val) {
-      if (val & SC.Record.READY_CLEAN) {
-        ThothApp.versionsController.addNewReview(review);
-
-        me.selectObject(review);
-
-        me.invokeLater(function() {
-          ThothApp.versionController.beginEditing();
-        });
-
-        // this has already been done, eh?
-        //version.commitRecord();
-      }
-    };
   }
 
 });

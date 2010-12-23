@@ -35,10 +35,6 @@ ThothApp.versionsController = SC.ArrayController.create(
     this.set('loadedCount', count+1);
   },
 
-  selectFirst: function() {
-    this.selectObject(this.firstSelectableObject());
-  },
-
   deleteVersions: function(op) {
     var records = op.records, indexes = op.indexes;
     records.invoke('destroy');
@@ -62,44 +58,11 @@ ThothApp.versionsController = SC.ArrayController.create(
     }
   },
 
-  addVersion: function() {
-    var version;
-
-    version = ThothApp.store.createRecord(ThothApp.Version, {
-      "title":       'title'
-    });
-
-    ThothApp.store.commitRecords();
-
-    // Once the book records come back READY_CLEAN, add book to current book.
-    version.addFiniteObserver('status',this,this.generateCheckVersionFunction(version),this);
-  },
-
-  generateCheckVersionFunction: function(version) {
-    var me = this;
-    return function(val){
-      if (val & SC.Record.READY_CLEAN){
-        ThothApp.booksController.addNewVersion(version);
-
-        me.selectObject(version);
-
-        me.invokeLater(function(){
-          ThothApp.versionController.beginEditing();
-        });
-
-        // this has already been done, eh?
-        //version.commitRecord();
-      }
-    };
-  },
-
   addNewReview: function(review) {
     var sel = this.get("selection");
     if (!sel) return;
     review.set("version", sel.firstObject());
     sel.firstObject().get('reviews').pushObject(review);
-
-    this.gatherReviews();
   }
 
 });

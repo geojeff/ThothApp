@@ -123,7 +123,7 @@ ThothApp.mainPage = SC.Page.design({
 
           add: SC.ButtonView.design({
             layout: { left: 0, top: 0, bottom: 0, width:32 },
-            target: "ThothApp.authorsController",
+            target: "ThothApp.statechart",
             action: "addAuthor",
             icon: "icons plus button-icon",
             titleMinWidth: 16,

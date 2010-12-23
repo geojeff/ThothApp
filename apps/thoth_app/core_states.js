@@ -536,6 +536,199 @@ ThothApp.statechart = SC.Statechart.create({
 
       dismiss: function() {
         this.gotoState('APP_READY');
+      },
+
+      addAuthor: function() {
+        this.gotoState('ADDING_AUTHOR');
+      },
+
+      addBook: function() {
+        this.gotoState('ADDING_BOOK');
+      },
+
+      addVersion: function() {
+        this.gotoState('ADDING_VERSION');
+      },
+
+      addReview: function() {
+        this.gotoState('ADDING_REVIEW');
+      }
+
+    }),
+
+    // ----------------------------------------
+    //    state: ADDING_BOOK
+    // ----------------------------------------
+    ADDING_BOOK: SC.State.design({
+      enterState: function() {
+        var author;
+
+        var authorKey = ThothApp.nextRecordKey();
+
+        author = ThothApp.store.createRecord(ThothApp.Author, {
+          //"key":         authorKey,
+          "fixturesKey": authorKey,
+          "firstName":   "First",
+          "lastName":    "Last"
+        });
+
+        ThothApp.authorsController.selectObject(author);
+
+        this.invokeLater(function() {
+          var contentIndex = this.indexOf(author);
+          var list = ThothApp.mainPage.getPath("mainPane.splitter.topLeftView.authorList.contentView");
+          var listItem = list.itemViewForContentIndex(contentIndex);
+          listItem.beginEditing();
+        });
+      },
+
+      exitState: function() {
+      },
+
+      generateCheckAuthorFunction: function(authorRecord) {
+        var me = this;
+        return function(val) {
+          if (val & SC.Record.READY_CLEAN) {
+            ThothApp.bumpAuthorCount();
+
+            var bookRecords = ThothApp.store.find(ThothApp.Book);
+            var fixturesKey = authorRecord.readAttribute('fixturesKey');
+
+            var bookRecordsForAuthor = [];
+            bookRecords.forEach(function(bookRecord) {
+              if (ThothApp.Author.FIXTURES[fixturesKey - 1].books.indexOf(bookRecord.readAttribute('fixturesKey')) !== -1) {
+                bookRecordsForAuthor.pushObject(bookRecord);
+              }
+            });
+
+            authorRecord.get('books').pushObjects(bookRecordsForAuthor);
+
+            ThothApp.store.commitRecords();
+
+            ThothApp.statechart.authorsLoaded();
+
+            return YES;
+          }
+          else return NO;
+        };
+      }
+    }),
+
+    // ----------------------------------------
+    //    state: ADDING_BOOK
+    // ----------------------------------------
+    ADDING_BOOK: SC.State.design({
+      enterState: function() {
+        var book;
+
+        book = ThothApp.store.createRecord(ThothApp.Book, {
+          "title":       'title'
+        });
+
+        ThothApp.store.commitRecords();
+
+        // Once the book records come back READY_CLEAN, add book to current author.
+        book.addFiniteObserver('status', this, this.generateCheckBookFunction(book), this);
+      },
+
+      exitState: function() {
+      },
+
+      generateCheckBookFunction: function(book) {
+        var me = this;
+        return function(val) {
+          if (val & SC.Record.READY_CLEAN) {
+            ThothApp.authorsController.addNewBook(book);
+
+            me.selectObject(book);
+
+            me.invokeLater(function() {
+              // Editing of a book title is not done in the book list, but in the panel on the right.
+              ThothApp.bookController.beginEditing();
+            });
+
+            // this has already been done, eh?
+            //book.commitRecord();
+          }
+        };
+      }
+    }),
+
+    // ----------------------------------------
+    //    state: ADDING_VERSION
+    // ----------------------------------------
+    ADDING_VERSION: SC.State.design({
+      enterState: function() {
+        var version;
+
+        version = ThothApp.store.createRecord(ThothApp.Version, {
+          "title": 'title'
+        });
+
+        ThothApp.store.commitRecords();
+
+        // Once the book records come back READY_CLEAN, add book to current book.
+        version.addFiniteObserver('status', this, this.generateCheckVersionFunction(version), this);
+      },
+
+      exitState: function() {
+      },
+
+      generateCheckVersionFunction: function(version) {
+        var me = this;
+        return function(val) {
+          if (val & SC.Record.READY_CLEAN) {
+            ThothApp.booksController.addNewVersion(version);
+
+            ThothApp.versionsController.selectObject(version);
+
+            me.invokeLater(function() {
+              ThothApp.versionController.beginEditing();
+            });
+
+            // this has already been done, eh?
+            //version.commitRecord();
+          }
+        };
+      }
+    }),
+
+    // ----------------------------------------
+    //    state: ADDING_REVIEW
+    // ----------------------------------------
+    ADDING_REVIEW: SC.State.design({
+      enterState: function() {
+        var version;
+
+        review = ThothApp.store.createRecord(ThothApp.Review, {
+          "text": "Say what you think."
+        });
+
+        ThothApp.store.commitRecords();
+
+        // Once the book records come back READY_CLEAN, add review to current version.
+        review.addFiniteObserver('status', this, this.generateCheckReviewFunction(review), this);
+      },
+
+      exitState: function() {
+      },
+
+      generateCheckReviewFunction: function(review) {
+        var me = this;
+        return function(val) {
+          if (val & SC.Record.READY_CLEAN) {
+            ThothApp.versionsController.addNewReview(review);
+
+            ThothApp.reviewsController.selectObject(review);
+
+            me.invokeLater(function() {
+              ThothApp.versionController.beginEditing();
+            });
+
+            // this has already been done, eh?
+            //version.commitRecord();
+          }
+        };
       }
     })
   })
