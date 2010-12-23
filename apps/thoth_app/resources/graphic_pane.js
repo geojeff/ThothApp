@@ -36,7 +36,7 @@ ThothApp.graphicPane = SC.PanelPane.create({
       color: '#999',
       isDefault: YES,
       title: 'Dismiss',
-      action: 'dismiss'
+      action: 'dismissGraphicPane'
     })
   })
 });

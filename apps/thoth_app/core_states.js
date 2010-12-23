@@ -464,7 +464,7 @@ ThothApp.statechart = SC.Statechart.create({
     }),
 
     // ----------------------------------------
-    //    state: AUTHORS_LOADED (=== DATA_LOADED)
+    //    state: AUTHORS_LOADED (DATA_LOADED)
     // ----------------------------------------
     AUTHORS_LOADED: SC.State.design({
       enterState: function() {
@@ -533,7 +533,7 @@ ThothApp.statechart = SC.Statechart.create({
         this.gotoState('SHOWING_GRAPHIC');
       },
 
-      dismiss: function() {
+      dismissGraphicPane: function() {
         this.gotoState('APP_READY');
       },
 
