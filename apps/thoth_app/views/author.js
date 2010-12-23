@@ -202,7 +202,7 @@ ThothApp.AuthorView = SC.View.extend(SC.Animatable,
       }),
 
       del: SC.ButtonView.design({
-        layout: { left: 0, top: 0, bottom: 0, width:32 },
+        layout: { left: 32, top: 0, bottom: 0, width:32 },
         target: "ThothApp.statechart",
         action: "deleteVersion",
         icon: "icons minus button-icon",
