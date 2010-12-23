@@ -22,9 +22,9 @@ ThothApp.graphicPane = SC.PanelPane.create({
         classNames: ['authors-canvas'],
         contentBinding: SC.Binding.from('ThothApp.allItemsController').oneWay(),
         selectionBinding: 'ThothApp.authorsController.selection',
-        nodeViewDelegate: ThothApp.bookshelfController,
+        nodeViewDelegate: ThothApp.allItemsController,
         exampleView: ThothApp.NodeView,
-        delegate: ThothApp.bookshelfController
+        delegate: ThothApp.allItemsController
       })
 
     }),
