@@ -121,7 +121,7 @@ ThothApp.mainPage = SC.Page.design({
 
         toolbar: SC.ToolbarView.design({
           classNames: "hback toolbar".w(),
-          layout: { left: 15, bottom: 0, right: 0, height: 32 },
+          layout: { left: 15, bottom: 15, right: 0, height: 32 },
           childViews: "add del showGraphic".w(),
 
           add: SC.ButtonView.design({
@@ -179,7 +179,7 @@ ThothApp.mainPage = SC.Page.design({
           },
 
           classNames: ["book-panel"],
-          layout: { left: 15, right: 15, bottom: 0, top: 15 },
+          layout: { left: 15, right: 15, bottom: 15, top: 15 },
           borderStyle: SC.BORDER_NONE,
             contentView: ThothApp.AuthorView.design({
             contentBinding: "ThothApp.versionController"
