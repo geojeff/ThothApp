@@ -97,7 +97,7 @@ ThothApp.AuthorView = SC.View.extend(SC.Animatable,
     }), // bookList
 
     toolbar: SC.ToolbarView.design({
-      classNames: "hback toolbar-in-view".w(),
+      classNames: "hback toolbar".w(),
       layout: { left: 0, bottom: 0, right: 0, height: 32 },
       childViews: "add del".w(),
 
@@ -186,7 +186,7 @@ ThothApp.AuthorView = SC.View.extend(SC.Animatable,
     }), // versionList
 
     toolbar: SC.ToolbarView.design({
-      classNames: "hback toolbar-in-view".w(),
+      classNames: "hback toolbar".w(),
       layout: { left: 0, bottom: 0, right: 0, height: 32 },
       childViews: "add del".w(),
 
@@ -423,7 +423,7 @@ ThothApp.AuthorView = SC.View.extend(SC.Animatable,
     }), // reviewList
 
     toolbar: SC.ToolbarView.design({
-      classNames: "hback toolbar-in-view".w(),
+      classNames: "hback toolbar".w(),
       layout: { left: 0, bottom: 0, right: 0, height: 32 },
       childViews: "add del".w(),
 
