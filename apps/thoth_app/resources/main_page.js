@@ -122,7 +122,7 @@ ThothApp.mainPage = SC.Page.design({
         toolbar: SC.ToolbarView.design({
           classNames: "hback toolbar".w(),
           layout: { left: 0, bottom: 0, right: 0, height: 32 },
-          childViews: "add showGraphic".w(),
+          childViews: "add del showGraphic".w(),
 
           add: SC.ButtonView.design({
             layout: { left: 0, top: 0, bottom: 0, width:32 },
@@ -132,6 +132,17 @@ ThothApp.mainPage = SC.Page.design({
             titleMinWidth: 16,
             isActiveDidChange: function() {
               this.set("icon", (this.get("isActive") ? "icons plus-active button-icon" : "icons plus button-icon"));
+            }.observes("isActive")
+          }),
+
+          del: SC.ButtonView.design({
+            layout: { centerX: 0, centerY: 0, height: 32, width:32 },
+            target: "ThothApp.statechart",
+            action: "deleteAuthor",
+            icon: "icons minus button-icon",
+            titleMinWidth: 16,
+            isActiveDidChange: function() {
+              this.set("icon", (this.get("isActive") ? "icons minus-active button-icon" : "icons minus button-icon"));
             }.observes("isActive")
           }),
 

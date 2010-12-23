@@ -99,7 +99,7 @@ ThothApp.AuthorView = SC.View.extend(SC.Animatable,
     toolbar: SC.ToolbarView.design({
       classNames: "hback toolbar-in-view".w(),
       layout: { left: 0, bottom: 0, right: 0, height: 32 },
-      childViews: "add".w(),
+      childViews: "add del".w(),
 
       add: SC.ButtonView.design({
         layout: { left: 0, top: 0, bottom: 0, width:32 },
@@ -109,6 +109,17 @@ ThothApp.AuthorView = SC.View.extend(SC.Animatable,
         titleMinWidth: 16,
         isActiveDidChange: function() {
           this.set("icon", (this.get("isActive") ? "icons plus-active button-icon" : "icons plus button-icon"));
+        }.observes("isActive")
+      }),
+
+      del: SC.ButtonView.design({
+        layout: { left: 32, top: 0, bottom: 0, width:32 },
+        target: "ThothApp.statechart",
+        action: "deleteBook",
+        icon: "icons minus button-icon",
+        titleMinWidth: 16,
+        isActiveDidChange: function() {
+          this.set("icon", (this.get("isActive") ? "icons minus-active button-icon" : "icons minus button-icon"));
         }.observes("isActive")
       })
     }) // toolbar
@@ -177,7 +188,8 @@ ThothApp.AuthorView = SC.View.extend(SC.Animatable,
     toolbar: SC.ToolbarView.design({
       classNames: "hback toolbar-in-view".w(),
       layout: { left: 0, bottom: 0, right: 0, height: 32 },
-      childViews: "add".w(),
+      childViews: "add del".w(),
+
       add: SC.ButtonView.design({
         layout: { left: 0, top: 0, bottom: 0, width:32 },
         target: "ThothApp.statechart",
@@ -186,6 +198,17 @@ ThothApp.AuthorView = SC.View.extend(SC.Animatable,
         titleMinWidth: 16,
         isActiveDidChange: function() {
           this.set("icon", (this.get("isActive") ? "icons plus-active button-icon" : "icons plus button-icon"));
+        }.observes("isActive")
+      }),
+
+      del: SC.ButtonView.design({
+        layout: { left: 0, top: 0, bottom: 0, width:32 },
+        target: "ThothApp.statechart",
+        action: "deleteVersion",
+        icon: "icons minus button-icon",
+        titleMinWidth: 16,
+        isActiveDidChange: function() {
+          this.set("icon", (this.get("isActive") ? "icons minus-active button-icon" : "icons minus button-icon"));
         }.observes("isActive")
       })
     }) // toolbar
@@ -402,7 +425,8 @@ ThothApp.AuthorView = SC.View.extend(SC.Animatable,
     toolbar: SC.ToolbarView.design({
       classNames: "hback toolbar-in-view".w(),
       layout: { left: 0, bottom: 0, right: 0, height: 32 },
-      childViews: "add".w(),
+      childViews: "add del".w(),
+
       add: SC.ButtonView.design({
         layout: { left: 0, top: 0, bottom: 0, width:32 },
         target: "ThothApp.statechart",
@@ -411,6 +435,17 @@ ThothApp.AuthorView = SC.View.extend(SC.Animatable,
         titleMinWidth: 16,
         isActiveDidChange: function() {
           this.set("icon", (this.get("isActive") ? "icons plus-active button-icon" : "icons plus button-icon"));
+        }.observes("isActive")
+      }),
+
+      del: SC.ButtonView.design({
+        layout: { left: 32, top: 0, bottom: 0, width:32 },
+        target: "ThothApp.statechart",
+        action: "deleteReview",
+        icon: "icons minus button-icon",
+        titleMinWidth: 16,
+        isActiveDidChange: function() {
+          this.set("icon", (this.get("isActive") ? "icons minus-active button-icon" : "icons minus button-icon"));
         }.observes("isActive")
       })
     }) // toolbar
