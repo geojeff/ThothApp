@@ -67,24 +67,12 @@ ThothApp.statechart = SC.Statechart.create({
       authFailure: function(errorMessage) {
         ThothApp.loginController.set('loginErrorMessage', errorMessage);
         this.resumeGotoState();
-        this.gotoState('REJECTED');
+        this.gotoState('AUTHENTICATING');
       },
 
       authSuccess: function() {
         this.resumeGotoState();
         this.gotoState('AUTHENTICATED');
-      }
-    }),
-
-    // ----------------------------------------
-    //    state: REJECTED
-    // ----------------------------------------
-    REJECTED: SC.State.design({
-      enterState: function() {
-      },
-
-      exitState: function() {
-        this.gotoState('AUTHENTICATING');
       }
     }),
 
@@ -531,6 +519,7 @@ ThothApp.statechart = SC.Statechart.create({
       exitState: function() {
       },
 
+      // these were here, instead of APP_LOADED and weren't receiving -- review need for APP_READY vs. APP_LOADED [TODO]
       showGraphicPane:    function() { console.log('sgp'); this.gotoState('SHOWING_GRAPHIC'); },
       dismissGraphicPane: function() { this.gotoState('APP_READY'); },
       addAuthor:          function() { console.log('blah'); this.gotoState('ADDING_AUTHOR'); },
