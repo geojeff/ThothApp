@@ -8,13 +8,13 @@ require("views/author");
 
 // This page describes the main user interface for your application.  
 ThothApp.mainPage = SC.Page.design({
-  defaultResponder: "ThothApp.statechart",
 
   // The main panel is made visible on screen as soon as your app is loaded.
   // Add childViews to this pane for views to display immediately on page 
   // load.
   mainPanel: SC.MainPane.design({
     childViews: 'toolbar splitter'.w(),
+    defaultResponder: "ThothApp.statechart",
 
     toolbar: SC.ToolbarView.design({
       classNames: ["hback", "toolbar"],

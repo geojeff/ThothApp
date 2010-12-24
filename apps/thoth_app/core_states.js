@@ -506,16 +506,19 @@ ThothApp.statechart = SC.Statechart.create({
       enterState: function() {
       },
 
-      showGraphic: function() {
-        this.gotoState('SHOWING_GRAPHIC');
-      },
-
       exitState: function() {
       },
 
-      dismissGraphicPane: function() {
-        this.gotoState('APP_READY');
-      }
+      showGraphicPane:    function() { this.gotoState('SHOWING_GRAPHIC'); },
+      dismissGraphicPane: function() { this.gotoState('APP_READY'); },
+      addAuthor:          function() { this.gotoState('ADDING_AUTHOR'); },
+      addBook:            function() { this.gotoState('ADDING_BOOK'); },
+      addVersion:         function() { this.gotoState('ADDING_VERSION'); },
+      addReview:          function() { this.gotoState('ADDING_REVIEW'); },
+      deleteAuthors:      function() { this.gotoState('DELETING_AUTHORS'); },
+      deleteBook:         function() { this.gotoState('DELETING_BOOK'); },
+      deleteVersion:      function() { this.gotoState('DELETING_VERSION'); },
+      deleteReview:       function() { this.gotoState('DELETING_REVIEW'); }
     }),
 
     // ----------------------------------------
@@ -550,8 +553,6 @@ ThothApp.statechart = SC.Statechart.create({
 
         console.log('a');
         author = ThothApp.store.createRecord(ThothApp.Author, {
-          //"key":         authorKey,
-          "fixturesKey": authorKey,
           "firstName":   "First",
           "lastName":    "Last"
         });
@@ -569,26 +570,9 @@ ThothApp.statechart = SC.Statechart.create({
         var me = this;
         return function(val) {
           if (val & SC.Record.READY_CLEAN) {
-            ThothApp.bumpAuthorCount();
-
-            var bookRecords = ThothApp.store.find(ThothApp.Book);
-            var fixturesKey = authorRecord.readAttribute('fixturesKey');
-
-            var bookRecordsForAuthor = [];
-            bookRecords.forEach(function(bookRecord) {
-              if (ThothApp.Author.FIXTURES[fixturesKey - 1].books.indexOf(bookRecord.readAttribute('fixturesKey')) !== -1) {
-                bookRecordsForAuthor.pushObject(bookRecord);
-              }
-            });
-
-            console.log('b');
-            authorRecord.get('books').pushObjects(bookRecordsForAuthor);
-
-            ThothApp.store.commitRecords();
-
             me.invokeLater(function() {
-              var contentIndex = ThothApp.authorsController.indexOf(author);
-              var list = ThothApp.mainPage.getPath("mainPane.splitter.topLeftView.authorList.contentView");
+              var contentIndex = ThothApp.authorsController.indexOf(authorRecord);
+              var list = ThothApp.mainPage.getPath("mainPanel.splitter.topLeftView.authorList.contentView");
               var listItem = list.itemViewForContentIndex(contentIndex);
               listItem.beginEditing();
             });
