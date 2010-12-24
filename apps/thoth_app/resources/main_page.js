@@ -8,6 +8,7 @@ require("views/author");
 
 // This page describes the main user interface for your application.  
 ThothApp.mainPage = SC.Page.design({
+  defaultResponder: "ThothApp.statechart",
 
   // The main panel is made visible on screen as soon as your app is loaded.
   // Add childViews to this pane for views to display immediately on page 
@@ -18,7 +19,6 @@ ThothApp.mainPage = SC.Page.design({
     toolbar: SC.ToolbarView.design({
       classNames: ["hback", "toolbar"],
       layout: { left: 0, top: 0, right: 0, height: 32 },
-      defaultResponder: 'ThothApp.statechart',
 
       childViews: "appLogo countsLabel authorCount bookCount versionCount reviewCount".w(),
 
@@ -123,11 +123,9 @@ ThothApp.mainPage = SC.Page.design({
           classNames: "hback toolbar".w(),
           layout: { left: 15, bottom: 15, right: 0, height: 32 },
           childViews: "add del showGraphic".w(),
-          defaultResponder: 'ThothApp.statechart',
 
           add: SC.ButtonView.design({
             layout: { left: 0, top: 0, bottom: 0, width:32 },
-            target: "ThothApp.statechart",
             action: "addAuthor",
             icon: "icons plus button-icon",
             titleMinWidth: 16,
@@ -138,7 +136,6 @@ ThothApp.mainPage = SC.Page.design({
 
           del: SC.ButtonView.design({
             layout: { left: 34, top: 0, bottom: 0, width:32 },
-            target: "ThothApp.statechart",
             action: "deleteAuthor",
             icon: "icons minus button-icon",
             titleMinWidth: 16,
@@ -149,8 +146,6 @@ ThothApp.mainPage = SC.Page.design({
 
           showGraphic: SC.ButtonView.design({
             layout: { left: 68, right: 0, top: 0, bottom: 0 },
-            //icon: "icons graphic button-graphic",
-            target: "ThothApp.statechart",
             titleMinWidth: 16,
             action: "showGraphicPane",
             title: "Show Graphic"

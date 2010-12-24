@@ -13,21 +13,21 @@
 ThothApp.allItemsController = SC.ArrayController.create(
 /** @scope ThothApp.allItemsController.prototype */ {
   authorsBinding: 'ThothApp.authorsController.selection',
-  booksBinding: 'ThothApp.booksController',
-  versionsBinding: 'ThothApp.versionsController',
-  reviewsBinding: 'ThothApp.reviewsController',
+  booksBinding: 'ThothApp.booksController.content',
+  versionsBinding: 'ThothApp.versionsController.content',
+  reviewsBinding: 'ThothApp.reviewsController.content',
 
   content: function() {
     var all = [],
         authors = this.get('authors'),
-        books = this.get('authors'),
-        versions = this.get('books'),
-        reviews = this.get('versions');
+        books = this.get('books'),
+        versions = this.get('versions'),
+        reviews = this.get('reviews');
 
-    if (!SC.none(authors)) all.pushObjects(authors);
-    if (!SC.none(books)) all.pushObjects(books);
-    if (!SC.none(versions)) all.pushObjects(versions);
-    if (!SC.none(reviews)) all.pushObjects(reviews);
+    if (!SC.none(authors)) all.pushObjects(authors); else console.log('no authors');
+    if (!SC.none(books)) all.pushObjects(books); else console.log('no books');
+    if (!SC.none(versions)) all.pushObjects(versions); else console.log('no versions');
+    if (!SC.none(reviews)) all.pushObjects(reviews); else console.log('no reviews');
 
     return all;
   }.property('authors', 'books', 'versions', 'reviews')

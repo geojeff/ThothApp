@@ -12,7 +12,7 @@
 ThothApp.bookController = SC.ObjectController.create(
 /** @scope ThothApp.bookController.prototype */ {
 	contentBinding: "ThothApp.booksController.selection",
-	//contentBindingDefault: SC.Binding.oneWay().single(),
+	contentBindingDefault: SC.Binding.oneWay().single(),
 
 	isEditing: NO,
 

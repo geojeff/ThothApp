@@ -274,7 +274,6 @@ ThothApp.statechart = SC.Statechart.create({
     SHOWING_GRAPHIC: SC.State.design({
       enterState: function() {
         console.log('SHOWING_GRAPHIC');
-        ThothApp.allItemsController.set();
         ThothApp.getPath('graphicPane').append();
       },
 
@@ -529,7 +528,7 @@ ThothApp.statechart = SC.Statechart.create({
       exitState: function() {
       },
 
-      showGraphicPane:        function() { this.gotoState('SHOWING_GRAPHIC'); },
+      showGraphicPane:    function() { console.log('sgp'); this.gotoState('SHOWING_GRAPHIC'); },
       dismissGraphicPane: function() { this.gotoState('APP_READY'); },
       addAuthor:          function() { console.log('blah'); this.gotoState('ADDING_AUTHOR'); },
       addBook:            function() { this.gotoState('ADDING_BOOK'); },
