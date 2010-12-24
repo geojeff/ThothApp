@@ -146,6 +146,8 @@ ThothApp.statechart = SC.Statechart.create({
             "position":     ThothApp.Review.FIXTURES[i].position
           });
 
+          // this.generateCheckVersionsFunction is provided to create the function that
+          // checks for READY_CLEAN for all reviews, before reporting reviewsDidLoad.
           review.addFiniteObserver('status', this, this.generateCheckReviewsFunction(review), this);
         }
 
@@ -245,10 +247,6 @@ ThothApp.statechart = SC.Statechart.create({
             "position":        ThothApp.Version.FIXTURES[i].position
           });
 
-          // this.generateCheckVersionsFunction is provided to create the function that
-          // checks for READY_CLEAN for all versions for a given book. When all such
-          // versions are READY_CLEAN, in turn, createBook(), the last step in
-          // the data creation scheme, is fired.
           version.addFiniteObserver('status', this, this.generateCheckVersionsFunction(version), this);
         }
         ThothApp.store.commitRecords();
@@ -262,11 +260,11 @@ ThothApp.statechart = SC.Statechart.create({
     SHOWING_GRAPHIC: SC.State.design({
       enterState: function() {
         console.log('SHOWING_GRAPHIC');
-        ThothApp.getPath('graphicPane').append();
+        ThothApp.getPath('graphic').append();
       },
 
       exitState: function() {
-        ThothApp.getPath('graphicPane').remove();
+        ThothApp.getPath('graphic').remove();
       },
 
       dismissGraphicPane: function() {

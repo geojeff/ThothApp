@@ -5,6 +5,7 @@
 // ==========================================================================
 /*globals ThothApp Forms Animation */
 require("views/author");
+require("views/graphic");
 
 // This page describes the main user interface for your application.  
 ThothApp.mainPage = SC.Page.design({
@@ -57,7 +58,7 @@ ThothApp.mainPage = SC.Page.design({
 
     }), // toolbar
 
-    // splitter, with authors list on the left, and books list and view on the right.
+    // splitter, with authors list on the left, and author view or graphic on the right
     splitter: SC.SplitView.design({
       layout: { left: 0, top: 32, right: 0, bottom: 0 },
       defaultThickness: 200,
@@ -177,8 +178,8 @@ ThothApp.mainPage = SC.Page.design({
           classNames: ["book-panel"],
           layout: { left: 15, right: 15, bottom: 15, top: 15 },
           borderStyle: SC.BORDER_NONE,
-            contentView: ThothApp.AuthorView.design({
-            contentBinding: "ThothApp.versionController"
+            contentView: ThothApp.ContainerView.design({
+            nowShowingBinding: "ThothApp.authorController.nowShowing"
           }),
 
           shouldDisplayBinding: "ThothApp.authorsController.hasContent",
