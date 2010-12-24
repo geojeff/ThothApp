@@ -19,6 +19,7 @@ ThothApp.AuthorView = SC.View.extend(SC.Animatable,
   childViews: "booksView versionsView authorForm bookTitleForm versionView reviewsView".w(),
   backgroundColor: "white",
   contentBindingDefault: SC.Binding.single(),
+  defaultResponder: "ThothApp.statechart",
 
   transitions: {
     opacity: {
@@ -103,7 +104,6 @@ ThothApp.AuthorView = SC.View.extend(SC.Animatable,
 
       add: SC.ButtonView.design({
         layout: { left: 0, top: 0, bottom: 0, width:32 },
-        target: "ThothApp.statechart",
         action: "addBook",
         icon: "icons plus button-icon",
         titleMinWidth: 16,
@@ -114,7 +114,6 @@ ThothApp.AuthorView = SC.View.extend(SC.Animatable,
 
       del: SC.ButtonView.design({
         layout: { left: 34, top: 0, bottom: 0, width:32 },
-        target: "ThothApp.statechart",
         action: "deleteBook",
         icon: "icons minus button-icon",
         titleMinWidth: 16,
@@ -192,7 +191,6 @@ ThothApp.AuthorView = SC.View.extend(SC.Animatable,
 
       add: SC.ButtonView.design({
         layout: { left: 0, top: 0, bottom: 0, width:32 },
-        target: "ThothApp.statechart",
         action: "addVersion",
         icon: "icons plus button-icon",
         titleMinWidth: 16,
@@ -203,7 +201,6 @@ ThothApp.AuthorView = SC.View.extend(SC.Animatable,
 
       del: SC.ButtonView.design({
         layout: { left: 34, top: 0, bottom: 0, width:32 },
-        target: "ThothApp.statechart",
         action: "deleteVersion",
         icon: "icons minus button-icon",
         titleMinWidth: 16,
@@ -429,7 +426,6 @@ ThothApp.AuthorView = SC.View.extend(SC.Animatable,
 
       add: SC.ButtonView.design({
         layout: { left: 0, top: 0, bottom: 0, width:32 },
-        target: "ThothApp.statechart",
         action: "addReview",
         icon: "icons plus button-icon",
         titleMinWidth: 16,
@@ -440,7 +436,6 @@ ThothApp.AuthorView = SC.View.extend(SC.Animatable,
 
       del: SC.ButtonView.design({
         layout: { left: 34, top: 0, bottom: 0, width:32 },
-        target: "ThothApp.statechart",
         action: "deleteReview",
         icon: "icons minus button-icon",
         titleMinWidth: 16,
