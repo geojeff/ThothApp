@@ -1,5 +1,5 @@
 // ==========================================================================
-// Project:   ThothApp.AuthorView
+// Project:   ThothApp.AuthorStandardView
 // ==========================================================================
 /*globals ThothApp Forms */
 
@@ -12,8 +12,8 @@
 
 //SC.Animatable.defaultTimingFunction = SC.Animatable.TRANSITION_EASE_IN_OUT;
 
-ThothApp.AuthorView = SC.View.extend(SC.Animatable,
-  /** @scope ThothApp.AuthorView.prototype */ {
+ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
+  /** @scope ThothApp.AuthorStandardView.prototype */ {
   layout: {left:0, right:0},
   classNames: ["author-view"],
   childViews: "booksView versionsView authorForm bookTitleForm versionView reviewsView".w(),

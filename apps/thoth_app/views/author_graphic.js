@@ -5,7 +5,7 @@
 
 sc_require('views/node');
 
-ThothApp.graphic = SC.View.create({
+ThothApp.AuthorGraphicView = SC.View.create({
   layout: { top: 0, bottom: 0, left: 0, right: 0 },
   defaultResponder: 'ThothApp.statechart',
 

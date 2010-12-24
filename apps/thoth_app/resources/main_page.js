@@ -158,12 +158,7 @@ ThothApp.mainPage = SC.Page.design({
       // book view
       bottomRightView: SC.View.design({
         backgroundColor: "#555",
-        childViews: 'noAuthorView authorView'.w(),
-
-        noAuthorView: SC.LabelView.design({
-          layout: { centerX: 0, centerY: 0, height: 18, width: 200 },
-          value: "No author selected..."
-        }),
+        childViews: 'authorView'.w(),
 
         authorView: SC.ScrollView.design(SC.Animatable, {
           style: {
@@ -194,4 +189,14 @@ ThothApp.mainPage = SC.Page.design({
       }) // bottomRightView (bookView)
     }) // splitter
   }) // mainPane
+
+  // views for nowShowing property of authorView.contentView:
+  welcome: SC.LabelView.design({
+    escapeHTML: NO,
+    value: "<h1>Thoth App</h1><p>No author selected.</p>"
+  }),
+
+  standard: ThothApp.AuthorStandardView,
+  AuthorGraphicView:  ThothApp.AuthorGraphicView
+
 }); // mainPage
