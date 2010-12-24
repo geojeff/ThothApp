@@ -529,9 +529,9 @@ ThothApp.statechart = SC.Statechart.create({
       exitState: function() {
       },
 
-      showGraphic:        function() { this.gotoState('SHOWING_GRAPHIC'); },
+      showGraphicPane:        function() { this.gotoState('SHOWING_GRAPHIC'); },
       dismissGraphicPane: function() { this.gotoState('APP_READY'); },
-      addAuthor:          function() { this.gotoState('ADDING_AUTHOR'); },
+      addAuthor:          function() { console.log('blah'); this.gotoState('ADDING_AUTHOR'); },
       addBook:            function() { this.gotoState('ADDING_BOOK'); },
       addVersion:         function() { this.gotoState('ADDING_VERSION'); },
       addReview:          function() { this.gotoState('ADDING_REVIEW'); },
@@ -543,12 +543,13 @@ ThothApp.statechart = SC.Statechart.create({
     }),
 
     // ----------------------------------------
-    //    state: ADDING_BOOK
+    //    state: ADDING_AUTHOR
     // ----------------------------------------
-    ADDING_BOOK: SC.State.design({
+    ADDING_AUTHOR: SC.State.design({
       enterState: function() {
         var author;
 
+        console.log('a');
         author = ThothApp.store.createRecord(ThothApp.Author, {
           //"key":         authorKey,
           "fixturesKey": authorKey,
@@ -581,12 +582,13 @@ ThothApp.statechart = SC.Statechart.create({
               }
             });
 
+            console.log('b');
             authorRecord.get('books').pushObjects(bookRecordsForAuthor);
 
             ThothApp.store.commitRecords();
 
-            this.invokeLater(function() {
-              var contentIndex = this.indexOf(author);
+            me.invokeLater(function() {
+              var contentIndex = ThothApp.authorsController.indexOf(author);
               var list = ThothApp.mainPage.getPath("mainPane.splitter.topLeftView.authorList.contentView");
               var listItem = list.itemViewForContentIndex(contentIndex);
               listItem.beginEditing();

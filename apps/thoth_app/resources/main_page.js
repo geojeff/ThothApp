@@ -136,7 +136,7 @@ ThothApp.mainPage = SC.Page.design({
           }),
 
           del: SC.ButtonView.design({
-            layout: { left: 32, top: 0, bottom: 0, width:32 },
+            layout: { left: 34, top: 0, bottom: 0, width:32 },
             target: "ThothApp.statechart",
             action: "deleteAuthor",
             icon: "icons minus button-icon",
@@ -147,11 +147,11 @@ ThothApp.mainPage = SC.Page.design({
           }),
 
           showGraphic: SC.ButtonView.design({
-            layout: { left: 64, right: 0, top: 0, bottom: 0 },
+            layout: { left: 68, right: 0, top: 0, bottom: 0 },
             //icon: "icons graphic button-graphic",
             target: "ThothApp.statechart",
             titleMinWidth: 16,
-            action: "showGraphic",
+            action: "showGraphicPane",
             title: "Show Graphic"
           })
 
