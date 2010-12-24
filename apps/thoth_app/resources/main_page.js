@@ -4,8 +4,8 @@
 //                http://github.com/ialexi/Contacts
 // ==========================================================================
 /*globals ThothApp Forms Animation */
-require("views/author");
-require("views/graphic");
+require("views/author_standard");
+require("views/author_graphic");
 
 // This page describes the main user interface for your application.  
 ThothApp.mainPage = SC.Page.design({
@@ -123,7 +123,7 @@ ThothApp.mainPage = SC.Page.design({
         toolbar: SC.ToolbarView.design({
           classNames: "hback toolbar".w(),
           layout: { left: 15, bottom: 15, right: 0, height: 32 },
-          childViews: "add del showGraphic".w(),
+          childViews: "add del showGraphic showStandard".w(),
 
           add: SC.ButtonView.design({
             layout: { left: 0, top: 0, bottom: 0, width:32 },
@@ -145,12 +145,40 @@ ThothApp.mainPage = SC.Page.design({
             }.observes("isActive")
           }),
 
-          showGraphic: SC.ButtonView.design({
+          showGraphic: SC.ButtonView.design(SC.Animatable, {
+            transitions: { opacity: 0.25 },
             layout: { left: 68, right: 0, top: 0, bottom: 0 },
             titleMinWidth: 16,
-            action: "showGraphicPane",
-            title: "Show Graphic"
-          })
+            action: "showGraphic",
+            title: "Show Graphic",
+            style: { opacity: 1 }
+          }),
+
+          showStandard: SC.ButtonView.design(SC.Animatable, {
+            transitions: { opacity: 0.25 },
+            layout: { left: 68, right: 0, top: 0, bottom: 0 },
+            titleMinWidth: 16,
+            action: "showStandard",
+            title: "Show Lists/Form",              // internally called standard; called Lists/Form in UI
+            style: { opacity: 0, display: "none" }
+          }),
+
+          standardIsShowing: NO,
+          standardIsShowingBinding: "ThothApp.authorController.standardIsShowing",
+          standardIsShowingDidChange: function() {
+            var standard = this.get("showStandard");
+            var graphic = this.get("showGraphic");
+
+            if (graphic.isClass) return;
+
+            if (this.get("standardIsShowing")) {
+              graphic.adjust({ opacity: 1, display: "block" }).updateLayout();
+              standard.adjust({ opacity: 1, display: "none" }).updateLayout();
+            } else {
+              standard.adjust({ opacity: 1, display: "block" }).updateLayout();
+              graphic.adjust({ opacity: 1, display: "none" }).updateLayout();
+            }
+          }.observes("standardIsShowing")
 
         }) // toolbar
       }), // topLeftView
@@ -173,7 +201,7 @@ ThothApp.mainPage = SC.Page.design({
           classNames: ["book-panel"],
           layout: { left: 15, right: 15, bottom: 15, top: 15 },
           borderStyle: SC.BORDER_NONE,
-            contentView: ThothApp.ContainerView.design({
+            contentView: SC.ContainerView.design({
             nowShowingBinding: "ThothApp.authorController.nowShowing"
           }),
 
@@ -188,15 +216,11 @@ ThothApp.mainPage = SC.Page.design({
         }) // bookView
       }) // bottomRightView (bookView)
     }) // splitter
-  }) // mainPane
+  }), // mainPane
 
   // views for nowShowing property of authorView.contentView:
-  welcome: SC.LabelView.design({
-    escapeHTML: NO,
-    value: "<h1>Thoth App</h1><p>No author selected.</p>"
-  }),
-
+  welcome:  SC.LabelView.design({ escapeHTML: NO, value: "<h1>Thoth App</h1><p>No author selected.</p>" }),
   standard: ThothApp.AuthorStandardView,
-  AuthorGraphicView:  ThothApp.AuthorGraphicView
+  graphic:  ThothApp.AuthorGraphicView
 
 }); // mainPage

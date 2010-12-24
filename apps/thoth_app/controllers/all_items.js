@@ -29,6 +29,7 @@ ThothApp.allItemsController = SC.ArrayController.create(
     if (!SC.none(versions)) all.pushObjects(versions); else console.log('no versions');
     if (!SC.none(reviews)) all.pushObjects(reviews); else console.log('no reviews');
 
+    console.log('all length ', all.get('length'));
     return all;
   }.property('authors', 'books', 'versions', 'reviews')
 

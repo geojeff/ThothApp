@@ -483,6 +483,8 @@ ThothApp.statechart = SC.Statechart.create({
       //    state: SHOWING_STANDARD
       // -------------------------------------------
       SHOWING_STANDARD: SC.State.design({
+        initialSubstate: "READY_STANDARD",
+
         enterState: function() {
           console.log('SHOWING_STANDARD');
           ThothApp.authorController.set('show', 'standard');
@@ -491,15 +493,28 @@ ThothApp.statechart = SC.Statechart.create({
         exitState: function() {
         },
 
-        showGraphic: function() { this.gotoState('SHOWING_GRAPHIC'); }
-        addAuthor:      function() { this.gotoState('ADDING_AUTHOR'); },
-        addBook:        function() { this.gotoState('ADDING_BOOK'); },
-        addVersion:     function() { this.gotoState('ADDING_VERSION'); },
-        addReview:      function() { this.gotoState('ADDING_REVIEW'); },
-        deleteAuthors:  function() { this.gotoState('DELETING_AUTHORS'); },
-        deleteBook:     function() { this.gotoState('DELETING_BOOK'); },
-        deleteVersion:  function() { this.gotoState('DELETING_VERSION'); },
-        deleteReview:   function() { this.gotoState('DELETING_REVIEW'); },
+        showGraphic:    function() { this.gotoState('SHOWING_GRAPHIC'); },
+
+        // -------------------------------------------
+        //    state: READY_STANDARD
+        // -------------------------------------------
+        READY_STANDARD: SC.State.design({
+          enterState: function() {
+            console.log('READY_STANDARD');
+          },
+
+          exitState: function() {
+          },
+
+          addAuthor:      function() { this.gotoState('ADDING_AUTHOR'); },
+          addBook:        function() { this.gotoState('ADDING_BOOK'); },
+          addVersion:     function() { this.gotoState('ADDING_VERSION'); },
+          addReview:      function() { this.gotoState('ADDING_REVIEW'); },
+          deleteAuthors:  function() { this.gotoState('DELETING_AUTHORS'); },
+          deleteBook:     function() { this.gotoState('DELETING_BOOK'); },
+          deleteVersion:  function() { this.gotoState('DELETING_VERSION'); },
+          deleteReview:   function() { this.gotoState('DELETING_REVIEW'); }
+        }),
 
         // ----------------------------------------
         //    state: ADDING_AUTHOR
@@ -802,7 +817,7 @@ ThothApp.statechart = SC.Statechart.create({
         exitState: function() {
         },
 
-        showStandard: function() { this.gotoState('SHOWING_STANDARD'); },
+        showStandard: function() { this.gotoState('SHOWING_STANDARD'); }
       })
     })
   })
