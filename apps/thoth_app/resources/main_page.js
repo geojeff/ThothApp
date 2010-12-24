@@ -123,6 +123,7 @@ ThothApp.mainPage = SC.Page.design({
           classNames: "hback toolbar".w(),
           layout: { left: 15, bottom: 15, right: 0, height: 32 },
           childViews: "add del showGraphic".w(),
+          defaultResponder: 'ThothApp.statechart',
 
           add: SC.ButtonView.design({
             layout: { left: 0, top: 0, bottom: 0, width:32 },
