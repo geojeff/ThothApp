@@ -36,16 +36,16 @@ ThothApp.Review = SC.Record.extend(LinkIt.Node, {
   links: function(){
     var links = [];
     // get version
-    var v = this.get('version');
-    var vink;
-    if (v){
-      vLink = SC.Object.create( LinkIt.Link, {
-        startNode: v,
+    var version = this.get('version');
+    var versionLink;
+    if (version){
+      versionLink = SC.Object.create( LinkIt.Link, {
+        startNode: version,
         startTerminal: 'reviews',
         endNode: this,
         endTerminal: 'version'
       });
-      links.push(vLink);
+      links.push(versionLink);
     }
 
     return links;

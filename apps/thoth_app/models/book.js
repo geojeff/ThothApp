@@ -43,7 +43,7 @@ ThothApp.Book = SC.Record.extend(LinkIt.Node, {
     if (author){
       var authorLink = SC.Object.create( LinkIt.Link, {
         startNode: author,
-        startTerminal: 'versions',
+        startTerminal: 'books',
         endNode: this,
         endTerminal: 'author'
       });
@@ -54,14 +54,15 @@ ThothApp.Book = SC.Record.extend(LinkIt.Node, {
   }.property('author').cacheable(),
 
   isAuthorToBooks: function(t1, t2) {
-    if (t1 === 'author' && t2 == 'books') return YES;
-    if (t2 === 'author' && t1 == 'books') return YES;
+    if (t1 === 'author' && t2 === 'books') return YES;
+    if (t2 === 'author' && t1 === 'books') return YES;
+    console.log('no ', t1, t2);
     return NO;
   },
 
   isBookToVersions: function(t1, t2) {
-    if (t1 === 'book' && t2 == 'versions') return YES;
-    if (t2 === 'book' && t1 == 'versions') return YES;
+    if (t1 === 'book' && t2 === 'versions') return YES;
+    if (t2 === 'book' && t1 === 'versions') return YES;
     return NO;
   },
 

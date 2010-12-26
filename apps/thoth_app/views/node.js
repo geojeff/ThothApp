@@ -87,18 +87,18 @@ ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
       );
       childViews.push(contentView);
 
-      // Book Terminal
-      this._term_book = this.createChildView(
+      // Author Terminal
+      this._term_author = this.createChildView(
         SC.View.extend(LinkIt.Terminal, {
-          classNames: ['book-terminal'],
+          classNames: ['author-terminal'],
           layout: { top: -5, centerX: 0, width: 10, height: 10 },
           linkStyle: { lineStyle: LinkIt.STRAIGHT, width: 3, color: '#E08CDF', cap: LinkIt.ROUND},
           node: content,
-          terminal: 'book',
+          terminal: 'author',
           direction: LinkIt.INPUT_TERMINAL
         })
       );
-      childViews.push(this._term_book);
+      childViews.push(this._term_author);
 
       // Versions terminal
       this._term_versions = this.createChildView(
@@ -128,18 +128,18 @@ ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
       );
       childViews.push(contentView);
 
-      // Version Terminal
-      this._term_version = this.createChildView(
+      // Book Terminal
+      this._term_book = this.createChildView(
         SC.View.extend(LinkIt.Terminal, {
-          classNames: ['version-terminal'],
+          classNames: ['book-terminal'],
           layout: { top: -5, centerX: 0, width: 10, height: 10 },
           linkStyle: { lineStyle: LinkIt.STRAIGHT, width: 3, color: '#E08CDF', cap: LinkIt.ROUND},
           node: content,
-          terminal: 'version',
+          terminal: 'book',
           direction: LinkIt.INPUT_TERMINAL
         })
       );
-      childViews.push(this._term_version);
+      childViews.push(this._term_book);
 
       // Reviews terminal
       this._term_reviews = this.createChildView(
@@ -169,18 +169,17 @@ ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
       );
       childViews.push(contentView);
 
-      // Review Terminal
-      this._term_review = this.createChildView(
+      // Version Terminal
+      this._term_version = this.createChildView(
         SC.View.extend(LinkIt.Terminal, {
-          classNames: ['review-terminal'],
+          classNames: ['version-terminal'],
           layout: { right: 40, top: -5, width: 10, height: 10 },
           linkStyle: { lineStyle: LinkIt.STRAIGHT, width: 3, color: '#E08CDF', cap: LinkIt.ROUND},
           node: content,
-          terminal: 'review',
-          direction: LinkIt.INPUT_TERMINAL
+          terminal: 'version',
         })
       );
-      childViews.push(this._term_review);
+      childViews.push(this._term_version);
 
       // Review is the leaf, so has no output terminal.
 
