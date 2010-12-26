@@ -49,7 +49,7 @@ ThothApp.Version = SC.Record.extend(LinkIt.Node, {
     // get book
     var book = this.get('book');
     if (book){
-      var bookLink = SC.Object.create( LinkIt.Link, {
+      var bookLink = SC.Object.create(LinkIt.Link, {
         startNode: book,
         startTerminal: 'versions',
         endNode: this,

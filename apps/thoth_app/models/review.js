@@ -39,7 +39,7 @@ ThothApp.Review = SC.Record.extend(LinkIt.Node, {
     var version = this.get('version');
     var versionLink;
     if (version){
-      versionLink = SC.Object.create( LinkIt.Link, {
+      versionLink = SC.Object.create(LinkIt.Link, {
         startNode: version,
         startTerminal: 'reviews',
         endNode: this,
@@ -88,7 +88,7 @@ ThothApp.Review = SC.Record.extend(LinkIt.Node, {
     var sn = l.get('startNode'), st = l.get('startTerminal');
     var en = l.get('endNode'), et = l.get('endTerminal');
     //console.log('Review...didCreateLink: start:%@ end:%@'.fmt(st, et));
-    if(en === this && et === 'myVersion'){
+    if(en === this && et === 'version'){
       this.set('version', sn);
     }
   },
@@ -96,7 +96,7 @@ ThothApp.Review = SC.Record.extend(LinkIt.Node, {
   willDeleteLink: function(link) {
     var sn = link.get('startNode'), st = link.get('startTerminal');
     var en = link.get('endNode'), et = link.get('endTerminal');
-    if(en === this && et === 'myVersion'){
+    if(en === this && et === 'version'){
       this.set('version', null);
     }
   }
