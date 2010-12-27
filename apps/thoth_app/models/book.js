@@ -58,7 +58,6 @@ ThothApp.Book = SC.Record.extend(LinkIt.Node, {
   isAuthorToBooks: function(t1, t2) {
     if (t1 === 'author' && t2 === 'books') return YES;
     if (t2 === 'author' && t1 === 'books') return YES;
-    console.log('no ', t1, t2);
     return NO;
   },
 

@@ -38,12 +38,9 @@ ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
     var childViews = [], contentView;
     var content = this.get('content');
 
-    console.log('in ccv', content);
-
     if(SC.none(content)) return;
 
     if(content.get('isAuthor')){
-      console.log('pushing author views');
       // This is the content of the view
       contentView = this.createChildView(
         SC.LabelView.extend({
@@ -73,7 +70,6 @@ ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
       childViews.push(this._term_books);
 
     } else if(content.get('isBook')) {
-      console.log('pushing book views');
       // This is the content of the view
       contentView = this.createChildView(
         SC.LabelView.extend({
@@ -114,7 +110,6 @@ ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
       childViews.push(this._term_versions);
 
     } else if(content.get('isVersion')) {
-      console.log('pushing version views');
       // This is the content of the view
       contentView = this.createChildView(
         SC.LabelView.extend({
@@ -155,7 +150,6 @@ ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
       childViews.push(this._term_reviews);
 
     } else if(content.get('isReview')) {
-      console.log('pushing review views');
       // This is the content of the view
       contentView = this.createChildView(
         SC.LabelView.extend({
@@ -195,7 +189,6 @@ ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
     Implements LinkIt.NodeView.terminalViewFor()
   */
   terminalViewFor: function(terminalKey) {
-    console.log(terminalKey);
     return this['_term_' + terminalKey];
   }
 });

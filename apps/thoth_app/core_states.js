@@ -121,7 +121,6 @@ ThothApp.statechart = SC.Statechart.create({
         return function(val) {
           if (val & SC.Record.READY_CLEAN) {
             me._tmpRecordCount--;
-            console.log(SC.inspect(val));
             ThothApp.reviewsController.recordWasLoaded(review.get('fixturesKey'));
             if (me._tmpRecordCount === 0) {
               delete me._tmpRecordCount;
@@ -203,7 +202,6 @@ ThothApp.statechart = SC.Statechart.create({
 
               var versionRecords = ThothApp.store.find(ThothApp.Version);
               versionRecords.forEach(function(versionRecord) {
-                //console.log(SC.inspect(versionRecord));
                 var fixturesKey = versionRecord.readAttribute('fixturesKey');
 
                 var reviewRecords = ThothApp.store.find(SC.Query.local(ThothApp.Review, {
@@ -523,7 +521,6 @@ ThothApp.statechart = SC.Statechart.create({
           enterState: function() {
             var author;
 
-            console.log('a');
             author = ThothApp.store.createRecord(ThothApp.Author, {
               "firstName":   "First",
               "lastName":    "Last"
