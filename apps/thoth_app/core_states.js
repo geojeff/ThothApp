@@ -24,17 +24,23 @@ ThothApp.statechart = SC.Statechart.create({
         ThothApp.booksController.initializeForLoading();
         ThothApp.authorsController.initializeForLoading();
 
-        var panel = ThothApp.getPath('loginPanel');
-        if (panel) {
-          panel.append();
-          panel.focus();
+        if (ThothApp.get('storeType') === 'Thoth') {
+          var panel = ThothApp.getPath('loginPanel');
+          if (panel) {
+            panel.append();
+            panel.focus();
+          }
+        } else {                             // when using fixtures, go directly to LOADING_APP
+          this.gotoState('LOADING_APP');
         }
       },
 
       exitState: function() {
-        var panel = ThothApp.getPath('loginPanel');
-        if (panel) {
-          panel.remove();
+        if (ThothApp.get('storeType') === 'Thoth') {
+          var panel = ThothApp.getPath('loginPanel');
+          if (panel) {
+            panel.remove();
+          }
         }
       },
 
