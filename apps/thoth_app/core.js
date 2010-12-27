@@ -15,9 +15,9 @@ ThothApp = SC.Application.create(
   NAMESPACE: 'ThothApp',
   VERSION: '0.1.0',
 
-  //store: SC.Store.create().from('ThothApp.DataSource')
-  //storeType: 'Thoth'
-  store: SC.Store.create().from(SC.Record.fixtures),
-  storeType: 'fixtures'
+  store: SC.Store.create().from('ThothApp.DataSource'),
+  storeType: 'Thoth'
+  //store: SC.Store.create().from(SC.Record.fixtures),
+  //storeType: 'fixtures'
 
 }) ;
