@@ -24,8 +24,10 @@ ThothApp.Review = SC.Record.extend(LinkIt.Node, {
   name: function() {
     var text = this.get('text');
 
+    if (SC.none(text)) return "";
+
     return (text.length < 14) ? text : '%@...'.fmt(text.substr(0, 9));
-  }.property(),
+  }.property('text').cacheable(),
 
   //
   // LinkIt-specific Information

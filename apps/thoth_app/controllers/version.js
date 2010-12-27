@@ -16,11 +16,6 @@ ThothApp.versionController = SC.ObjectController.create(
 
   isEditing: NO,
 
-	contentDidChange: function() {
-	  if (this.get("content")) this.set("shouldDisplay", YES);
-	  else this.set("shouldDisplay", NO);
-	}.observes("content"),
-
 	beginEditing: function() {
 		this.set("isEditing", YES);
 		//ThothApp.mainPage.getPath("mainPane.splitter.bottomRightView.bottomRightView.bookView.contentView.versionView").beginEditing();

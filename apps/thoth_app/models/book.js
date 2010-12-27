@@ -26,8 +26,10 @@ ThothApp.Book = SC.Record.extend(LinkIt.Node, {
   name: function() {
     var title = this.get('title');
 
+    if (SC.none(title)) return "";
+
     return (title.length < 14) ? title : '%@...'.fmt(title.substr(0, 9));
-  }.property(),
+  }.property('title').cacheable(),
 
   //
   // LinkIt-specific Information

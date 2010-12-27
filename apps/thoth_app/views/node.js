@@ -176,7 +176,7 @@ ThothApp.NodeView = SC.View.extend(LinkIt.NodeView, {
           layout: { right: 40, top: -5, width: 10, height: 10 },
           linkStyle: { lineStyle: LinkIt.STRAIGHT, width: 3, color: '#E08CDF', cap: LinkIt.ROUND},
           node: content,
-          terminal: 'version',
+          terminal: 'version'
         })
       );
       childViews.push(this._term_version);

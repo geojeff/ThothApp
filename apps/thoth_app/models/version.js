@@ -29,12 +29,15 @@ ThothApp.Version = SC.Record.extend(LinkIt.Node, {
   isVersion:       YES,
 
   name: function() {
-    return this.get('format');
-  }.property(),
+    var format = this.get('format');
+
+    if (SC.none(format)) return "";
+
+    return format;
+  }.property('format').cacheable(),
 
   // Relations
   book: SC.Record.toOne("ThothApp.Book",  { inverse: 'versions', isMaster: NO }),
-  //book: SC.Record.toOne("ThothApp.Book",  { isMaster: NO }),
   reviews: SC.Record.toMany("ThothApp.Review", { inverse: "version", isMaster: YES }),
 
   //
