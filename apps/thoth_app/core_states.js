@@ -620,7 +620,17 @@ ThothApp.statechart = SC.Statechart.create({
             var version;
 
             version = ThothApp.store.createRecord(ThothApp.Version, {
-              "title": 'title'
+              "publisher":       '',
+              "publicationDate": '',
+              "format":          '',
+              "pages":           0,
+              "language":        '',
+              "rank":            0,
+              "height":          0,
+              "width":           0,
+              "depth":           0,
+              "isbn10":          '',
+              "isbn13":          ''
             });
 
             ThothApp.store.commitRecords();
