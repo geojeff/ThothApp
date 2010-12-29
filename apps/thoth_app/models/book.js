@@ -13,14 +13,13 @@ ThothApp.Book = SC.Record.extend(LinkIt.Node, {
   primaryKey:  'key',
   bucket:      'book',
   id:          SC.Record.attr(String),
-  idFixtures:  null,
+  fixturesKey: null,
   title:       SC.Record.attr(String),
 
   isBook:      YES,
 
   // relations:
   author:   SC.Record.toOne("ThothApp.Author", { inverse: 'books', isMaster: NO }),
-  //author:   SC.Record.toOne("ThothApp.Author", { isMaster: NO }),
   versions: SC.Record.toMany("ThothApp.Version", { inverse: "book", isMaster: YES }),
 
   name: function() {
@@ -36,6 +35,15 @@ ThothApp.Book = SC.Record.extend(LinkIt.Node, {
   //
   terminals: ['author', 'versions'],
   position: SC.Record.attr(Object),
+
+  depthOfChildren: function() {
+    var depth = 1;
+
+    this.get('versions').forEach(function(version) {
+      depth = Math.max(depth, version.get('depthOfChildren'));
+    });
+    return depth;
+  }.property().cacheable(),
 
   links: function(){
     var links = [];

@@ -15,7 +15,7 @@ ThothApp.Author = SC.Record.extend(LinkIt.Node, {
   primaryKey:  'key',
   bucket:      'author',
   id:          SC.Record.attr(String),
-  idFixtures:  null,
+  fixturesKey: null,
   firstName:   SC.Record.attr(String),
   lastName:    SC.Record.attr(String),
 
@@ -71,29 +71,21 @@ ThothApp.Author = SC.Record.extend(LinkIt.Node, {
   // LinkIt-specific Information
   //
   terminals: ['books'],
+
   position: SC.Record.attr(Object),
+
+  depthOfChildren: function() {
+    var depth = 1;
+
+    this.get('books').forEach(function(book) {
+      depth = Math.max(depth, book.get('depthOfChildren'));
+    });
+    return depth;
+  }.property().cacheable(),
 
   links: function(){
     return [];
   }.property(),
-
-//  links: function(){
-//    var links = [];
-//
-//    // get root
-//    var root = this.get('root');
-//    if (root){
-//      var rootLink = SC.Object.create( LinkIt.Link, {
-//        startNode: root,
-//        startTerminal: 'versions',
-//        endNode: this,
-//        endTerminal: 'root'
-//      });
-//      links.push(rootLink);
-//    }
-//
-//    return links;
-//  }.property('root').cacheable(),
 
   canLink: function(link) {
     if (!link) return NO;

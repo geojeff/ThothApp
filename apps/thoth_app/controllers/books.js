@@ -22,6 +22,7 @@ ThothApp.booksController = SC.ArrayController.create(
   canReorderContent: NO,
   canRemoveContent: YES,
   isEditable: YES,
+  orderBy: 'title',
 
   isLoadedArray: [],
   loadedCount: 0,

@@ -8,6 +8,7 @@
 */
 
 ThothApp.statechart = SC.Statechart.create({
+
   rootState: SC.State.design({
     initialSubstate: "STARTING",
     //trace: YES,
@@ -147,8 +148,7 @@ ThothApp.statechart = SC.Statechart.create({
           var review;
           review = ThothApp.store.createRecord(ThothApp.Review, {
             "fixturesKey":  ThothApp.Review.FIXTURES[i].key,
-            "text":         ThothApp.Review.FIXTURES[i].text,
-            "position":     ThothApp.Review.FIXTURES[i].position
+            "text":         ThothApp.Review.FIXTURES[i].text
           });
 
           // this.generateCheckVersionsFunction is provided to create the function that
@@ -247,8 +247,7 @@ ThothApp.statechart = SC.Statechart.create({
             "width":           ThothApp.Version.FIXTURES[i].width,
             "depth":           ThothApp.Version.FIXTURES[i].depth,
             "isbn10":          ThothApp.Version.FIXTURES[i].isbn10,
-            "isbn13":          ThothApp.Version.FIXTURES[i].isbn13,
-            "position":        ThothApp.Version.FIXTURES[i].position
+            "isbn13":          ThothApp.Version.FIXTURES[i].isbn13
           });
 
           version.addFiniteObserver('status', this, this.generateCheckVersionsFunction(version), this);
@@ -337,8 +336,7 @@ ThothApp.statechart = SC.Statechart.create({
           var book;
           book = ThothApp.store.createRecord(ThothApp.Book, {
             "fixturesKey": ThothApp.Book.FIXTURES[i].key,
-            "title":       ThothApp.Book.FIXTURES[i].title,
-            "position":    ThothApp.Book.FIXTURES[i].position
+            "title":       ThothApp.Book.FIXTURES[i].title
           });
 
           // The book record has been created, and its versions and the reviews of those versions.
@@ -424,8 +422,7 @@ ThothApp.statechart = SC.Statechart.create({
             //"key":         ThothApp.Author.FIXTURES[i].key,
             "fixturesKey": ThothApp.Author.FIXTURES[i].key,
             "firstName":   ThothApp.Author.FIXTURES[i].firstName,
-            "lastName":    ThothApp.Author.FIXTURES[i].lastName,
-            "position":    ThothApp.Author.FIXTURES[i].position
+            "lastName":    ThothApp.Author.FIXTURES[i].lastName
           });
           author.addFiniteObserver('status',this,this.generateCheckAuthorsFunction(author),this);
         }
@@ -458,9 +455,25 @@ ThothApp.statechart = SC.Statechart.create({
     LOADING_APP: SC.State.design({
       enterState: function() {
         console.log('LOADING_APP');
-        var authors = ThothApp.store.find(SC.Query.local(ThothApp.Author));
+
+        ThothApp.set('nestedStore', ThothApp.store.chain());
+
+        ThothApp.nestedStore.set('lockOnRead', YES);
+
+        var authors = ThothApp.nestedStore.find(SC.Query.local(ThothApp.Author));
+        var books = ThothApp.nestedStore.find(SC.Query.local(ThothApp.Book));
+        var versions = ThothApp.nestedStore.find(SC.Query.local(ThothApp.Version));
+        var reviews = ThothApp.nestedStore.find(SC.Query.local(ThothApp.Review));
 
         ThothApp.authorsController.set('content', authors);
+
+        var all = [];
+        all.pushObjects(authors);
+        all.pushObjects(books);
+        all.pushObjects(versions);
+        all.pushObjects(reviews);
+
+        ThothApp.allItemsController.set('content', all);
 
         ThothApp.getPath('mainPage.mainPanel').append();
 
@@ -814,10 +827,67 @@ ThothApp.statechart = SC.Statechart.create({
       SHOWING_GRAPHIC: SC.State.design({
         enterState: function() {
           console.log('SHOWING_GRAPHIC');
+
+          this.setLinkItPositions();
+
           ThothApp.authorController.set('show', 'graphic');
         },
 
         exitState: function() {
+        },
+
+        setLinkItPositions: function() {
+          var yAuthor = 100, authorHeight, bookHeight, versionHeight, yReview = 0, firstChild;
+
+          //
+          // Set review positions
+          //
+          ThothApp.authorsController.get('arrangedObjects').forEach(function(author) {
+            authorHeight = author.get('depthOfChildren') * 50;
+            author.get('books').forEach(function(book) {
+              book.get('versions').forEach(function(version) {
+                version.get('reviews').forEach(function(review) {
+                  if (yReview === 0) {
+                    yReview = yAuthor;
+                  } else {
+                    yReview = yReview + 50;
+                  }
+                  review.set('position', { x: 700, y: yReview});
+                });
+              });
+            });
+            yAuthor += authorHeight;
+          });
+          //
+          // Set version positions
+          //
+          ThothApp.authorsController.get('arrangedObjects').forEach(function(author) {
+            author.get('books').forEach(function(book) {
+              book.get('versions').forEach(function(version) {
+                firstChild = version.get('reviews').objectAt(0);
+                versionHeight = (version.get('depthOfChildren')-1) * 50;
+                version.set('position', { x: 500, y: firstChild.get('position')['y'] + (versionHeight / 2) });
+              });
+            });
+          });
+          //
+          // Set book positions
+          //
+          ThothApp.authorsController.get('arrangedObjects').forEach(function(author) {
+            author.get('books').forEach(function(book) {
+              firstChild = book.get('versions').objectAt(0);
+              bookHeight = (book.get('depthOfChildren')-1) * 50;
+              book.set('position', { x: 300, y: firstChild.get('position')['y'] + (bookHeight / 2) });
+            });
+          });
+          //
+          // Set author positions
+          //
+          ThothApp.authorsController.get('arrangedObjects').forEach(function(author) {
+            firstChild = author.get('books').objectAt(0);
+            authorHeight = (author.get('depthOfChildren')-1) * 50;
+            author.set('position', { x: 100, y: firstChild.get('position')['y'] + (authorHeight / 2) });
+          });
         },
 
         showStandard: function() { this.gotoState('SHOWING_STANDARD'); }

@@ -22,6 +22,7 @@ ThothApp.AuthorGraphicView = SC.View.extend(SC.Animatable, {
       nodeViewDelegate: ThothApp.allItemsController,
       exampleView: ThothApp.NodeView,
       delegate: ThothApp.allItemsController
+
     })
   })
 });

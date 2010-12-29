@@ -13,13 +13,12 @@ ThothApp.Review = SC.Record.extend(LinkIt.Node, {
   primaryKey:  'key',
   bucket:      'review',
   id:          SC.Record.attr(String),
-  idFixtures:  null,
+  fixturesKey: null,
   text:        SC.Record.attr(String),
 
   isReview:    YES,
 
   version: SC.Record.toOne("ThothApp.Version",  { inverse: 'review', isMaster: NO }),
-  //version: SC.Record.toOne("ThothApp.Version",  { isMaster: NO }),
 
   name: function() {
     var text = this.get('text');
@@ -34,6 +33,10 @@ ThothApp.Review = SC.Record.extend(LinkIt.Node, {
   //
   terminals: ['version'],
   position: SC.Record.attr(Object),
+
+  depthOfChildren: function() {
+    return 0;
+  }.property().cacheable(),
 
   links: function(){
     var links = [];

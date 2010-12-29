@@ -13,7 +13,7 @@ ThothApp.Version = SC.Record.extend(LinkIt.Node, {
   primaryKey:      'key',
   bucket:          'version',
   id:              SC.Record.attr(String),
-  idFixtures:      null,
+  fixturesKey:     null,
   publisher:       SC.Record.attr(String),
   publicationDate: SC.Record.attr(SC.DateTime, { format: '%Y %m %d' }),
   format:          SC.Record.attr(String),
@@ -45,6 +45,10 @@ ThothApp.Version = SC.Record.extend(LinkIt.Node, {
   //
   terminals: ['book', 'reviews'],
   position: SC.Record.attr(Object),
+
+  depthOfChildren: function() {
+    return this.get('reviews').get('length');
+  }.property().cacheable(),
 
   links: function(){
     var links = [];

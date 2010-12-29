@@ -16,6 +16,7 @@ ThothApp.authorsController = SC.ArrayController.create(
 /** @scope ThothApp.authorsController.prototype */ {
 	allowsMultipleSelection: YES,
   allowsEmptySelection: NO,
+  orderBy: 'lastName',
 
   isLoadedArray: [],
   loadedCount: 0,
