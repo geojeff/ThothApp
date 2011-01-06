@@ -26,22 +26,37 @@ ThothApp.statechart = SC.Statechart.create({
         ThothApp.authorsController.initializeForLoading();
 
         if (ThothApp.get('storeType') === 'Thoth') {
-          var panel = ThothApp.getPath('loginPanel');
-          if (panel) {
-            panel.append();
-            panel.focus();
-          }
+          this.gotoState('LOGIN');
         } else {                             // when using fixtures, go directly to LOADING_APP
           this.gotoState('LOADING_APP');
         }
       },
 
       exitState: function() {
-        if (ThothApp.get('storeType') === 'Thoth') {
-          var panel = ThothApp.getPath('loginPanel');
-          if (panel) {
-            panel.remove();
-          }
+      },
+
+      authenticate: function() {
+        this.gotoState('AUTHENTICATING');
+      }
+    }),
+
+    // ----------------------------------------
+    //    state: LOGIN
+    // ----------------------------------------
+    LOGIN: SC.State.design({
+
+      enterState: function() {
+        var panel = ThothApp.getPath('loginPanel');
+        if (panel) {
+          panel.append();
+          panel.focus();
+        }
+      },
+
+      exitState: function() {
+        var panel = ThothApp.getPath('loginPanel');
+        if (panel) {
+          panel.remove();
         }
       },
 
@@ -74,7 +89,7 @@ ThothApp.statechart = SC.Statechart.create({
       authFailure: function(errorMessage) {
         ThothApp.loginController.set('loginErrorMessage', errorMessage);
         this.resumeGotoState();
-        this.gotoState('AUTHENTICATING');
+        this.gotoState('LOGIN');
       },
 
       authSuccess: function() {
