@@ -13,7 +13,7 @@ ThothApp.Version = SC.Record.extend(LinkIt.Node, {
   primaryKey:      'key',
   bucket:          'version',
   id:              SC.Record.attr(String),
-  fixturesKey:     null,
+  idFixtures:     null,
   publisher:       SC.Record.attr(String),
   publicationDate: SC.Record.attr(SC.DateTime, { format: '%Y %m %d' }),
   format:          SC.Record.attr(String),

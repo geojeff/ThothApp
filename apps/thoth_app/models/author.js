@@ -15,7 +15,7 @@ ThothApp.Author = SC.Record.extend(LinkIt.Node, {
   primaryKey:  'key',
   bucket:      'author',
   id:          SC.Record.attr(String),
-  fixturesKey: null,
+  idFixtures: null,
   firstName:   SC.Record.attr(String),
   lastName:    SC.Record.attr(String),
 

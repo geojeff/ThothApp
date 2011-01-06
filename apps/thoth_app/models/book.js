@@ -13,7 +13,7 @@ ThothApp.Book = SC.Record.extend(LinkIt.Node, {
   primaryKey:  'key',
   bucket:      'book',
   id:          SC.Record.attr(String),
-  fixturesKey: null,
+  idFixtures: null,
   title:       SC.Record.attr(String),
 
   isBook:      YES,

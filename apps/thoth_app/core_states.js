@@ -456,24 +456,28 @@ ThothApp.statechart = SC.Statechart.create({
       enterState: function() {
         console.log('LOADING_APP');
 
-        ThothApp.set('nestedStore', ThothApp.store.chain());
-
-        ThothApp.nestedStore.set('lockOnRead', YES);
-
-        var authors = ThothApp.nestedStore.find(SC.Query.local(ThothApp.Author));
-        var books = ThothApp.nestedStore.find(SC.Query.local(ThothApp.Book));
-        var versions = ThothApp.nestedStore.find(SC.Query.local(ThothApp.Version));
-        var reviews = ThothApp.nestedStore.find(SC.Query.local(ThothApp.Review));
+//        ThothApp.set('nestedStore', ThothApp.store.chain());
+//
+//        ThothApp.nestedStore.set('lockOnRead', YES);
+//
+//        var authors = ThothApp.nestedStore.find(SC.Query.local(ThothApp.Author));
+//        var books = ThothApp.nestedStore.find(SC.Query.local(ThothApp.Book));
+//        var versions = ThothApp.nestedStore.find(SC.Query.local(ThothApp.Version));
+//        var reviews = ThothApp.nestedStore.find(SC.Query.local(ThothApp.Review));
+        var authors = ThothApp.store.find(SC.Query.local(ThothApp.Author));
+        var books = ThothApp.store.find(SC.Query.local(ThothApp.Book));
+        var versions = ThothApp.store.find(SC.Query.local(ThothApp.Version));
+        var reviews = ThothApp.store.find(SC.Query.local(ThothApp.Review));
 
         ThothApp.authorsController.set('content', authors);
 
-        var all = [];
-        all.pushObjects(authors);
-        all.pushObjects(books);
-        all.pushObjects(versions);
-        all.pushObjects(reviews);
-
-        ThothApp.allItemsController.set('content', all);
+//        var all = [];
+//        all.pushObjects(authors);
+//        all.pushObjects(books);
+//        all.pushObjects(versions);
+//        all.pushObjects(reviews);
+//
+//        ThothApp.allItemsController.set('content', all);
 
         ThothApp.getPath('mainPage.mainPanel').append();
 
@@ -540,12 +544,12 @@ ThothApp.statechart = SC.Statechart.create({
           enterState: function() {
             var author;
 
-            author = ThothApp.store.createRecord(ThothApp.Author, {
+            author = ThothApp.nestedStore.createRecord(ThothApp.Author, {
               "firstName":   "First",
               "lastName":    "Last"
             });
 
-            ThothApp.store.commitRecords();
+            ThothApp.nestedStore.commitRecords();
 
             // Once the author record comes back READY_CLEAN, start beginEditing in the list.
             author.addFiniteObserver('status', this, this.generateCheckAuthorFunction(author), this);
@@ -579,11 +583,11 @@ ThothApp.statechart = SC.Statechart.create({
           enterState: function() {
             var book;
 
-            book = ThothApp.store.createRecord(ThothApp.Book, {
+            book = ThothApp.nestedStore.createRecord(ThothApp.Book, {
               "title": 'title'
             });
 
-            ThothApp.store.commitRecords();
+            ThothApp.nestedStore.commitRecords();
 
             // Once the book record comes back READY_CLEAN, add book to current author, and beginEditing in panel.
             book.addFiniteObserver('status', this, this.generateCheckBookFunction(book), this);
@@ -619,7 +623,7 @@ ThothApp.statechart = SC.Statechart.create({
           enterState: function() {
             var version;
 
-            version = ThothApp.store.createRecord(ThothApp.Version, {
+            version = ThothApp.nestedStore.createRecord(ThothApp.Version, {
               "publisher":       '',
               "publicationDate": '',
               "format":          '',
@@ -633,7 +637,7 @@ ThothApp.statechart = SC.Statechart.create({
               "isbn13":          ''
             });
 
-            ThothApp.store.commitRecords();
+            ThothApp.nestedStore.commitRecords();
 
             // Once the version record comes back READY_CLEAN, add version to current book, and beginEditing.
             version.addFiniteObserver('status', this, this.generateCheckVersionFunction(version), this);
@@ -665,11 +669,11 @@ ThothApp.statechart = SC.Statechart.create({
           enterState: function() {
             var review;
 
-            review = ThothApp.store.createRecord(ThothApp.Review, {
+            review = ThothApp.nestedStore.createRecord(ThothApp.Review, {
               "text": "Say what you think."
             });
 
-            ThothApp.store.commitRecords();
+            ThothApp.nestedStore.commitRecords();
 
             // Once the review record comes back READY_CLEAN, add review to current version, and beginEditing.
             review.addFiniteObserver('status', this, this.generateCheckReviewFunction(review), this);
@@ -838,7 +842,27 @@ ThothApp.statechart = SC.Statechart.create({
         enterState: function() {
           console.log('SHOWING_GRAPHIC');
 
-          this.setLinkItPositions();
+          ThothApp.set('nestedStore', ThothApp.store.chain());
+
+          ThothApp.nestedStore.set('lockOnRead', YES);
+
+          var authors = ThothApp.nestedStore.find(SC.Query.local(ThothApp.Author));
+          var books = ThothApp.nestedStore.find(SC.Query.local(ThothApp.Book));
+          var versions = ThothApp.nestedStore.find(SC.Query.local(ThothApp.Version));
+          var reviews = ThothApp.nestedStore.find(SC.Query.local(ThothApp.Review));
+
+          var all = [];
+          all.pushObjects(authors);
+          all.pushObjects(books);
+          all.pushObjects(versions);
+          all.pushObjects(reviews);
+
+          ThothApp.allItemsController.set('content', all);
+
+          this.setLinkItPositions(authors);
+
+          console.log('all[20] x ', all[20].get('position')['x']);
+          console.log('all[20] y ', all[20].get('position')['y']);
 
           ThothApp.authorController.set('show', 'graphic');
         },
@@ -846,13 +870,13 @@ ThothApp.statechart = SC.Statechart.create({
         exitState: function() {
         },
 
-        setLinkItPositions: function() {
+        setLinkItPositions: function(authors) {
           var yAuthor = 100, authorHeight, bookHeight, versionHeight, yReview = 0, firstChild;
 
           //
           // Set review positions
           //
-          ThothApp.authorsController.get('arrangedObjects').forEach(function(author) {
+          authors.forEach(function(author) {
             authorHeight = author.get('depthOfChildren') * 50;
             author.get('books').forEach(function(book) {
               book.get('versions').forEach(function(version) {
@@ -871,7 +895,7 @@ ThothApp.statechart = SC.Statechart.create({
           //
           // Set version positions
           //
-          ThothApp.authorsController.get('arrangedObjects').forEach(function(author) {
+          authors.forEach(function(author) {
             author.get('books').forEach(function(book) {
               book.get('versions').forEach(function(version) {
                 firstChild = version.get('reviews').objectAt(0);
@@ -883,17 +907,20 @@ ThothApp.statechart = SC.Statechart.create({
           //
           // Set book positions
           //
-          ThothApp.authorsController.get('arrangedObjects').forEach(function(author) {
+          authors.forEach(function(author) {
             author.get('books').forEach(function(book) {
               firstChild = book.get('versions').objectAt(0);
               bookHeight = (book.get('depthOfChildren')-1) * 50;
+              console.log(book);
+              console.log(firstChild);
+              console.log(bookHeight);
               book.set('position', { x: 300, y: firstChild.get('position')['y'] + (bookHeight / 2) });
             });
           });
           //
           // Set author positions
           //
-          ThothApp.authorsController.get('arrangedObjects').forEach(function(author) {
+          authors.forEach(function(author) {
             firstChild = author.get('books').objectAt(0);
             authorHeight = (author.get('depthOfChildren')-1) * 50;
             author.set('position', { x: 100, y: firstChild.get('position')['y'] + (authorHeight / 2) });
