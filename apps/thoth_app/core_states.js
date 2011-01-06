@@ -33,10 +33,6 @@ ThothApp.statechart = SC.Statechart.create({
       },
 
       exitState: function() {
-      },
-
-      authenticate: function() {
-        this.gotoState('AUTHENTICATING');
       }
     }),
 
@@ -44,58 +40,65 @@ ThothApp.statechart = SC.Statechart.create({
     //    state: LOGIN
     // ----------------------------------------
     LOGIN: SC.State.design({
+      initialSubstate: "SHOWING_LOGIN",
 
-      enterState: function() {
-        var panel = ThothApp.getPath('loginPanel');
-        if (panel) {
-          panel.append();
-          panel.focus();
+      // ----------------------------------------
+      //    state: SHOWING_LOGIN
+      // ----------------------------------------
+      SHOWING_LOGIN: SC.State.design({
+
+        enterState: function() {
+          var panel = ThothApp.getPath('loginPanel');
+          if (panel) {
+            panel.append();
+            panel.focus();
+          }
+        },
+
+        exitState: function() {
+          var panel = ThothApp.getPath('loginPanel');
+          if (panel) {
+            panel.remove();
+          }
+        },
+
+        authenticate: function() {
+          this.gotoState('AUTHENTICATING');
         }
-      },
+      }),
 
-      exitState: function() {
-        var panel = ThothApp.getPath('loginPanel');
-        if (panel) {
-          panel.remove();
+      // ----------------------------------------
+      //    state: AUTHENTICATING
+      // ----------------------------------------
+      AUTHENTICATING: SC.State.design({
+        enterState: function() {
+          // Call auth on the data source, which has callbacks to send events to the "authResult" functions here.
+          return SC.Async.perform('logIn');
+        },
+
+        exitState: function() {
+        },
+
+        logIn: function() {
+          var loginName = ThothApp.loginController.get('loginName');
+          var password = ThothApp.loginController.get('password');
+
+          ThothApp.store.dataSource.connect(ThothApp.store, function() {
+            ThothApp.store.dataSource.authRequest(loginName, password);
+          });
+        },
+
+        authFailure: function(errorMessage) {
+          ThothApp.loginController.set('loginErrorMessage', errorMessage);
+          this.resumeGotoState();
+          this.gotoState('LOGIN');
+        },
+
+        authSuccess: function() {
+          this.resumeGotoState();
+          this.gotoState('AUTHENTICATED');
         }
-      },
-
-      authenticate: function() {
-        this.gotoState('AUTHENTICATING');
-      }
-    }),
-
-    // ----------------------------------------
-    //    state: AUTHENTICATING
-    // ----------------------------------------
-    AUTHENTICATING: SC.State.design({
-      enterState: function() {
-        // Call auth on the data source, which has callbacks to send events to the "authResult" functions here.
-        return SC.Async.perform('logIn');
-      },
-
-      exitState: function() {
-      },
-
-      logIn: function() {
-        var loginName = ThothApp.loginController.get('loginName');
-        var password = ThothApp.loginController.get('password');
-
-        ThothApp.store.dataSource.connect(ThothApp.store, function() {
-          ThothApp.store.dataSource.authRequest(loginName, password);
-        });
-      },
-
-      authFailure: function(errorMessage) {
-        ThothApp.loginController.set('loginErrorMessage', errorMessage);
-        this.resumeGotoState();
-        this.gotoState('LOGIN');
-      },
-
-      authSuccess: function() {
-        this.resumeGotoState();
-        this.gotoState('AUTHENTICATED');
-      }
+      })
     }),
 
     // ----------------------------------------
