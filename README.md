@@ -26,4 +26,6 @@ It requires adding the following method to your sproutcore/runtime/mixins/observ
  
    this.addObserver(key, this, f);
    },
- 
+
+
+2011
