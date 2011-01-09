@@ -3,15 +3,15 @@ development of Thoth / Thoth-SC, starting first as ONRTest in Summer 2010, when 
 It had a brief life as ONRTestApp before being renamed to ThothApp when the name OrionNodeRiak was changed to Thoth. For
 Thoth, see:
 
-    [https://github.com/mauritslamers/Thoth](https://github.com/mauritslamers/Thoth)
+[https://github.com/mauritslamers/Thoth](https://github.com/mauritslamers/Thoth)
 
 ThothApp requires the Thoth-SC framework:
 
-    [https://github.com/mauritslamers/Thoth-SC](https://github.com/mauritslamers/Thoth-SC)
+[https://github.com/mauritslamers/Thoth-SC](https://github.com/mauritslamers/Thoth-SC)
 
 and a version of SproutCore with the addFiniteObserver function added:
 
-    [https://github.com/mauritslamers/sproutcore](https://github.com/mauritslamers/sproutcore)
+[https://github.com/mauritslamers/sproutcore](https://github.com/mauritslamers/sproutcore)
 
 If you use your own version of Sproutcore, add the following method to your sproutcore/runtime/mixins/observable.js
 
