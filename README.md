@@ -1,4 +1,9 @@
-This app tests Thoth and the Thoth-SC datasource:
+This app tests Thoth and the Thoth-SC datasource. It has been written by Jeff Pittman and Maurits Lamers during
+development of Thoth / Thoth-SC, starting first as ONRTest in Summer 2010, when Thoth was then known as OrionNodeRiak.
+It had a brief life as ONRTestApp before being renamed to ThothApp when the name OrionNodeRiak was changed to Thoth. For
+Thoth, see:
+
+    https://github.com/mauritslamers/Thoth
 
 ThothApp requires the Thoth-SC framework:
 
