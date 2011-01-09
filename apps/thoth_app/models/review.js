@@ -12,8 +12,8 @@ ThothApp.Review = SC.Record.extend(LinkIt.Node, {
 /** @scope ThothApp.Review.prototype */
   primaryKey:  'key',
   bucket:      'review',
-  id:          SC.Record.attr(String),
-  idFixtures: null,
+  //id:          SC.Record.attr(String),
+  //idFixtures: null,
   text:        SC.Record.attr(String),
 
   isReview:    YES,

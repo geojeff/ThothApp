@@ -12,8 +12,8 @@ ThothApp.Book = SC.Record.extend(LinkIt.Node, {
 /** @scope ThothApp.Book.prototype */
   primaryKey:  'key',
   bucket:      'book',
-  id:          SC.Record.attr(String),
-  idFixtures: null,
+  //id:          SC.Record.attr(String),
+  //idFixtures: null,
   title:       SC.Record.attr(String),
 
   isBook:      YES,
