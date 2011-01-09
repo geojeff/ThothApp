@@ -41,8 +41,17 @@ ThothApp can be run with sc-server in one terminal window, if using the standard
 
 In another terminal, go to the your Thoth installation directory and run one of the initialization scripts shown below.
 
-In another terminal, you may need to start and top your backend. For example, when running with Riak, you might want to
+In another terminal, you may need to start and stop your backend. For example, when running with Riak, you might want to
 sometimes delete the data directory and restart.
+
+You have a choice of running with websockets or XHR polling, or with the Thoth-SC DataStore.js directly if running with
+the Thoth MemStore.js backend. When switching between websockets and XHR polling, the following line at the bottom of
+the Buildfile will need to be toggled:
+
+    # Uncomment this line when running with Thoth/XHRPollingDataSource (not needed for WebsocketsDataSource)
+    #proxy '/thoth', :to => 'localhost:8080'
+
+And, you will need to change how you create the store in core.js and the datasource in datasources/data_source.js.
 
 ThothApp has been tested alternately against Thoth running its MemStore.js, RiakStore.js, and CouchDB.js versions.
 Use of MemStore.js is handy for testing. Here is an initialization script for running Thoth with MemStore:
