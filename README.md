@@ -45,6 +45,8 @@ If you use your own version of Sproutcore, add the following method to your spro
        this.addObserver(key, this, f);
        },
 
+There is a file with just this function in the main thoth_app directory.
+
 NOTE: There is a Status / TODO / Plans section at the bottom of this README.
 
 Running
@@ -161,6 +163,7 @@ Status / TODO / Plans
 =====================
 
 Add adding and deleting, editing, and test the loaded app for normal functionality (it is unfinished as of 2011/1/11).
+Add buttons as needed.
 
 Add a better positioning system for the LinkIt objects, for handling a larger dataset.
 
@@ -171,3 +174,19 @@ Add a larger test dataset.
 
 Consider adding an option for authenticating automatically and for loading the data in one-fell-swoop, to avoid having
 to click through loading steps. This would be useful when focusing on development of app features.
+
+Evaluate the layout of the book form. Labels are needed for the lists, for the form. If the design with version list
+left, form on right, reviews list on bottom, is kept, handle case of small window size and overlap of reviews list and
+main  properties panel.
+
+Consider adding animation.
+
+Style long reviews... For text wrapping, with css?  by putting \ns in the text?
+
+Style lists.
+
+Add feedback for principal actions, such as add, delete, etc. Somewhere add feedback on relation-setting, perhaps when
+a new record is added. Make reusable in standard and graphics views.
+
+Review theming, which is now some combination of that from the Contacts app and a few things from test_controls app.
+
