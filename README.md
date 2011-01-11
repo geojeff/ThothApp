@@ -13,6 +13,12 @@ and a version of SproutCore with the addFiniteObserver function added:
 
 [https://github.com/mauritslamers/sproutcore](https://github.com/mauritslamers/sproutcore)
 
+If you clone this repo, you should be able to then run, from inside the main thoth_app directory:
+
+    git submodule update -- init
+
+This will install Thoth-SC, the fork of SproutCore mentioned above, and scui into your frameworks directory.
+
 If you use your own version of Sproutcore, add the following method to your sproutcore/runtime/mixins/observable.js
 
         addFiniteObserver: function(key, target, method, context){
@@ -38,6 +44,8 @@ If you use your own version of Sproutcore, add the following method to your spro
  
        this.addObserver(key, this, f);
        },
+
+NOTE: There is a Status / TODO / Plans section at the bottom of this README.
 
 Running
 =======
@@ -143,3 +151,23 @@ MysqlStore
 ----------
 
 Need to test this one...
+
+FileStore
+---------
+
+Need to test this one...
+
+Status / TODO / Plans
+=====================
+
+Add adding and deleting, editing, and test the loaded app for normal functionality (it is unfinished as of 2011/1/11).
+
+Add a better positioning system for the LinkIt objects, for handling a larger dataset.
+
+Add a relations-setting graphic display using LinkIt, for setting/breaking relations using icons and links, and for
+adding new authors, books, etc., in the fashion of the family_tree demo for LinkIt.
+
+Add a larger test dataset.
+
+Consider adding an option for authenticating automatically and for loading the data in one-fell-swoop, to avoid having
+to click through loading steps. This would be useful when focusing on development of app features.
