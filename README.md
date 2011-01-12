@@ -15,7 +15,7 @@ and a version of SproutCore with the addFiniteObserver function added:
 
 If you clone this repo, you should be able to then run, from inside the main thoth_app directory:
 
-    git submodule update -- init
+    git submodule update --init
 
 This will install Thoth-SC, the fork of SproutCore mentioned above, and scui into your frameworks directory.
 
@@ -54,7 +54,13 @@ Running
 
 ThothApp can be run with sc-server in one terminal window, if using the standard Ruby-based build tools, or with garcon.
 
-In another terminal, go to the your Thoth installation directory and run one of the initialization scripts shown below.
+In another terminal, go to the your Thoth installation directory and run one of the initialization scripts shown below. You 
+will also need read the Thoth docs about creating your own users and policies files. For example, in the default setup for
+ThothApp, it is assumed that username / password, "test" / "test" will be used. So, do this to get the scripts below to work:
+
+    cp myUsers.sample.js myUsers.js
+
+In the scripts below, myPolicies.js is commented out, but you may wish to learn about that.
 
 In another terminal, you may need to start and stop your backend. For example, when running with Riak, you might want to
 sometimes delete the data directory and restart.
