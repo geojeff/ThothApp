@@ -1,3 +1,6 @@
+Introduction
+============
+
 This app tests Thoth and the Thoth-SC datasource. It has been written by Jeff Pittman and Maurits Lamers during
 development of Thoth / Thoth-SC, starting first as ONRTest in Summer 2010, when Thoth was then known as OrionNodeRiak.
 It had a brief life as ONRTestApp before being renamed to ThothApp when the name OrionNodeRiak was changed to Thoth. For
@@ -13,11 +16,22 @@ and a version of SproutCore with the addFiniteObserver function added:
 
 [https://github.com/mauritslamers/sproutcore](https://github.com/mauritslamers/sproutcore)
 
-If you clone this repo, you should be able to then run, from inside the main thoth_app directory:
+> NOTE: There is a Status / TODO / Plans section at the bottom of this README.
+
+Cloning and Setup
+-----------------
+
+If you clone this repo, with git clone git@github.com:geojeff/ThothApp.git, you should be able to then run, from inside 
+the main ThothApp directory:
 
     git submodule update --init
 
 This will install Thoth-SC, the fork of SproutCore mentioned above, and scui into your frameworks directory.
+
+A Special Tweak
+---------------
+
+(Skip, if you installed as above).
 
 If you use your own version of Sproutcore, add the following method to your sproutcore/runtime/mixins/observable.js
 
@@ -45,9 +59,7 @@ If you use your own version of Sproutcore, add the following method to your spro
        this.addObserver(key, this, f);
        },
 
-There is a file with just this function in the main thoth_app directory.
-
-NOTE: There is a Status / TODO / Plans section at the bottom of this README.
+There is a file with just this function in the main ThothApp directory.
 
 Running
 =======
