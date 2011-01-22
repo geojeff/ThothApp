@@ -533,6 +533,7 @@ ThothApp.statechart = SC.Statechart.create({
         },
 
         showGraphic:    function() { this.gotoState('SHOWING_GRAPHIC'); },
+        showImageUploadPane:  function() { this.gotoState('SHOWING_IMAGE_UPLOAD_PANE'); },
 
         // -------------------------------------------
         //    state: READY_STANDARD
@@ -851,6 +852,36 @@ ThothApp.statechart = SC.Statechart.create({
             }
           }
         })
+      }),
+
+      // -------------------------------------------
+      //    state: SHOWING_IMAGE_UPLOAD_PANE
+      // -------------------------------------------
+      SHOWING_IMAGE_UPLOAD_PANE: SC.State.design({
+        enterState: function() {
+          console.log('SHOWING_IMAGE_UPLOAD_PANE');
+
+          var panel = ThothApp.getPath('imageUploadPane');
+          if (panel) {
+            panel.append();
+          }
+        },
+
+        exitState: function() {
+          var panel = ThothApp.getPath('imageUploadPane');
+          if (panel) {
+            panel.remove();
+          }
+        },
+
+        cancel: function() {
+          this.gotoState('SHOWING_STANDARD');
+        },
+
+        save: function() {
+          ThothApp.getPath('imageUploadPane.contentView.imageUpload').startUpload();
+          this.gotoState('SHOWING_STANDARD');
+        }
       }),
 
       // -------------------------------------------

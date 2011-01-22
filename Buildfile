@@ -20,5 +20,5 @@ config :sc_theme,
 
 config :thoth_app, :required => [:sproutcore, "sproutcore/forms", "sproutcore/animation", "sproutcore/statechart", :scui, :'Thoth-SC'], :theme => :sc_theme
 
-# Uncomment this line when running with Thoth/XHRPollingDataSource (not needed for WebsocketsDataSource)
-#proxy '/thoth', :to => 'localhost:8080'
+# Uncomment this line when running with Thoth/XHRPollingDataSource (not needed for WebsocketsDataSource); Also, this is needed when uploading is used.
+proxy '/thoth', :to => 'localhost:8080'

@@ -282,6 +282,19 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
       //autoHide: YES
     })),
 
+    imgURL: SC.FormView.row(SC.LabelView.design(SCUI.SimpleButton, {
+      layout: {left: 0, width: 150, height:150, centerY:0 }, //  buttons are not displayed without height and width
+      icon: static_url('images/default.png'),
+      hasHover: YES,
+      action: 'showImageUploadPane',
+      hint: "Image for this book version."
+    })),
+
+//    imgURL: SC.FormView.row(ThothApp.UploadView.design({
+//      layout: { left: 0, width: 150, height: 36, centerY: 0},
+//      hint: "Image for this book version."
+//    })),
+
     pages: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
       hint: "Integer value"

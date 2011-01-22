@@ -133,7 +133,7 @@ ThothApp.UploadView = SC.View.extend(
     fd = new FormData();
     fd.append('Filedata', file);
 
-    var key = ThothApp.store.storeKeyFor(ThothApp.productController.get('content'))
+    var key = ThothApp.store.storeKeyFor(ThothApp.versionController.get('content'))
     ThothApp.store.dataSource.uploadRequest(
       'checkInPreparationForUpload',
       { userData: { username: 'test', password: 'test'}, associated: [{ bucket: 'product', key: key, property: 'imgURL' }] },

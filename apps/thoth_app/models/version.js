@@ -17,6 +17,7 @@ ThothApp.Version = SC.Record.extend(LinkIt.Node, {
   publisher:       SC.Record.attr(String),
   publicationDate: SC.Record.attr(SC.DateTime, { format: '%Y %m %d' }),
   format:          SC.Record.attr(String),
+  imgURL:          SC.Record.attr(String),
   pages:           SC.Record.attr(Number),
   language:        SC.Record.attr(String),
   rank:            SC.Record.attr(Number),
