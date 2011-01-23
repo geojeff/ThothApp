@@ -244,7 +244,7 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
     layout: { left: 0, top: 270, width: 500 },
     formFlowSpacing: { left: 2, top: 2, bottom: 2, right: 2 },
     contentBinding: ".parentView.content",
-    childViews: "publisher publicationDate format language rank height width depth isbn10 isbn13".w(),
+    childViews: "publisher publicationDate format imgURL pages language rank height width depth isbn10 isbn13".w(),
 
 //    publisherHeader: SC.LabelView.design({
 //      layout: { width: 200, height: 21 },
@@ -297,7 +297,7 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
 
     pages: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      hint: "Integer value"
+      hint: "Number of pages"
       //value: "Pages"
       //isSpacer: YES,
       //autoHide: YES
@@ -319,7 +319,7 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
 
     rank: SC.FormView.row(SC.TextFieldView.design({
       layout: { left: 0, width: 150, height: 21, centerY: 0},
-      hint: "Integer value"
+      hint: "Rank index"
       //value: "Rank"
       //isSpacer: YES,
       //autoHide: YES
