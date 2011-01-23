@@ -8,6 +8,7 @@
    @author Jeff Pittman
 */
 
+require("views/upload");
 
 ThothApp.imageUploadPane = SC.PanelPane.design({
   layout: { centerX: 0, top: 80, width: 420, height: 150},
