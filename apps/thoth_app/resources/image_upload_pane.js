@@ -26,7 +26,7 @@ ThothApp.imageUploadPane = SC.PanelPane.design({
       fontWeight: SC.BOLD_WEIGHT
     }),
 
-    imageUpload: EcBasic.UploadView.design({
+    imageUpload: ThothApp.UploadView.design({
       layout: { left: 17, right: 14, top: 50, height: 36 }
     }),
 
