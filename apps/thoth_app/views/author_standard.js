@@ -209,7 +209,6 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
         }.observes("isActive")
       })
     }) // toolbar
-
   }), // versionsView
 
   versionView: SC.View.design({
@@ -590,7 +589,6 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
         }.observes("isActive")
       })
     }) // toolbar
-
   }), // reviewsView
 
   /* This stuff goes at the end because it is entirely to test animation. So there. */
