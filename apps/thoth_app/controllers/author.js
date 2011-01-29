@@ -9,7 +9,8 @@
 */
 ThothApp.authorController = SC.ObjectController.create(
 /** @scope ThothApp.authorController.prototype */ {
-	contentBinding: "ThothApp.authorsController.selection",
+	//contentBinding: "ThothApp.authorsController.selection",
+  contentBinding: "ThothApp.authorsController*selection.firstObject",
   contentBindingDefault: SC.Binding.oneWay().single(),
 
   show: null,

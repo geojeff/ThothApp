@@ -9,6 +9,7 @@ ThothApp.Version.FIXTURES = [
   {
     key: 1,
     format: "paperback",
+    imgURL: static_url('images/default_book.png'),
     pages: 210,
     publisher: "CreateSpace",
     publicationDate: "2010 09 18",
@@ -24,6 +25,7 @@ ThothApp.Version.FIXTURES = [
   {
     key: 2,
     format: "paperback",
+    imgURL: static_url('images/default_book.png'),
     pages: 320,
     publisher: "Bantam Classics; Reprint edition",
     publicationDate: "1981 02 01",
@@ -39,6 +41,7 @@ ThothApp.Version.FIXTURES = [
   {
     key: 3,
     format: "hardcover",
+    imgURL: static_url('images/default_book.png'),
     pages: 360,
     publisher: "Collector's Library",
     publicationDate: "2010 08 01",
@@ -54,6 +57,7 @@ ThothApp.Version.FIXTURES = [
   {
     key: 4,
     format: "paperback",
+    imgURL: static_url('images/default_book.png'),
     pages: 124,
     publisher: "CreateSpace",
     publicationDate: "2010 07 28",
@@ -69,6 +73,7 @@ ThothApp.Version.FIXTURES = [
   {
     key: 5,
     format: "paperback",
+    imgURL: static_url('images/default_book.png'),
     pages: 560,
     publisher: "Harper Perennial Modern Classics",
     publicationDate: "2000 01 26",
@@ -84,6 +89,7 @@ ThothApp.Version.FIXTURES = [
   {
     key: 6,
     format: "paperback",
+    imgURL: static_url('images/default_book.png'),
     pages: 262,
     publisher: "General Versions LLC",
     publicationDate: "2010 03 06",
@@ -99,6 +105,7 @@ ThothApp.Version.FIXTURES = [
   {
     key: 7,
     format: "hardback",
+    imgURL: static_url('images/default_book.png'),
     pages: 367,
     publisher: "IndyPublish",
     publicationDate: "2002 07 09",
@@ -114,6 +121,7 @@ ThothApp.Version.FIXTURES = [
   {
     key: 8,
     format: "paperback",
+    imgURL: static_url('images/default_book.png'),
     pages: 240,
     publisher: "Puffin",
     publicationDate: "2009 03 05",
@@ -129,6 +137,7 @@ ThothApp.Version.FIXTURES = [
   {
     key: 9,
     format: "paperback",
+    imgURL: static_url('images/default_book.png'),
     pages: 209,
     publisher: "Townsend Press",
     publicationDate: "2007 01 01",

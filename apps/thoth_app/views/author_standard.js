@@ -212,164 +212,354 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
 
   }), // versionsView
 
-  authorForm:  SC.FormView.design({
+  authorForm: SC.FormView.design({
     layout: { left: 0, top: 210, width: 500, height: 30 },
-    contentBinding: "ThothApp.authorController",
-    childViews: 'fullName'.w(),
+    childViews: 'title'.w(),
 
-    fullName: SC.FormView.row("Author", SC.TextFieldView.design({
-      layout: { left: 0, width: 250, height: 21, centerY: 0 },
-      hint: 'First Last'
-      //value: "Last Name"
-      //isSpacer: YES,
-      //autoHide: YES
-    }))
+    title: SC.View.design({
+      layout: { left: 17, right: 14, top: 100, height: 26 },
+      childViews: 'label field'.w(),
+
+      label: SC.LabelView.design({
+        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+
+        value: 'Author:',
+        textAlign: SC.ALIGN_RIGHT
+      }),
+
+      field: SC.TextFieldView.design({
+        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        hint: 'First Last',
+
+        isEnabledBinding: SC.Binding.from("ThothApp.authorController.isEditing")
+                .bool()
+                .transform(function(value, isForward) {
+          return value;
+        }),
+        valueBinding: 'ThothApp.authorController.fullName'
+      })
+    })
   }),
 
   bookTitleForm: SC.FormView.design({
-    layout: { left: 0, top: 240, width: 500, height: 30 },
-    contentBinding: "ThothApp.bookController",
+    layout: { left: 0, top: 245, width: 500, height: 30 },
     childViews: 'title'.w(),
 
-    title: SC.FormView.row(SC.TextFieldView.design({
-      layout: { left: 0, width: 250, height: 21, centerY: 0 },
-      hint: 'Title of Book'
-      //value: "Title"
-      //isSpacer: YES,
-      //autoHide: YES
-    }))
+    title: SC.View.design({
+      layout: { left: 17, right: 14, top: 100, height: 26 },
+      childViews: 'label field'.w(),
+
+      label: SC.LabelView.design({
+        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+
+        value: 'Title of book:',
+        textAlign: SC.ALIGN_RIGHT
+      }),
+
+      field: SC.TextFieldView.design({
+        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+
+        isEnabledBinding: SC.Binding.from("ThothApp.bookController.isEditing")
+                .bool()
+                .transform(function(value, isForward) {
+          return value;
+        }),
+        valueBinding: 'ThothApp.bookController.title'
+      })
+    })
   }),
 
-  versionView: SC.FormView.design({
-    layout: { left: 0, top: 270, width: 500 },
-    formFlowSpacing: { left: 2, top: 2, bottom: 2, right: 2 },
-    contentBinding: ".parentView.content",
-    childViews: "publisher publicationDate format imgURL pages language rank height width depth isbn10 isbn13".w(),
+  versionView: SC.View.design({
+    layout: { left: 0, top: 280, width: 500, height: 500 },
+    contentBinding: "ThothApp.versionController.content",
+    childViews: "publisher publicationDate format image pages language rank height width depth isbn10 isbn13".w(),
 
-//    publisherHeader: SC.LabelView.design({
-//      layout: { width: 200, height: 21 },
-//      value: "Publisher"
-//    }),
+    publisher: SC.View.design({
+      layout: { left: 17, right: 14, top: 0, height: 26 },
+      childViews: 'label field'.w(),
 
-    publisher: SC.FormView.row(SC.TextFieldView.design({
-      layout: { left: 0, width: 150, height: 21, centerY: 0},
-      hint: "Bantam, etc."
-      //value: "Publisher"
-      //isSpacer: YES,
-      //autoHide: YES
-    })),
+      label: SC.LabelView.design({
+        layout: { left: 0, width: 107, height: 18, centerY: 0 },
 
-    publicationDate: SC.FormView.row(SC.DateFieldView.design({
-      layout: { left: 0, width: 150, height: 21, centerY: 0},
-      formatDate: '%Y %m %d',
-      hint: "yyyy m d"
-      //value: "Date"
-      //isSpacer: YES,
-      //autoHide: YES
-    })),
+        value: 'Publisher:',
+        textAlign: SC.ALIGN_RIGHT
+      }),
 
-//    detailsHeader: SC.LabelView.design({
-//      layout: { width: 200, height: 21 },
-//      //classNames: "header".w(),
-//      value: "Details for this version"
-//    }),
+      field: SC.TextFieldView.design({
+        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        hint: 'Bantam, etc.',
 
-    format: SC.FormView.row(SC.TextFieldView.design({
-      layout: { left: 0, width: 150, height: 21, centerY: 0},
-      hint: "Paperback, DVD, etc."
-      //value: "Format"
-      //isSpacer: YES,
-      //autoHide: YES
-    })),
+        isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
+                .bool()
+                .transform(function(value, isForward) {
+          return value;
+        }),
+        valueBinding: 'ThothApp.versionController.publisher'
+      })
+    }),
 
-    imgURL: SC.FormView.row(SC.LabelView.design(SCUI.SimpleButton, {
-      layout: {left: 0, width: 150, height:150, centerY:0 }, //  buttons are not displayed without height and width
-      icon: static_url('images/default.png'),
-      hasHover: YES,
-      action: 'showImageUploadPane',
-      hint: "Image for this book version."
-    })),
+    publicationDate: SC.View.design({
+      layout: { left: 17, right: 14, top: 30, height: 26 },
+      childViews: 'label field'.w(),
 
-//    imgURL: SC.FormView.row(ThothApp.UploadView.design({
-//      layout: { left: 0, width: 150, height: 36, centerY: 0},
-//      hint: "Image for this book version."
-//    })),
+      label: SC.LabelView.design({
+        layout: { left: 0, width: 107, height: 18, centerY: 0 },
 
-    pages: SC.FormView.row(SC.TextFieldView.design({
-      layout: { left: 0, width: 150, height: 21, centerY: 0},
-      hint: "Number of pages"
-      //value: "Pages"
-      //isSpacer: YES,
-      //autoHide: YES
-    })),
+        value: 'Publication Date:',
+        textAlign: SC.ALIGN_RIGHT
+      }),
 
-    language: SC.FormView.row(SC.TextFieldView.design({
-      layout: { left: 0, width: 150, height: 21, centerY: 0},
-      hint: "For book text"
-      //value: "Language"
-      //isSpacer: YES,
-      //autoHide: YES
-    })),
+      field: SC.DateFieldView.design({
+        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        formatDate: '%Y %m %d',
+        hint: "yyyy m d",
 
-//    spacer1: SC.View.design({
-//      layout: { left: 0, width: 150, height: 14, centerY: 0},
-//      value: "",
-//      flowSize: { widthPercentage: 1 }
-//    }),
+        isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
+                .bool()
+                .transform(function(value, isForward) {
+          return value;
+        }),
+        valueBinding: 'ThothApp.versionController.publicationDate'
+      })
+    }),
 
-    rank: SC.FormView.row(SC.TextFieldView.design({
-      layout: { left: 0, width: 150, height: 21, centerY: 0},
-      hint: "Rank index"
-      //value: "Rank"
-      //isSpacer: YES,
-      //autoHide: YES
-    })),
+    format: SC.View.design({
+      layout: { left: 17, right: 14, top: 60, height: 26 },
+      childViews: 'label field'.w(),
 
-    height: SC.FormView.row(SC.TextFieldView.design({
-      layout: { left: 0, width: 150, height: 21, centerY: 0},
-      hint: "In inches"
-      //value: "Height"
-      //isSpacer: YES,
-      //autoHide: YES
-    })),
+      label: SC.LabelView.design({
+        layout: { left: 0, width: 107, height: 18, centerY: 0 },
 
-    width: SC.FormView.row(SC.TextFieldView.design({
-      layout: { left: 0, width: 150, height: 21, centerY: 0},
-      hint: "In inches"
-      //value: "Width"
-      //isSpacer: YES,
-      //autoHide: YES
-    })),
+        value: 'Format:',
+        textAlign: SC.ALIGN_RIGHT
+      }),
 
-    depth: SC.FormView.row(SC.TextFieldView.design({
-      layout: { left: 0, width: 150, height: 21, centerY: 0},
-      hint: "In inches"
-      //value: "Depth"
-      //isSpacer: YES,
-      //autoHide: YES
-    })),
+      field: SC.TextFieldView.design({
+        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        hint: "Paperback, DVD, etc.",
 
-//    spacer2: SC.View.design({
-//      layout: { left: 0, width: 150, height: 14, centerY: 0},
-//      value: "",
-//      flowSize: { widthPercentage: 1 }
-//    }),
+        isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
+                .bool()
+                .transform(function(value, isForward) {
+          return value;
+        }),
+        valueBinding: 'ThothApp.versionController.format'
+      })
+    }),
 
-    isbn10: SC.FormView.row(SC.TextFieldView.design({
-      layout: { left: 0, width: 150, height: 21, centerY: 0},
-      hint: "10 character ISBN"
-      //value: "ISBN (10)"
-      //isSpacer: YES,
-      //autoHide: YES
-    })),
+    image: SC.View.design({
+      layout: { left: 17, right: 14, top: 90, height: 150 },
+      childViews: 'label field'.w(),
 
-    isbn13: SC.FormView.row(SC.TextFieldView.design({
-      layout: { left: 0, width: 150, height: 21, centerY: 0},
-      hint: "13 character ISBN"
-      //value: "ISBN (13)"
-      //isSpacer: YES,
-      //autoHide: YES
-    }))
+      label: SC.LabelView.design({
+        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+
+        value: 'Image:',
+        textAlign: SC.ALIGN_RIGHT
+      }),
+
+      field: SC.LabelView.design(SCUI.SimpleButton, {
+        layout: { width: 200, height: 150, right: 3, centerY: 0 },
+        //icon: static_url('images/default_book.png'),
+        hasHover: YES,
+        action: 'showImageUploadPane',
+
+        isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
+                .bool()
+                .transform(function(value, isForward) {
+          return value;
+        }),
+        iconBinding: 'ThothApp.versionController.imgURL'
+      })
+    }),
+
+    pages: SC.View.design({
+      layout: { left: 17, right: 14, top: 245, height: 26 },
+      childViews: 'label field'.w(),
+
+      label: SC.LabelView.design({
+        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+
+        value: 'Number of Pages:',
+        textAlign: SC.ALIGN_RIGHT
+      }),
+
+      field: SC.TextFieldView.design({
+        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+
+        isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
+                .bool()
+                .transform(function(value, isForward) {
+          return value;
+        }),
+        valueBinding: 'ThothApp.versionController.pages'
+      })
+    }),
+
+    language: SC.View.design({
+      layout: { left: 17, right: 14, top: 275, height: 26 },
+      childViews: 'label field'.w(),
+
+      label: SC.LabelView.design({
+        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+
+        value: 'Language:',
+        textAlign: SC.ALIGN_RIGHT
+      }),
+
+      field: SC.TextFieldView.design({
+        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+
+        isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
+                .bool()
+                .transform(function(value, isForward) {
+          return value;
+        }),
+        valueBinding: 'ThothApp.versionController.language'
+      })
+    }),
+
+    rank: SC.View.design({
+      layout: { left: 17, right: 14, top: 305, height: 26 },
+      childViews: 'label field'.w(),
+
+      label: SC.LabelView.design({
+        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+
+        value: 'Rank:',
+        textAlign: SC.ALIGN_RIGHT
+      }),
+
+      field: SC.TextFieldView.design({
+        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        hint: 'Amazon Rank Index',
+
+        isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
+                .bool()
+                .transform(function(value, isForward) {
+          return value;
+        }),
+        valueBinding: 'ThothApp.versionController.rank'
+      })
+    }),
+
+    height: SC.View.design({
+      layout: { left: 17, right: 14, top: 335, height: 26 },
+      childViews: 'label field'.w(),
+
+      label: SC.LabelView.design({
+        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+
+        value: 'Height:',
+        textAlign: SC.ALIGN_RIGHT
+      }),
+
+      field: SC.TextFieldView.design({
+        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        hint: 'in inches',
+
+        isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
+                .bool()
+                .transform(function(value, isForward) {
+          return value;
+        }),
+        valueBinding: 'ThothApp.versionController.height'
+      })
+    }),
+
+    width: SC.View.design({
+      layout: { left: 17, right: 14, top: 365, height: 26 },
+      childViews: 'label field'.w(),
+
+      label: SC.LabelView.design({
+        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+
+        value: 'Width:',
+        textAlign: SC.ALIGN_RIGHT
+      }),
+
+      field: SC.TextFieldView.design({
+        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        hint: 'in inches',
+
+        isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
+                .bool()
+                .transform(function(value, isForward) {
+          return value;
+        }),
+        valueBinding: 'ThothApp.versionController.width'
+      })
+    }),
+
+    depth: SC.View.design({
+      layout: { left: 17, right: 14, top: 395, height: 26 },
+      childViews: 'label field'.w(),
+
+      label: SC.LabelView.design({
+        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+
+        value: 'Depth:',
+        textAlign: SC.ALIGN_RIGHT
+      }),
+
+      field: SC.TextFieldView.design({
+        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        hint: 'in inches',
+
+        isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
+                .bool()
+                .transform(function(value, isForward) {
+          return value;
+        }),
+        valueBinding: 'ThothApp.versionController.depth'
+      })
+    }),
+
+    isbn10: SC.View.design({
+      layout: { left: 17, right: 14, top: 425, height: 26 },
+      childViews: 'label field'.w(),
+
+      label: SC.LabelView.design({
+        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+
+        value: '10 Character ISBN:',
+        textAlign: SC.ALIGN_RIGHT
+      }),
+
+      field: SC.TextFieldView.design({
+        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+
+        isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
+                .bool()
+                .transform(function(value, isForward) {
+          return value;
+        }),
+        valueBinding: 'ThothApp.versionController.isbn10'
+      })
+    }),
+
+    isbn13: SC.View.design({
+      layout: { left: 17, right: 14, top: 455, height: 26 },
+      childViews: 'label field'.w(),
+
+      label: SC.LabelView.design({
+        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+
+        value: '13 Character ISBN:',
+        textAlign: SC.ALIGN_RIGHT
+      }),
+
+      field: SC.TextFieldView.design({
+        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+
+        isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
+                .bool()
+                .transform(function(value, isForward) {
+          return value;
+        }),
+        valueBinding: 'ThothApp.versionController.isbn13'
+      })
+    })
 
   }),
 

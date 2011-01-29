@@ -258,6 +258,7 @@ ThothApp.statechart = SC.Statechart.create({
             "publisher":       ThothApp.Version.FIXTURES[i].publisher,
             "publicationDate": ThothApp.Version.FIXTURES[i].publicationDate,
             "format":          ThothApp.Version.FIXTURES[i].format,
+            "imgURL":          ThothApp.Version.FIXTURES[i].imgURL,
             "pages":           ThothApp.Version.FIXTURES[i].pages,
             "language":        ThothApp.Version.FIXTURES[i].language,
             "rank":            ThothApp.Version.FIXTURES[i].rank,
@@ -499,7 +500,9 @@ ThothApp.statechart = SC.Statechart.create({
 
         ThothApp.getPath('mainPage.mainPanel').append();
 
-        this.gotoState('APP_LOADED');
+        this.invokeLater(function() {
+          this.gotoState('APP_LOADED');
+        });
       },
 
       exitState: function() {
@@ -513,6 +516,9 @@ ThothApp.statechart = SC.Statechart.create({
       initialSubstate: "SHOWING_STANDARD",
 
       enterState: function() {
+        this.invokeLater(function() {
+          console.log('versionController ', ThothApp.versionController.get('content'));
+        });
       },
 
       exitState: function() {

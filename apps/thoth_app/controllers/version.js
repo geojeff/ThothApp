@@ -11,7 +11,8 @@
 */
 ThothApp.versionController = SC.ObjectController.create(
 /** @scope ThothApp.versionController.prototype */ {
-	contentBinding: "ThothApp.versionsController.selection",
+	//contentBinding: "ThothApp.versionsController.selection",
+  contentBinding: "ThothApp.versionsController*selection.firstObject",
 	contentBindingDefault: SC.Binding.oneWay().single(),
 
   isEditing: NO,
