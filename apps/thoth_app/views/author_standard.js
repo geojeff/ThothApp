@@ -16,7 +16,7 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
   /** @scope ThothApp.AuthorStandardView.prototype */ {
   layout: {left:0, right:0},
   classNames: ["author-view"],
-  childViews: "booksView versionsView authorForm bookTitleForm versionView reviewsView".w(),
+  childViews: "booksView versionsView versionView reviewsView".w(),
   backgroundColor: "white",
   contentBindingDefault: SC.Binding.single(),
   defaultResponder: "ThothApp.statechart",
@@ -211,63 +211,6 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
     }) // toolbar
 
   }), // versionsView
-
-  authorForm: SC.FormView.design({
-    layout: { left: 0, top: 210, width: 500, height: 30 },
-    childViews: 'title'.w(),
-
-    title: SC.View.design({
-      layout: { left: 17, right: 14, top: 100, height: 26 },
-      childViews: 'label field'.w(),
-
-      label: SC.LabelView.design({
-        layout: { left: 0, width: 107, height: 18, centerY: 0 },
-
-        value: 'Author:',
-        textAlign: SC.ALIGN_RIGHT
-      }),
-
-      field: SC.TextFieldView.design({
-        layout: { width: 200, height: 22, right: 3, centerY: 0 },
-        hint: 'First Last',
-
-        isEnabledBinding: SC.Binding.from("ThothApp.authorController.isEditing")
-                .bool()
-                .transform(function(value, isForward) {
-          return value;
-        }),
-        valueBinding: 'ThothApp.authorController.fullName'
-      })
-    })
-  }),
-
-  bookTitleForm: SC.FormView.design({
-    layout: { left: 0, top: 245, width: 500, height: 30 },
-    childViews: 'title'.w(),
-
-    title: SC.View.design({
-      layout: { left: 17, right: 14, top: 100, height: 26 },
-      childViews: 'label field'.w(),
-
-      label: SC.LabelView.design({
-        layout: { left: 0, width: 107, height: 18, centerY: 0 },
-
-        value: 'Title of book:',
-        textAlign: SC.ALIGN_RIGHT
-      }),
-
-      field: SC.TextFieldView.design({
-        layout: { width: 200, height: 22, right: 3, centerY: 0 },
-
-        isEnabledBinding: SC.Binding.from("ThothApp.bookController.isEditing")
-                .bool()
-                .transform(function(value, isForward) {
-          return value;
-        }),
-        valueBinding: 'ThothApp.bookController.title'
-      })
-    })
-  }),
 
   versionView: SC.View.design({
     layout: { left: 0, top: 280, width: 500, height: 500 },

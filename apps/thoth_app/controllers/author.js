@@ -34,6 +34,17 @@ ThothApp.authorController = SC.ObjectController.create(
 
   delayShow: function() {
     this.invokeLater(this.set, 50, "nowShowing", this.get("show") || "standard");
-  }.observes("show")
+  }.observes("show"),
+
+  isEditing: NO,
+
+	beginEditing: function() {
+		this.set("isEditing", YES);
+	},
+
+	endEditing: function() {
+		this.set("isEditing", NO);
+		ThothApp.store.commitRecords();
+	}
 
 });
