@@ -302,7 +302,7 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
   }), // reviewsView
 
   versionView: SC.View.design({
-    layout: { left: 0, top: 360, height: 500 },
+    layout: { left: 0, top: 360 },
     classNames: ["version-view"],
     contentBinding: "ThothApp.versionController.content",
     childViews: "publisher publicationDate format image pages language rank height width depth isbn10 isbn13".w(),
