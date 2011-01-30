@@ -17,7 +17,6 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
   layout: {left:0, right:0},
   classNames: ["author-view"],
   childViews: "booksView versionsView reviewsView versionView versionBar".w(),
-  backgroundColor: "white",
   contentBindingDefault: SC.Binding.single(),
   defaultResponder: "ThothApp.statechart",
 
@@ -39,7 +38,7 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
   },
 
   booksView: SC.View.design({
-    layout: { left: 0, top: 0, width: 400, height: 200 },
+    layout: { left: 0, top: 0, height: 200 },
     classNames: ["books-view"],
     childViews: "bookList toolbar".w(),
 
@@ -126,7 +125,7 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
   }), // booksView
 
   versionsView: SC.View.design({
-    layout: { left: 401, top: 0, width: 100, height: 200 }, // 1 pixel over for a vertical divider
+    layout: { top: 0, right: 0, width: 200, height: 200 }, // 1 pixel over for a vertical divider
     classNames: ["versions-view"],
     childViews: "versionList toolbar".w(),
 
@@ -212,7 +211,7 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
   }), // versionsView
 
   reviewsView: SC.View.design({
-    layout: { left: 0, top: 200, width: 500, height: 140 },
+    layout: { left: 0, top: 210, right: 0, height: 140 },
     classNames: ["reviews-view"],
     childViews: "reviewList toolbar".w(),
 
@@ -298,23 +297,29 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
   }), // reviewsView
 
   versionView: SC.View.design({
-    layout: { left: 0, top: 350, width: 500, height: 500 },
+    layout: { left: 0, top: 360, height: 500 },
+    classNames: ["version-view"],
     contentBinding: "ThothApp.versionController.content",
     childViews: "publisher publicationDate format image pages language rank height width depth isbn10 isbn13".w(),
 
     publisher: SC.View.design({
-      layout: { left: 17, right: 14, top: 0, height: 26 },
-      childViews: 'label field'.w(),
+      layout: { left: 17, right: 14, top: 10, height: 26 },
+      childViews: 'label vspace field'.w(),
 
       label: SC.LabelView.design({
-        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+        layout: { left: 0, width: .47, height: 18, centerY: 0 },
 
         value: 'Publisher:',
         textAlign: SC.ALIGN_RIGHT
       }),
 
+      vspace: SC.LabelView.design({
+        layout: { left: 0, width: .06, height: 18, centerY: 0 },
+        value: ':'
+      }),
+
       field: SC.TextFieldView.design({
-        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        layout: { width: .47, height: 22, right: 3, centerY: 0 },
         hint: 'Bantam, etc.',
 
         isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
@@ -327,18 +332,23 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
     }),
 
     publicationDate: SC.View.design({
-      layout: { left: 17, right: 14, top: 30, height: 26 },
-      childViews: 'label field'.w(),
+      layout: { left: 17, right: 14, top: 40, height: 26 },
+      childViews: 'label vspace field'.w(),
 
       label: SC.LabelView.design({
-        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+        layout: { left: 0, width: .47, height: 18, centerY: 0 },
 
         value: 'Publication Date:',
         textAlign: SC.ALIGN_RIGHT
       }),
 
+      vspace: SC.LabelView.design({
+        layout: { left: 0, width: .06, height: 18, centerY: 0 },
+        value: ':'
+      }),
+
       field: SC.DateFieldView.design({
-        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        layout: { width: .47, height: 22, right: 3, centerY: 0 },
         formatDate: '%Y %m %d',
         hint: "yyyy m d",
 
@@ -352,18 +362,23 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
     }),
 
     format: SC.View.design({
-      layout: { left: 17, right: 14, top: 60, height: 26 },
-      childViews: 'label field'.w(),
+      layout: { left: 17, right: 14, top: 70, height: 26 },
+      childViews: 'label vspace field'.w(),
 
       label: SC.LabelView.design({
-        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+        layout: { left: 0, width: .47, height: 18, centerY: 0 },
 
         value: 'Format:',
         textAlign: SC.ALIGN_RIGHT
       }),
 
+      vspace: SC.LabelView.design({
+        layout: { left: 0, width: .06, height: 18, centerY: 0 },
+        value: ':'
+      }),
+
       field: SC.TextFieldView.design({
-        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        layout: { width: .47, height: 22, right: 3, centerY: 0 },
         hint: "Paperback, DVD, etc.",
 
         isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
@@ -376,18 +391,23 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
     }),
 
     image: SC.View.design({
-      layout: { left: 17, right: 14, top: 90, height: 150 },
-      childViews: 'label field'.w(),
+      layout: { left: 17, right: 14, top: 100, height: 150 },
+      childViews: 'label vspace field'.w(),
 
       label: SC.LabelView.design({
-        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+        layout: { left: 0, width: .47, height: 18, centerY: 0 },
 
         value: 'Image:',
         textAlign: SC.ALIGN_RIGHT
       }),
 
+      vspace: SC.LabelView.design({
+        layout: { left: 0, width: .06, height: 18, centerY: 0 },
+        value: ':'
+      }),
+
       field: SC.LabelView.design(SCUI.SimpleButton, {
-        layout: { width: 200, height: 150, right: 3, centerY: 0 },
+        layout: { width: .47, height: 150, right: 3, centerY: 0 },
         //icon: static_url('images/default_book.png'),
         hasHover: YES,
         action: 'showImageUploadPane',
@@ -402,18 +422,23 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
     }),
 
     pages: SC.View.design({
-      layout: { left: 17, right: 14, top: 245, height: 26 },
-      childViews: 'label field'.w(),
+      layout: { left: 17, right: 14, top: 255, height: 26 },
+      childViews: 'label vspace field'.w(),
 
       label: SC.LabelView.design({
-        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+        layout: { left: 0, width: .47, height: 18, centerY: 0 },
 
         value: 'Number of Pages:',
         textAlign: SC.ALIGN_RIGHT
       }),
 
+      vspace: SC.LabelView.design({
+        layout: { left: 0, width: .06, height: 18, centerY: 0 },
+        value: ':'
+      }),
+
       field: SC.TextFieldView.design({
-        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        layout: { width: .47, height: 22, right: 3, centerY: 0 },
 
         isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
                 .bool()
@@ -425,18 +450,23 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
     }),
 
     language: SC.View.design({
-      layout: { left: 17, right: 14, top: 275, height: 26 },
-      childViews: 'label field'.w(),
+      layout: { left: 17, right: 14, top: 285, height: 26 },
+      childViews: 'label vspace field'.w(),
 
       label: SC.LabelView.design({
-        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+        layout: { left: 0, width: .47, height: 18, centerY: 0 },
 
         value: 'Language:',
         textAlign: SC.ALIGN_RIGHT
       }),
 
+      vspace: SC.LabelView.design({
+        layout: { left: 0, width: .06, height: 18, centerY: 0 },
+        value: ':'
+      }),
+
       field: SC.TextFieldView.design({
-        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        layout: { width: .47, height: 22, right: 3, centerY: 0 },
 
         isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
                 .bool()
@@ -448,18 +478,23 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
     }),
 
     rank: SC.View.design({
-      layout: { left: 17, right: 14, top: 305, height: 26 },
-      childViews: 'label field'.w(),
+      layout: { left: 17, right: 14, top: 315, height: 26 },
+      childViews: 'label vspace field'.w(),
 
       label: SC.LabelView.design({
-        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+        layout: { left: 0, width: .47, height: 18, centerY: 0 },
 
         value: 'Rank:',
         textAlign: SC.ALIGN_RIGHT
       }),
 
+      vspace: SC.LabelView.design({
+        layout: { left: 0, width: .06, height: 18, centerY: 0 },
+        value: ':'
+      }),
+
       field: SC.TextFieldView.design({
-        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        layout: { width: .47, height: 22, right: 3, centerY: 0 },
         hint: 'Amazon Rank Index',
 
         isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
@@ -472,18 +507,23 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
     }),
 
     height: SC.View.design({
-      layout: { left: 17, right: 14, top: 335, height: 26 },
-      childViews: 'label field'.w(),
+      layout: { left: 17, right: 14, top: 345, height: 26 },
+      childViews: 'label vspace field'.w(),
 
       label: SC.LabelView.design({
-        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+        layout: { left: 0, width: .47, height: 18, centerY: 0 },
 
         value: 'Height:',
         textAlign: SC.ALIGN_RIGHT
       }),
 
+      vspace: SC.LabelView.design({
+        layout: { left: 0, width: .06, height: 18, centerY: 0 },
+        value: ':'
+      }),
+
       field: SC.TextFieldView.design({
-        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        layout: { width: .47, height: 22, right: 3, centerY: 0 },
         hint: 'in inches',
 
         isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
@@ -496,18 +536,23 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
     }),
 
     width: SC.View.design({
-      layout: { left: 17, right: 14, top: 365, height: 26 },
-      childViews: 'label field'.w(),
+      layout: { left: 17, right: 14, top: 375, height: 26 },
+      childViews: 'label vspace field'.w(),
 
       label: SC.LabelView.design({
-        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+        layout: { left: 0, width: .47, height: 18, centerY: 0 },
 
         value: 'Width:',
         textAlign: SC.ALIGN_RIGHT
       }),
 
+      vspace: SC.LabelView.design({
+        layout: { left: 0, width: .06, height: 18, centerY: 0 },
+        value: ':'
+      }),
+
       field: SC.TextFieldView.design({
-        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        layout: { width: .47, height: 22, right: 3, centerY: 0 },
         hint: 'in inches',
 
         isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
@@ -520,18 +565,23 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
     }),
 
     depth: SC.View.design({
-      layout: { left: 17, right: 14, top: 395, height: 26 },
-      childViews: 'label field'.w(),
+      layout: { left: 17, right: 14, top: 415, height: 26 },
+      childViews: 'label vspace field'.w(),
 
       label: SC.LabelView.design({
-        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+        layout: { left: 0, width: .47, height: 18, centerY: 0 },
 
         value: 'Depth:',
         textAlign: SC.ALIGN_RIGHT
       }),
 
+      vspace: SC.LabelView.design({
+        layout: { left: 0, width: .06, height: 18, centerY: 0 },
+        value: ':'
+      }),
+
       field: SC.TextFieldView.design({
-        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        layout: { width: .47, height: 22, right: 3, centerY: 0 },
         hint: 'in inches',
 
         isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
@@ -544,18 +594,23 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
     }),
 
     isbn10: SC.View.design({
-      layout: { left: 17, right: 14, top: 425, height: 26 },
-      childViews: 'label field'.w(),
+      layout: { left: 17, right: 14, top: 435, height: 26 },
+      childViews: 'label vspace field'.w(),
 
       label: SC.LabelView.design({
-        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+        layout: { left: 0, width: .47, height: 18, centerY: 0 },
 
         value: '10 Character ISBN:',
         textAlign: SC.ALIGN_RIGHT
       }),
 
+      vspace: SC.LabelView.design({
+        layout: { left: 0, width: .06, height: 18, centerY: 0 },
+        value: ':'
+      }),
+
       field: SC.TextFieldView.design({
-        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        layout: { width: .47, height: 22, right: 3, centerY: 0 },
 
         isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
                 .bool()
@@ -567,18 +622,23 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
     }),
 
     isbn13: SC.View.design({
-      layout: { left: 17, right: 14, top: 455, height: 26 },
-      childViews: 'label field'.w(),
+      layout: { left: 17, right: 14, top: 465, height: 26 },
+      childViews: 'label vspace field'.w(),
 
       label: SC.LabelView.design({
-        layout: { left: 0, width: 107, height: 18, centerY: 0 },
+        layout: { left: 0, width: .47, height: 18, centerY: 0 },
 
         value: '13 Character ISBN:',
         textAlign: SC.ALIGN_RIGHT
       }),
 
+      vspace: SC.LabelView.design({
+        layout: { left: 0, width: .06, height: 18, centerY: 0 },
+        value: ':'
+      }),
+
       field: SC.TextFieldView.design({
-        layout: { width: 200, height: 22, right: 3, centerY: 0 },
+        layout: { width: .47, height: 22, right: 3, centerY: 0 },
 
         isEnabledBinding: SC.Binding.from("ThothApp.versionController.isEditing")
                 .bool()
@@ -591,7 +651,7 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
   }),
 
   versionBar: SC.View.design({
-    layout: { left: 0, bottom: 0, width: 500, height: 140 },
+    layout: { left: 0, bottom: 0, right: 0, height: 140 },
     childViews: "toolbar".w(),
 
     toolbar: SC.ToolbarView.design({

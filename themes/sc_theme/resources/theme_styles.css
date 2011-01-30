@@ -358,6 +358,29 @@
 
 .reviews-list em { color:gray; }
 
+/* Version Form */
+.version-view {
+    background-color: #cad0dd;
+    color:#444455;
+    font-weight:bold;
+    text-shadow: 0px 1px 1px white;
+}
+
+.version-view .sc-separator-view span {
+    border-color: #999;
+    left: 5px;
+    right: 5px;
+}
+
+.version-view .sc-list-view {
+    background-color:transparent;
+}
+
+.version-view .selected, .version-view .sc-list-view .drag-potential {
+    text-shadow:0px 1px 1px black;
+    color:white;
+}
+
 
 /* Header
 --------------------------------------------- */
