@@ -10,9 +10,9 @@
 
 require("views/upload");
 
-ThothApp.imageUploadPane = SC.PanelPane.design({
+ThothApp.imageUploadPane = SC.PanelPane.create({
   layout: { centerX: 0, top: 80, width: 420, height: 150},
-  classNames: ['product'],
+  classNames: ['image-upload'],
   defaultResponder: ThothApp.statechart,
 
   contentView: SC.View.design({
@@ -21,8 +21,8 @@ ThothApp.imageUploadPane = SC.PanelPane.design({
 
     title: SC.LabelView.design({
       layout: { left: 20, top: 10, right: 20, height: 24 },
-      classNames: ['product-title'],
-      value: 'Add a Product (Select category first.)',
+      classNames: ['image-upload-title'],
+      value: 'Upload an image)',
       controlSize: SC.LARGE_CONTROL_SIZE,
       fontWeight: SC.BOLD_WEIGHT
     }),
