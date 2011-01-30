@@ -16,7 +16,7 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
   /** @scope ThothApp.AuthorStandardView.prototype */ {
   layout: {left:0, right:0},
   classNames: ["author-view"],
-  childViews: "booksView versionsView reviewsView versionView versionBar".w(),
+  childViews: "booksView vSeparator versionsView reviewsView versionView versionBar".w(),
   contentBindingDefault: SC.Binding.single(),
   defaultResponder: "ThothApp.statechart",
 
@@ -38,7 +38,7 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
   },
 
   booksView: SC.View.design({
-    layout: { left: 0, top: 0, height: 200 },
+    layout: { left: 0, width: .79, top: 0, height: 200 },
     classNames: ["books-view"],
     childViews: "bookList toolbar".w(),
 
@@ -124,8 +124,13 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
 
   }), // booksView
 
+  vSeparator: SC.LabelView.design({
+    layout: { top: 0, width: .01, height: 200},
+    layoutDirection: SC.LAYOUT_VERTICAL
+  }),
+
   versionsView: SC.View.design({
-    layout: { top: 0, right: 0, width: 200, height: 200 }, // 1 pixel over for a vertical divider
+    layout: { top: 0, right: 0, width: .2, height: 200 }, // 1 pixel over for a vertical divider
     classNames: ["versions-view"],
     childViews: "versionList toolbar".w(),
 
