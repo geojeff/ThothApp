@@ -16,7 +16,7 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
   /** @scope ThothApp.AuthorStandardView.prototype */ {
   layout: {left:0, right:0},
   classNames: ["author-view"],
-  childViews: "booksView versionsView versionView reviewsView".w(),
+  childViews: "booksView versionsView reviewsView versionView versionBar".w(),
   backgroundColor: "white",
   contentBindingDefault: SC.Binding.single(),
   defaultResponder: "ThothApp.statechart",
@@ -211,8 +211,94 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
     }) // toolbar
   }), // versionsView
 
+  reviewsView: SC.View.design({
+    layout: { left: 0, top: 200, width: 500, height: 140 },
+    classNames: ["reviews-view"],
+    childViews: "reviewList toolbar".w(),
+
+    reviewList: SC.ScrollView.design({
+      classNames: ["reviews-list"],
+      layout: { left:0, right:0, top:0, bottom:32},
+      borderStyle: SC.BORDER_NONE,
+
+      contentView: SC.ListView.design({
+        contentBinding: "ThothApp.reviewsController.arrangedObjects",
+        selectionBinding: "ThothApp.reviewsController.selection",
+        contentValueKey: "text",
+
+        delegate: ThothApp.reviewController,
+        canReorderContent: YES,
+        canDeleteContent: YES,
+        rowHeight: 22,
+
+        exampleView: SC.View.design({
+          childViews: "label".w(),
+          classNames: ["review-item"],
+
+          label: SC.LabelView.design({
+            escapeHTML: NO,
+            layout: {left:5, right:5, height:18,centerY:0},
+            contentBinding: ".parentView.content",
+            contentValueKey: "text",
+            inlineEditorDidEndEditing: function(){
+              sc_super();
+              ThothApp.store.commitRecords();
+            }
+          }),
+
+          isSelected: NO,
+          isSelectedDidChange: function() {
+            this.displayDidChange();
+          }.observes("isSelected"),
+
+          render: function(context) {
+            sc_super();
+
+            // even/odd
+            if (this.contentIndex % 2 === 0) {
+              context.addClass("even");
+            } else {
+              context.addClass("odd");
+            }
+
+            // is selected
+            if (this.get("isSelected")) {
+              context.addClass("list-selection").addClass("hback").addClass("selected");
+            }
+          }
+        })
+      })
+    }), // reviewList
+
+    toolbar: SC.ToolbarView.design({
+      classNames: "hback toolbar".w(),
+      layout: { left: 0, bottom: 0, right: 0, height: 32 },
+      childViews: "add del".w(),
+
+      add: SC.ButtonView.design({
+        layout: { left: 0, top: 0, bottom: 0, width:32 },
+        action: "addReview",
+        icon: "icons plus button-icon",
+        titleMinWidth: 16,
+        isActiveDidChange: function() {
+          this.set("icon", (this.get("isActive") ? "icons plus-active button-icon" : "icons plus button-icon"));
+        }.observes("isActive")
+      }),
+
+      del: SC.ButtonView.design({
+        layout: { left: 34, top: 0, bottom: 0, width:32 },
+        action: "deleteReview",
+        icon: "icons minus button-icon",
+        titleMinWidth: 16,
+        isActiveDidChange: function() {
+          this.set("icon", (this.get("isActive") ? "icons minus-active button-icon" : "icons minus button-icon"));
+        }.observes("isActive")
+      })
+    }) // toolbar
+  }), // reviewsView
+
   versionView: SC.View.design({
-    layout: { left: 0, top: 280, width: 500, height: 500 },
+    layout: { left: 0, top: 350, width: 500, height: 500 },
     contentBinding: "ThothApp.versionController.content",
     childViews: "publisher publicationDate format image pages language rank height width depth isbn10 isbn13".w(),
 
@@ -502,94 +588,70 @@ ThothApp.AuthorStandardView = SC.View.extend(SC.Animatable,
         valueBinding: 'ThothApp.versionController.isbn13'
       })
     })
-
   }),
 
-  reviewsView: SC.View.design({
+  versionBar: SC.View.design({
     layout: { left: 0, bottom: 0, width: 500, height: 140 },
-    classNames: ["reviews-view"],
-    childViews: "reviewList toolbar".w(),
-
-    reviewList: SC.ScrollView.design({
-      classNames: ["reviews-list"],
-      layout: { left:0, right:0, top:0, bottom:32},
-      borderStyle: SC.BORDER_NONE,
-
-      contentView: SC.ListView.design({
-        contentBinding: "ThothApp.reviewsController.arrangedObjects",
-        selectionBinding: "ThothApp.reviewsController.selection",
-        contentValueKey: "text",
-
-        delegate: ThothApp.reviewController,
-        canReorderContent: YES,
-        canDeleteContent: YES,
-        rowHeight: 22,
-
-        exampleView: SC.View.design({
-          childViews: "label".w(),
-          classNames: ["review-item"],
-
-          label: SC.LabelView.design({
-            escapeHTML: NO,
-            layout: {left:5, right:5, height:18,centerY:0},
-            contentBinding: ".parentView.content",
-            contentValueKey: "text",
-            inlineEditorDidEndEditing: function(){
-              sc_super();
-              ThothApp.store.commitRecords();
-            }
-          }),
-
-          isSelected: NO,
-          isSelectedDidChange: function() {
-            this.displayDidChange();
-          }.observes("isSelected"),
-
-          render: function(context) {
-            sc_super();
-
-            // even/odd
-            if (this.contentIndex % 2 === 0) {
-              context.addClass("even");
-            } else {
-              context.addClass("odd");
-            }
-
-            // is selected
-            if (this.get("isSelected")) {
-              context.addClass("list-selection").addClass("hback").addClass("selected");
-            }
-          }
-        })
-      })
-    }), // reviewList
+    childViews: "toolbar".w(),
 
     toolbar: SC.ToolbarView.design({
       classNames: "hback toolbar".w(),
       layout: { left: 0, bottom: 0, right: 0, height: 32 },
-      childViews: "add del".w(),
+      childViews: "edit save".w(),
 
-      add: SC.ButtonView.design({
-        layout: { left: 0, top: 0, bottom: 0, width:32 },
-        action: "addReview",
-        icon: "icons plus button-icon",
-        titleMinWidth: 16,
-        isActiveDidChange: function() {
-          this.set("icon", (this.get("isActive") ? "icons plus-active button-icon" : "icons plus button-icon"));
-        }.observes("isActive")
+      edit: SC.ButtonView.design(SC.Animatable, {
+        transitions: {
+          opacity: 0.25
+        },
+        title: "Edit",
+        layout: { left: 0, top: 0, bottom: 0, width: 90 },
+        target: ThothApp.versionController,
+        action: "beginEditing",
+        style: { opacity: 1 }
       }),
 
-      del: SC.ButtonView.design({
-        layout: { left: 34, top: 0, bottom: 0, width:32 },
-        action: "deleteReview",
-        icon: "icons minus button-icon",
-        titleMinWidth: 16,
-        isActiveDidChange: function() {
-          this.set("icon", (this.get("isActive") ? "icons minus-active button-icon" : "icons minus button-icon"));
-        }.observes("isActive")
-      })
-    }) // toolbar
-  }), // reviewsView
+      save: SC.ButtonView.design(SC.Animatable, {
+        transitions: { opacity: 0.25 },
+        title: "Save",
+        layout: { left: 0, top:0, bottom: 0, width: 90 },
+        target: ThothApp.versionController,
+        action: "endEditing",
+        style: {
+          opacity: 0, display: "none"
+        }
+      }),
+
+      controllerIsEditing: NO,
+      controllerIsEditingBinding: "ThothApp.versionController.isEditing",
+      controllerIsEditingDidChange: function()
+      {
+        var save = this.get("save");
+        var edit = this.get("edit");
+
+
+        if (save.isClass) return;
+
+        if (this.get("controllerIsEditing"))
+        {
+          save.adjust({
+            opacity: 1, display: "block"
+          }).updateLayout();
+          edit.adjust({
+            opacity: 1, display: "none"
+          }).updateLayout();
+        }
+        else
+        {
+          edit.adjust({
+            opacity: 1, display: "block"
+          }).updateLayout();
+          save.adjust({
+            opacity: 1, display: "none"
+          }).updateLayout();
+        }
+      }.observes("controllerIsEditing")
+    })
+  }), // versionView
 
   /* This stuff goes at the end because it is entirely to test animation. So there. */
   append: function() {
