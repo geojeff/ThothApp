@@ -22,6 +22,11 @@ ThothApp.UploadView = SC.View.extend(
 
   uploadTarget: '/upload',
 
+  recordType: null,
+  bucket: null,
+  recordId: null,
+  recordProperty: null,
+
   /**
     Array containing the upload approaches and the order in which to attempt them.  webkit based browsers will use xhr unless requestPrototype is set to null.
   */
@@ -133,10 +138,10 @@ ThothApp.UploadView = SC.View.extend(
     fd = new FormData();
     fd.append('Filedata', file);
 
-    var key = ThothApp.store.storeKeyFor(ThothApp.versionController.get('content'))
+    var storeKey = ThothApp.store.storeKeyFor(this.get('recordType'), this.get('recordId'));
     ThothApp.store.dataSource.uploadRequest(
       'checkInPreparationForUpload',
-      { userData: { username: 'test', password: 'test'}, associated: [{ bucket: 'product', key: key, property: 'imgURL' }] },
+      { userData: { username: 'test', password: 'test'}, associated: [{ bucket: this.get('bucket'), key: storeKey, property: this.get('recordProperty')}] },
       function(data){
         ThothApp.store.dataSource.uploadFiles(data.uploadURL, fd);
       }

@@ -22,13 +22,17 @@ ThothApp.imageUploadPane = SC.PanelPane.create({
     title: SC.LabelView.design({
       layout: { left: 20, top: 10, right: 20, height: 24 },
       classNames: ['image-upload-title'],
-      value: 'Upload an image)',
+      value: 'Upload an image',
       controlSize: SC.LARGE_CONTROL_SIZE,
       fontWeight: SC.BOLD_WEIGHT
     }),
 
     imageUpload: ThothApp.UploadView.design({
-      layout: { left: 17, right: 14, top: 50, height: 36 }
+      layout: { left: 17, right: 14, top: 50, height: 36 },
+      recordType: ThothApp.Version,
+      bucket: 'Version',
+      recordIdBinding: 'ThothApp.versionController.id',
+      recordProperty: 'imgURL'
     }),
 
     cancelButton: SC.ButtonView.design({
