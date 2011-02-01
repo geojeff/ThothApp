@@ -27,12 +27,13 @@ ThothApp.imageUploadPane = SC.PanelPane.create({
       fontWeight: SC.BOLD_WEIGHT
     }),
 
-    imageUpload: ThothApp.UploadView.design({
+    //imageUpload: ThothApp.UploadView.design({
+    imageUpload: SCUI.UploadView.design({
       layout: { left: 17, right: 14, top: 50, height: 36 },
-      recordType: ThothApp.Version,
-      bucket: 'Version',
-      recordIdBinding: 'ThothApp.versionController.id',
-      recordProperty: 'imgURL'
+//      recordType: ThothApp.Version,
+//      bucket: 'Version',
+//      recordIdBinding: 'ThothApp.versionController.id',
+//      recordProperty: 'imgURL'
     }),
 
     cancelButton: SC.ButtonView.design({

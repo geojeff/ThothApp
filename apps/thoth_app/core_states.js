@@ -885,7 +885,22 @@ ThothApp.statechart = SC.Statechart.create({
         },
 
         save: function() {
-          ThothApp.getPath('imageUploadPane.contentView.imageUpload').startUpload();
+          // [TODO maybe make Async and use callback to goto next state]
+          var storeKey = ThothApp.store.storeKeyFor(ThothApp.Version, ThothApp.versionController.get('id'));
+
+          ThothApp.store.dataSource.uploadRequest(
+                  'prepareForUpload',
+                  { userData: { username: 'test', password: 'test'},
+                    opRequests: { resize: { small: { w: 32, h: 32 },
+                                            medium: { w: 128, h: 128 },
+                                            large: { w: 256, h: 256 }}},
+                    associated: [{ bucket: 'Version', key: storeKey, property: 'imgURL' }]},
+                  function(data) {
+                    ThothApp.getPath('imageUploadPane.contentView.imageUpload').set('requestPrototype', SC.Request.create());
+                    ThothApp.getPath('imageUploadPane.contentView.imageUpload').set('uploadTarget', '/thoth' + data.uploadURL);
+                    ThothApp.getPath('imageUploadPane.contentView.imageUpload').startUpload();
+                  }
+          );
           this.gotoState('SHOWING_STANDARD');
         }
       }),
