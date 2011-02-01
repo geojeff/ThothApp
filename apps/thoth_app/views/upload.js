@@ -44,44 +44,33 @@ ThothApp.UploadView = SC.View.extend(
     var uploadTarget = this.get('uploadTarget');
     var label = this.get('label');
 
-    if (firstTime) {
-      // This hack is needed because the iframe onload event fires twice in IE, when the
-      // view is first created and after the upload is done. Since I'm using the onload
-      // event to signal when the upload is done, I want to suppress its action the first
-      // time around
-      this._firstTime = YES;
+    context .begin('form')
+      .attr('method', 'post')
+      .attr('enctype', 'multipart/form-data')
+      .attr('action', uploadTarget)
+      .attr('target', frameId)
 
-      context .begin('form')
-        .attr('method', 'post')
-        .attr('enctype', 'multipart/form-data')
-        .attr('action', uploadTarget)
-        .attr('target', frameId)
-
-        .begin('input')
-          .attr('type', 'text')
-          .attr('name', 'title')
-        .end()
-
-        .begin('input')
-          .attr('type', 'file')
-          .attr('name', 'Filedata')
-          .attr('multiple', 'multiple')
-        .end()
-
+      .begin('input')
+        .attr('type', 'text')
+        .attr('name', 'title')
       .end()
 
-      .begin('iframe')
-        .attr('frameBorder', 0)
-        .attr('src', '#')
-        .attr('id', frameId)
-        .attr('name', frameId)
-        .styles({ 'width': 0, 'height': 0 })
-      .end();
+      .begin('input')
+        .attr('type', 'file')
+        .attr('name', 'Filedata')
+        .attr('multiple', 'multiple')
+      .end()
 
-    } else {
-      var f = this._getForm();
-      if (f) f.action = uploadTarget;
-    }
+    .end();
+
+//    .begin('iframe')
+//      .attr('frameBorder', 0)
+//      .attr('src', '#')
+//      .attr('id', frameId)
+//      .attr('name', frameId)
+//      .styles({ 'width': 0, 'height': 0 })
+//    .end();
+
     sc_super();
   },
 
@@ -139,9 +128,14 @@ ThothApp.UploadView = SC.View.extend(
     fd.append('Filedata', file);
 
     var storeKey = ThothApp.store.storeKeyFor(this.get('recordType'), this.get('recordId'));
+
     ThothApp.store.dataSource.uploadRequest(
-      'checkInPreparationForUpload',
-      { userData: { username: 'test', password: 'test'}, associated: [{ bucket: this.get('bucket'), key: storeKey, property: this.get('recordProperty')}] },
+      'prepareForUpload',
+      { userData: { username: 'test', password: 'test'},
+        opRequests: { resize: { small: { w: 32, h: 32 },
+                                medium: { w: 128, h: 128 },
+                                large: { w: 256, h: 256 }}},
+        associated: [{ bucket: this.get('bucket'), key: storeKey, property: this.get('recordProperty')}] },
       function(data){
         ThothApp.store.dataSource.uploadFiles(data.uploadURL, fd);
       }
