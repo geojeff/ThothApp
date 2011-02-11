@@ -26,7 +26,8 @@ the main ThothApp directory:
 
     git submodule update --init
 
-This will install Thoth-SC, the fork of SproutCore mentioned above, and scui into your frameworks directory.
+This will install Thoth-SC, the fork of SproutCore mentioned above, and scui into your frameworks directory. If it doesn't
+(check for empty directories), then you will need to clone Thoth-SC, sproutcore-ui as scui, and sproutcore directly.
 
 A Special Tweak
 ---------------
