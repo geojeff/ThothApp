@@ -285,6 +285,17 @@ ThothApp.statechart = SC.Statechart.create({
       PRESENTING_REPORT: SC.State.design({
         enterState: function() {
           console.log('VERSIONS_LOADED');
+        var versions = ThothApp.store.find(SC.Query.local(ThothApp.Version));
+        var reviews = ThothApp.store.find(SC.Query.local(ThothApp.Review));
+        var recArrays = [{ recType: ThothApp.Version, recArray: versions},
+          { recType: ThothApp.Review, recArray: reviews}];
+           
+        recArrays.forEach(function(item) {
+          item.recArray.forEach(function(rec) {
+            console.log(ThothApp.thothAppClassName(rec), ThothApp.store.storeKeyFor(item.recType, rec.get('id')), rec.get('id'), rec.get('status'));
+          });
+        });
+
           ThothApp.getPath('versionsLoadedPane').append();
         },
 
@@ -487,6 +498,16 @@ ThothApp.statechart = SC.Statechart.create({
         var books = ThothApp.store.find(SC.Query.local(ThothApp.Book));
         var versions = ThothApp.store.find(SC.Query.local(ThothApp.Version));
         var reviews = ThothApp.store.find(SC.Query.local(ThothApp.Review));
+        var recArrays = [{ recType: ThothApp.Author, recArray: authors},
+                         { recType: ThothApp.Book, recArray: books},
+                         { recType: ThothApp.Version, recArray: versions},
+                         { recType: ThothApp.Review, recArray: reviews}];
+
+        recArrays.forEach(function(item) {
+          item.recArray.forEach(function(rec) {
+            console.log(ThothApp.glClassName(rec), ThothApp.store.storeKeyFor(item.recType, rec.get('id')), rec.get('id'), rec.get('status'));
+          });
+        });
 
         ThothApp.authorsController.set('content', authors);
 

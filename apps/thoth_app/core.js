@@ -20,6 +20,14 @@ ThothApp = SC.Application.create(
   //store: SC.Store.create().from(SC.Record.fixtures),
   //storeType: 'fixtures',
 
-  nestedStore: null
+  nestedStore: null,
+
+  thothAppClassName: function(obj) {
+    if (obj.isReview)  { return 'Review'; }
+    if (obj.isVersion) { return 'Version'; }
+    if (obj.isBook)    { return 'Book'; }
+    if (obj.isAuthor)  { return 'Author'; }
+    return 'Unknown';
+  }
 
 }) ;
